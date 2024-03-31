@@ -1,0 +1,27 @@
+
+.gradient-custom-2 {
+	background: #8f8c8c;
+	background: -webkit-linear-gradient(to right, #ecebea, #c4c4c4, #cccccc, #d8d7d7);
+	//background: linear-gradient(to right, #9c9c9c, #c5c5c5, #beafb5, #ffffff);
+}
+@media (min-width: 768px) {
+	.gradient-form {
+		height: 100vh !important;
+	}
+}
+@media (min-width: 769px) {
+	.gradient-custom-2 {
+		border-top-right-radius: .3rem;
+		border-bottom-right-radius: .3rem;
+	}
+}
+.invalid{
+	color: rgb(219, 90, 90);
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 18;
+}
+
+.is-invalid input.form-control {
+	border-color: red;
+  }
+  

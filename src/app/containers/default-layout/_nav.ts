@@ -5,7 +5,7 @@ export const navItems: INavData[] = [
   name:''},
   {
     name: 'Dashboard',
-    url: '/dashboard',
+   url: 'dashboard',
     iconComponent: { name: 'cil-speedometer' },
    
   },
@@ -17,23 +17,23 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Transfers',
-    url: '/transfers',
+    url: 'transfers',
     iconComponent: { name: 'cilTransfer' }
   },
   {
     name: 'Missions',
-    url: '/missions',
+   url: 'missions',
     iconComponent: { name: 'cilNoteAdd' }
   },
 
   {
     name: 'Bookings',
-    url: '/bookings',
+    url: 'bookings',
     iconComponent: { name: 'cilCheckAlt' }
   },
   {
     name: 'Payment',
-    url: '/payment',
+   url: 'payment',
     iconComponent: { name: 'cilMoney' }
   },
 
@@ -44,17 +44,17 @@ export const navItems: INavData[] = [
     children: [
       {
         name: 'Agents',
-        url: '/agents',
+        url: 'agents',
         iconComponent: { name: 'cilWalk' },
       },
       {
         name: 'Custmers',
-        url: '/customers',
+        url: 'customers',
         iconComponent: { name: 'cilWc' },
       },
       {
         name: 'Drivers',
-        url: '/drivers',
+        url: 'drivers',
         iconComponent: { name: 'cilCarAlt' },
       },
  

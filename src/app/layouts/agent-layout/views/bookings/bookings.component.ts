@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BookingsService } from './bookings.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { BookingsService } from './bookings.service';
   templateUrl: './bookings.component.html',
   styleUrl: './bookings.component.scss'
 })
-export class BookingsComponent {
+export class BookingsComponent implements OnInit, OnDestroy {
 
 
   bookings:any[]=[];
@@ -35,7 +35,9 @@ loadBooking(): void {
 
 
 
-
+ngOnDestroy() {
+  
+}
 
 
 

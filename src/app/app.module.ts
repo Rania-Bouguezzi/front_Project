@@ -37,8 +37,10 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { BusesModule } from './views/buses/buses.module';
+
 import { HttpClientModule } from '@angular/common/http';
+import { LayoutModule } from '@angular/cdk/layout';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -75,8 +77,10 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
     NgScrollbarModule,
-    BusesModule,
     HttpClientModule,
+    LayoutModule,
+    
+
 
   ],
   providers: [
@@ -85,9 +89,11 @@ const APP_CONTAINERS = [
       useClass: HashLocationStrategy
     },
     IconSetService,
-    Title
+    Title,
+    provideAnimationsAsync()
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule {
 }
