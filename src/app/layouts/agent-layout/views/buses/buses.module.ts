@@ -8,13 +8,14 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IconModule } from '@coreui/icons-angular';
 import {BusesRoutingModule} from './buses-routing.module'
+import { DataTablesModule } from 'angular-datatables';
 
 
 
 
 @NgModule({
 
-  declarations: [],
+  declarations: [ ],
   imports: [
 
 CommonModule,
@@ -22,6 +23,7 @@ CommonModule,
     BusesRoutingModule,
     TableModule,
     SharedModule,
+    DataTablesModule
   
   ],   
 })

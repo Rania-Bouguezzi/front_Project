@@ -26,4 +26,8 @@ deleteDriver(id:string):Observable<any>{
   return this.http.delete<any>(`http://localhost:3000/drivers/${id}`)
 }
 
+getDriversByAgency(idAgency:string){
+  return this.http.get<any[]>(`http://localhost:3000/drivers/agency/${idAgency}`)
+}
+
 }

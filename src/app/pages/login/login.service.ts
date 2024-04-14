@@ -34,7 +34,11 @@ export class LoginService {
     return throwError('invalid email or password'); // Retourne une observable avec un message d'erreur
   }
   
-
+  getTokenData() {
+    
+    return this.http.get<any>('http://localhost:3000/auth/tokenData');
+  }
+}
 
   
-}
+

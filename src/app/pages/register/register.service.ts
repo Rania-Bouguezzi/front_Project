@@ -23,28 +23,23 @@ Register(username:string, email: string, firstname:string, lastname:string, pass
     catchError(this.handleError) // Gestion des erreurs
   );
 }
+
+
 private handleError(error: HttpErrorResponse) {
-  if (error.error instanceof ErrorEvent) {
-    // Erreur côté client
-    console.error('Une erreur s\'est produite :', error.error.message);
-    return throwError('Une erreur s\'est produite côté client.');
-  } else if (error.status === 0) {
-    // Erreur de communication ou API inaccessible
-    console.error('Erreur de communication :', error.message);
-    return throwError('Erreur de communication avec le serveur.');
-  } else {
-    // Erreur côté serveur avec code de statut HTTP
-    console.error(
-      `Erreur ${error.status} :
-      ${error.error}`
-    );
-
-    let errorMessage = 'Erreur serveur';
-    // Ajoutez ici d'autres cas de gestion d'erreurs si nécessaire
-
-    return throwError(errorMessage); // Retourne une observable avec un message d'erreur approprié
-  }
+if (error.error instanceof ErrorEvent) {
+  // Erreur côté client
+  console.error('Une erreur s\'est produite :', error.error.message);
+} else {
+  // Erreur côté serveur
+  console.error(
+    `Erreur ${error.status} :
+    ${error.error}`
+  );
 }
+return throwError('coté serveur'); // Retourne une observable avec un message d'erreur
+}
+
+
 
 
 

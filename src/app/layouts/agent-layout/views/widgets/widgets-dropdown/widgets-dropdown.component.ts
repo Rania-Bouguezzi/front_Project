@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { getStyle } from '@coreui/utils';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { DashboardService } from '../../dashboard/dashboard.service';
+import { LoginService } from 'src/app/pages/login/login.service';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -19,10 +21,15 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,  private shareService : DashboardService, private authService : LoginService
   ) {}
 
   data: any[] = [];
+  idAgency:string='';
+  nbBus:any;
+  nbTransfer:any;
+  nbAgent:any;
+  nbDriver:any;
   options: any[] = [];
   labels = [
     'January',
@@ -117,6 +124,67 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.setData();
+    this.authService.getTokenData().subscribe(
+      (response) => {
+        this.idAgency= response.agency.id;
+    this.shareService.getNumberBusByAgency(this.idAgency).subscribe(
+      (data: any[]) => {
+        this.nbBus=data;
+       console.log(this.nbBus);
+        
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+    this.shareService.getNumberTransfersByAgency(this.idAgency).subscribe(
+      (data: any[]) => {
+        this.nbTransfer=data;
+       console.log(this.nbTransfer);
+        
+      },
+      (error) => {
+        console.error( error);
+      }
+    );
+    this.shareService.getNumberAgentsByAgency(this.idAgency).subscribe(
+      (data: any[]) => {
+        this.nbAgent=data;
+       console.log(this.nbTransfer);
+        
+      },
+      (error) => {
+        console.error( error);
+      }
+    );
+    this.shareService.getNumberDriversByAgency(this.idAgency).subscribe(
+      (data: any[]) => {
+        this.nbDriver=data;
+   
+        
+      },
+      (error) => {
+        console.error( error);
+      }
+    );
+  });
+
+  }
+  numberBuses(): void {
+    this.authService.getTokenData().subscribe(
+      (response) => {
+        this.idAgency= response.agency.id;
+    this.shareService.getNumberBusByAgency(this.idAgency).subscribe(
+      (data: any[]) => {
+        this.nbBus=data;
+       console.log(this.nbBus);
+        
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des transfers :', error);
+      }
+    ); })
+
   }
 
   ngAfterContentInit(): void {
@@ -177,6 +245,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 export class ChartSample implements AfterViewInit {
 
   constructor() {}
+  
 
   @ViewChild('chart') chartComponent!: ChartjsComponent;
 
@@ -251,4 +320,11 @@ export class ChartSample implements AfterViewInit {
       });
     }, 5000);
   }
+
+
+
+
+  
+
+  
 }

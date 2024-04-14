@@ -4,13 +4,18 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardModule, FormModule, GridModule,  } from '@coreui/angular';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LoginService } from 'src/app/pages/login/login.service';
+import { DataTablesModule } from 'angular-datatables';
+import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-buses',
   standalone: true,
-  imports: [CommonModule, FormModule,CardModule, GridModule,ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormModule,CardModule, GridModule,ReactiveFormsModule, RouterLink,DataTablesModule ],
   templateUrl: './buses.component.html',
   styleUrl: './buses.component.scss',
+  
   
 })
 export class BusesComponent implements OnInit {
@@ -35,8 +40,15 @@ export class BusesComponent implements OnInit {
   busId:string="";
   busData:any;
   delete1:boolean=false;
+  idAgency:string="";
+  busesLength:number=0;
+  searchText: string = '';
+  dtoptions: DataTables.Settings = {};
+  dtTrigger:Subject<any>=new Subject<any>();
  
-constructor(private busesService: BusesService, private route:ActivatedRoute, private router:Router){
+ 
+ 
+constructor(private busesService: BusesService, private route:ActivatedRoute, private router:Router, private authService : LoginService){
 
 }
 
@@ -44,80 +56,58 @@ constructor(private busesService: BusesService, private route:ActivatedRoute, pr
 
 
 ngOnInit(): void {
+  this.dtoptions = {
+    pagingType: 'full_numbers',
+  
+  };
   this.loadBuses();
-
-/*  this.route.params.subscribe(params => {
-    const id = params['id'];
-    if (id) {
-      this.busId = id.toString();
-      console.log(this.busId);
-      this.busesService.getById(this.busId).subscribe(data => {
-        this.busData = data;
-        this.myFormUpdate.patchValue({
-          marque: this.busData.marque,
-          puissance: this.busData.puissance,
-          nbrePlaces: this.busData.nbrePlaces,
-          status: this.busData.status
-        });
-      });
-    } else {
-      console.error('ID not found in URL params.');
-    }
-  });*/
+  
 }
 
 
 loadBuses(): void {
-  this.busesService.getAllBuses().subscribe(
+  this.authService.getTokenData().subscribe(
+    (response) => {
+      this.idAgency= response.agency.id;
+     console.log(this.idAgency)
+   
+   
+  
+  this.busesService.getBusByAgency(this.idAgency).subscribe(
     (data: any[]) => {
       this.buses = data; // Stocke les buses récupérés dans une variable locale
-     // console.log(data)
+      this.busesLength= data.length;
+      this.dtTrigger.next(null);
+      
     },
     (error) => {
-      console.error('Erreur lors de la récupération des buses :', error);
+      console.error('Erreur lors de la récupération des transfers :', error);
     }
-  );
+  ); })
 }
 
-
-onSubmit() {
+async onSubmit() {
   if (this.myForm.invalid) {
 
     this.emptymessage = true;
     console.log(this.emptymessage);
     return;
   }
-  
-  const marque = this.myForm.value.marque || '';
-  const puissance = this.myForm.value.puissance || '';
-  const nbrePlaces = this.myForm.value.nbrePlaces || '';
-  const status = this.myForm.value.status || '';
-  const formData = JSON.stringify(this.myForm.value);
 
-  this.busesService.addBus(
-    marque,
-    puissance,
-    nbrePlaces,
-    status
-  ).subscribe(
-    () => {
-      console.log('Bus created !');
-      this.message = "Bus Created !";
-      this.emptymessage = false;
-   
-      this.myForm.reset();
-     //this.router.navigate(['/'])
-      
-    //  this.router.navigate(['/'])
+  const transferData = this.myForm.value;
 
-    },
-    error => {
-      console.error('Erreur lors de l\'ajout de l\'utilisateur :', error);
-      this.message = "Bus Does not Created !";
-      this.emptymessage = false;
-    }
-  );
-  console.log(formData)
+  try {
+    const response = await this.busesService.addBus(transferData);
+
+    console.log('Bus created:', response);
+    this.message = "Bus Created!";
+    this.emptymessage = false;
+    this.myForm.reset();
+  } catch (error) {
+    console.error('Error creating bus:', error);
+    this.message = "Bus was not created!";
+    this.emptymessage = false;
+  }
 }
 
 updateBus(): void {
@@ -146,7 +136,7 @@ this.message='Formulaire Invalid !'
  resetUrlAndReload(): void {
   // Réinitialise l'URL en supprimant l'ID
   this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    this.router.navigate(['/buses']); // Recharge la page
+    this.router.navigate(['/agent-layout/buses']); // Recharge la page
   });
 }
 
@@ -207,6 +197,21 @@ openUpdateModal(id: string): void {
     console.error('Error retrieving bus data:', error);
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

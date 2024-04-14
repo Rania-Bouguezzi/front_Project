@@ -381,37 +381,40 @@
                 <svg cIcon name="cilPeople"></svg>
               </th>
               <th>User</th>
-              <th class="text-center">Country</th>
+              <th class="text-center">Role</th>
               <th>Usage</th>
               <th class="text-center">Payment Method</th>
               <th>Activity</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of users; index as i">
+            <tr *ngFor="let user of allUser ; index as i">
               <td class="text-center">
                 <c-avatar
-                  size="md"
-                  src="{{ user.avatar }}"
-                  status="{{ user.status }}"
-                ></c-avatar>
+                cTextColor="primary"
+                shape="rounded-1"
+                size="md"
+                src={{user.picture}}
+               
+                status="success"
+              >
+              </c-avatar>
               </td>
               <td>
-                <div>{{ user.name }}</div>
+                <div>{{ user.firstname }} {{ user.lastname }}</div>
                 <div class="small text-medium-emphasis text-nowrap">
                   <span>
-                    {{ user.state }} | Registered: {{ user.registered }}
+                    <span *ngIf="user.status == 'Actif'" class="badge bg-success">{{user.status}}</span>
+                <span *ngIf="user.status == 'Inactif'" class="badge bg-secondary">{{user.status}}</span>
+                <span *ngIf="user.status == 'Blocked'" class="badge bg-dark">{{user.status}}</span>
+                <span *ngIf="user.status == 'Expired'" class="badge bg-danger">{{user.status}}</span> | Registered: {{ user.dateCreation  | date:'MMM d, y'  }}
                   </span>
                 </div>
               </td>
               <td class="text-center">
-                <svg
-                  cIcon
-                  id="{{ user.country + user.name }}"
-                  name="cif{{ user.country }}"
-                  size="xl"
-                  title="{{ user.country }}"
-                ></svg>
+              
+               
+                {{user.role}}
               </td>
               <td>
                 <div class="d-flex justify-content-between">

@@ -41,6 +41,8 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { DataTablesModule } from 'angular-datatables';
+
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -79,6 +81,7 @@ const APP_CONTAINERS = [
     NgScrollbarModule,
     HttpClientModule,
     LayoutModule,
+    DataTablesModule
     
 
 

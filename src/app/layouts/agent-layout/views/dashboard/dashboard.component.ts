@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import {DashboardService} from './dashboard.service';
+import { LoginService } from 'src/app/pages/login/login.service';
 
 interface IUser {
   name: string;
@@ -17,13 +19,24 @@ interface IUser {
   color: string;
 }
 
+
+
 @Component({
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData) {
-console.log('hello world')
+  firstname:string='';
+  lastname:string='';
+  picture:string='';
+  status:string='';
+  dateCreation:string='';
+  allUser:any[]=[];
+  agent:any[]=[];
+  idAgency:string='';
+  nbBus:any;
+  constructor(private chartsData: DashboardChartsData, private shareService : DashboardService, private authService : LoginService) {
+    this.getAgent();
   }
 
   public users: IUser[] = [
@@ -114,6 +127,21 @@ console.log('hello world')
 
   ngOnInit(): void {
     this.initCharts();
+    this.loadAllUsers();
+ 
+  
+  
+  }
+  loadAllUsers(): void {
+    this.shareService.getAllUsers().subscribe(
+      (data: any[]) => {
+        this.allUser = data; // Stocke les buses récupérés dans une variable locale
+       // console.log(data)
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des buses :', error);
+      }
+    );
   }
 
   initCharts(): void {
@@ -125,4 +153,22 @@ console.log('hello world')
     this.chartsData.initMainChart(value);
     this.initCharts();
   }
+  getAgent():void{
+    this.shareService.getAgent().subscribe(
+      (data: any[]) => {
+        this.agent = data; 
+        console.log(this.agent);
+
+       // console.log(data)
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des buses :', error);
+      }
+    );
+ 
+  }
+
+
+
+
 }

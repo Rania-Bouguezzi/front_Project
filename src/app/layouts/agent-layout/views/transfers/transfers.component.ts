@@ -3,16 +3,33 @@ import { Component, OnInit } from '@angular/core';
 import { TransfersService } from './transfers.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardModule, FormModule, GridModule } from '@coreui/angular';
+import { Router } from '@angular/router';
+import { AgentLayoutService } from '../../agent-layout.service';
+import { LoginService } from 'src/app/pages/login/login.service';
+import { Subject } from 'rxjs';
+import { DataTablesModule } from 'angular-datatables';
 
 @Component({
   selector: 'app-transfers',
   standalone: true,
-  imports: [CommonModule, FormModule,CardModule, GridModule,ReactiveFormsModule ],
+  imports: [CommonModule, FormModule,CardModule, GridModule,ReactiveFormsModule,DataTablesModule ],
   templateUrl: './transfers.component.html',
   styleUrl: './transfers.component.scss'
 })
 export class TransfersComponent implements OnInit {
 
+   transfer:any[]=[];
+   id : string ='';
+  emptymessage:boolean=false;
+  message:string="";
+  transfers:any[]=[];
+  villes:any[]=[];
+  delete1:boolean=false;
+  TransferId:string="";
+  TransferData:any;
+  idAgency:string="";
+  dtoptions: DataTables.Settings = {};
+  dtTrigger:Subject<any>=new Subject<any>();
 
   myFormTransfer = new FormGroup({
     from: new FormControl('', Validators.required),
@@ -45,32 +62,61 @@ export class TransfersComponent implements OnInit {
 
 
 
-  emptymessage:boolean=false;
-  message:string="";
-  transfers:any[]=[];
-  villes:any[]=[];
-  delete1:boolean=false;
-  TransferId:string="";
-  TransferData:any;
-constructor(private shareService : TransfersService){}
+
+
+  constructor(private shareService : TransfersService, private router : Router, private agentLayoutService: AgentLayoutService, private authService : LoginService){
+
+    this.shareService.getAll().subscribe(
+      (data: any[]) => {
+        this.transfers = data;
+         console.log(data);
+        
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des transfers :', error);
+      }
+    );
+ 
+  }
 
 
 
 ngOnInit(): void {
+  this.dtoptions = {
+    pagingType: 'full_numbers',
+  
+  };
 this.loadVille();
   this.loadTransfers();
+
 }
 
+// getToken():void{
+// this.authService.getTokenData().subscribe(
+//   (response) => {
+//     this.idAgency= response.agency.id;
+//     console.log(this.idAgency);
+ 
+//   })}
+
+
 loadTransfers(): void {
-  this.shareService.getAll().subscribe(
+  this.authService.getTokenData().subscribe(
+    (response) => {
+      this.idAgency= response.agency.id;
+     console.log(this.idAgency)
+   
+   
+  
+  this.shareService.getTransferByAgency(this.idAgency).subscribe(
     (data: any[]) => {
-      this.transfers = data; // Stocke les buses récupérés dans une variable locale
-      
+      this.transfers = data; 
+      this.dtTrigger.next(null);
     },
     (error) => {
       console.error('Erreur lors de la récupération des transfers :', error);
     }
-  );
+  ); })
 }
 
 
@@ -78,7 +124,7 @@ loadVille():void{
   this.shareService.getVille().subscribe(
     (data: any[]) => {
       this.villes = data; 
-      console.log(data);
+    
       
     },
     (error) => {
@@ -86,47 +132,28 @@ loadVille():void{
     }
   );
 }
-
-onSubmit() {
+async onSubmit() {
   if (this.myFormTransfer.invalid) {
-
     this.emptymessage = true;
     console.log(this.emptymessage);
     return;
   }
-  const from = this.myFormTransfer.value.from || '';
-  const to = this.myFormTransfer.value.to || '';
-  const date_time_Depart = this.myFormTransfer.value.date_time_Depart || '';
-  const date_time_Arrive = this.myFormTransfer.value.date_time_Arrive || '';
-  const nbrePlacesDisponibles = this.myFormTransfer.value.nbrePlacesDisponibles || '';
-  const priceTransferForPerson = this.myFormTransfer.value.priceTransferForPerson || '';
-  const etatTransfer = this.myFormTransfer.value.etatTransfer || '';
-  const note = this.myFormTransfer.value.note || '';
-  const extra = this.myFormTransfer.value.extra || '';
-  const status = this.myFormTransfer.value.status || '';
-  const formData = JSON.stringify(this.myFormTransfer.value);
 
-  this.shareService.addTransfer(
-  from,to,date_time_Depart, date_time_Arrive,nbrePlacesDisponibles,priceTransferForPerson,etatTransfer,note,extra,status
-  ).subscribe(
-    () => {
-      console.log('Tranfer created !');
-      this.message = "Tranfer Created !";
-      this.emptymessage = false;
+  const transferData = this.myFormTransfer.value;
+
+  try {
+    const response = await this.shareService.addTransfer(transferData);
+
+    console.log('Transfer created:', response);
+    this.message = "Transfer Created!";
+    this.emptymessage = true;
+    this.myFormTransfer.reset();
+  } catch (error) {
+    console.error('Error creating transfer:', error);
+    this.message = "Transfer was not created!";
    
-      this.myFormTransfer.reset();
-
-
-    },
-    error => {
-      console.error('Erreur lors de l\'ajout du Transfer :', error);
-      this.message = "Transfer Does not Created !";
-      this.emptymessage = false;
-    }
-  );
-  console.log(formData)
+  }
 }
-
 
 deleteTransfer(id: string): void {
   const confirmation = window.confirm('You want to delete this Transfer ?');
@@ -164,7 +191,7 @@ this.message='Formulaire Invalid !'
 
   this.shareService.updateTransfer(this.TransferId, updatedUpdateData).subscribe(
     () => {
-      console.log('bus mis à jour avec succès !');
+  //    console.log('bus mis à jour avec succès !');
       this.message='Transfer Updated!'
 
     },
@@ -206,7 +233,65 @@ this.message='Formulaire Invalid !'
 }
 
 
+
+
+// shareTransfer(id:string): void {
+//   this.shareService.getById(id).subscribe(
+//     (data: any[]) => {
+//       this.transfer = data; // Stocke les buses récupérés dans une variable locale
+//     //  console.log(this.transfer);
+//    this.router.navigate(['/agent-layout/profile']);
+//    this.id = id;
+//    return this.transfer;
+
+//     },
+//     (error) => {
+//       console.error('Erreur lors de la récupération de ce transfer :', error);
+//     }
+//   );
+// }
+
+
+shareTransfer(id: string): void {
+  const confirmation = window.confirm('Vous voulez partager ce transfert ?');
+  if (confirmation) {
+    this.shareService.getById(id).subscribe(
+      (data: any) => {
+        this.transfer = data;
+        const shareTime = new Date().toISOString();
+  
+           this.shareService.logo = data.agency.logo; 
+            this.shareService.agencyName = data.agency.logo; 
+            data.dateCreation = shareTime;
+            this.shareService.setTransferData(this.transfer); 
+            this.agentLayoutService.addTransfer(this.transfer); 
+            // Ajout du transfert partagé dans le localStorage
+            const sharedTransfersData = localStorage.getItem('sharedTransfers');
+            const sharedTransfers = sharedTransfersData ? JSON.parse(sharedTransfersData) : [];
+          //  this.transfer.shareTime = shareTime; 
+            sharedTransfers.push(this.transfer); 
+       
+            localStorage.setItem('sharedTransfers', JSON.stringify(sharedTransfers));
+
+            this.router.navigate(['/agent-layout/profile']);
+          },
+          (error) => {
+            console.error('Erreur lors de la récupération du token de l\'agence :', error);
+          }
+        );
+      
+     
+   
+  }
 }
+
+
+
+
+}
+
+
+
 
 
 

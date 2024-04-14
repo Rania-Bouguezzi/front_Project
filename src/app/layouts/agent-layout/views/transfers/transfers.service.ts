@@ -1,23 +1,40 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { LoginService } from 'src/app/pages/login/login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransfersService {
-
-  constructor(private http : HttpClient) { }
+  private transferData = new BehaviorSubject<any>(null);
+  transferData$ = this.transferData.asObservable();
+  idAgency:string="";
+  logo: string = '';
+  agencyName: string = '';
+  time:string='';
+  constructor(private http : HttpClient, private authService : LoginService) { }
 
 
   getAll(): Observable<any[]>{
     return this.http.get<any[]>("http://localhost:3000/transfers");
   }
   
-  addTransfer(from:string, to:string,date_time_Depart:string,date_time_Arrive:string,nbrePlacesDisponibles:string,priceTransferForPerson:string,etatTransfer:string,note:string,extra:string,status:string){
-    const transfer = { from, to, date_time_Depart, date_time_Arrive,nbrePlacesDisponibles,priceTransferForPerson, etatTransfer, note, extra, status };
-    return this.http.post<any>('http://localhost:3000/transfers/add', transfer, { headers: {'Content-Type': 'application/json'} });
+  
+  async addTransfer(transferData: any): Promise<any> {
+    try {
+      const response = await this.authService.getTokenData().toPromise();
+      const idAgency = response.agency.id;
+      transferData.agencyId = idAgency;
+
+      return this.http.post<any>('http://localhost:3000/transfers/add', transferData, { headers: { 'Content-Type': 'application/json' } }).toPromise();
+    } catch (error) {
+      console.error('Error adding transfer:', error);
+      throw error;
+    }
   }
+
+
   
   updateTransfer(id:string, transfer:any):Observable<any>{
 
@@ -36,12 +53,38 @@ getVille(){
   return this.http.get<any[]>("http://localhost:3000/ville")
 }
 
+getTransferByAgency(idAgency:string){
+  return this.http.get<any[]>(`http://localhost:3000/transfers/agency/${idAgency}`)
+}
 
 
 
 
 
 
+
+getToken(){
+  return this.authService.getTokenData();
+}
+
+
+
+
+
+
+
+setTransferData(data: any) {
+  // Stocker les données dans le BehaviorSubject
+  this.transferData.next(data);
+
+  // Stocker les données dans le localStorage
+  localStorage.setItem('transferData', JSON.stringify(data));
+}
+
+getTransferDataFromStorage(): any {
+  const data = localStorage.getItem('transferData');
+  return data ? JSON.parse(data) : null;
+}
 
 
 

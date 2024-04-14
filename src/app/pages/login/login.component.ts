@@ -20,6 +20,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class LoginComponent {
   invalid:boolean=false;
   message:string ='';
+  firstname : string ='';
+   lastname : string ='';
+    email : string ='' ;
+    picture : string =''
+    showPassword: boolean = false;
+    icon:any;
+  
 
   myFormLogin = new FormGroup({
 
@@ -58,18 +65,24 @@ onSubmit(){
           .subscribe(
             (response) => {
               console.log('User is logged in');
-              console.log(response);
+            //  console.log(response.role);
     
               // Vérifier si la réponse contient le jeton d'accès et le rôle de l'utilisateur
               if (response && response.access_token && response.role) {
                 // Enregistrer le jeton d'accès dans le stockage local ou dans un service d'authentification approprié
                 localStorage.setItem('access_token', response.access_token);
+               // localStorage.setItem('access_payload', response.payload_);
+              // console.log(response.payload_);
+              this.firstname = response.payload_.firstname;
+              this.lastname = response.payload_.lastname;
+              this.email = response.payload_.email;
+              this.picture = response.payload_.picture;
     
                 // Rediriger l'utilisateur en fonction de son rôle
                 if (response.role === 'Agent' ) {
                   this.router.navigateByUrl('/agent-layout/dashboard');
                 } else if (response.role === 'Customer' || response.role === 'Driver')  {
-                  this.router.navigateByUrl('/');
+                  this.router.navigateByUrl('profile');
                 }
               } else {
                 console.error('Access token or role not found in response');
@@ -94,5 +107,10 @@ onSubmit(){
 
   Register(){
      this.router.navigate(['/register']);
+  }
+
+  ShowPassword() {
+    this.showPassword = !this.showPassword;
+
   }
 }

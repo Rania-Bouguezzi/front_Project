@@ -28,4 +28,9 @@ deleteCustomer(id:string):Observable<any>{
 
 }
 
+
+
+getCustomersByAgency(idAgency:string){
+  return this.http.get<any[]>(`http://localhost:3000/customers/agency/${idAgency}`)
+}
 }

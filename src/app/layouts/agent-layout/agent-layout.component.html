@@ -1,1 +1,119 @@
-<p>agent-layout works!</p>
+<div class="container " >
+   <div class="row">
+      <div class="col-md-12">
+         <div id="content" class="content content-full-width">
+         
+            <!-- begin profile -->
+            <div class="profile">
+               <div class="profile-header">
+                  <!-- BEGIN profile-header-cover -->
+                  <div class="profile-header-cover"></div>
+                  <!-- END profile-header-cover -->
+                  <!-- BEGIN profile-header-content -->
+                  <div class="profile-header-content">
+                     <!-- BEGIN profile-header-img -->
+                     <div class="profile-header-img">
+                        <img src={{picture}} alt="" >
+                     </div>
+                     <!-- END profile-header-img -->
+                     <!-- BEGIN profile-header-info -->
+                     <div class="profile-header-info">
+                        <h4 class="m-t-10 m-b-5" >{{firstname}} {{lastname}} </h4>
+                        <p class="m-b-10">{{email}}</p>
+                        <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+                     </div>
+                     <!-- END profile-header-info -->
+                  </div>
+                  <!-- END profile-header-content -->
+                  <!-- BEGIN profile-header-tab -->
+                  <ul class="profile-header-tab nav nav-tabs">
+                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/bs4-profile-with-timeline-posts" target="__blank" class="nav-link_">POSTS</a></li>
+                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/bs4-profile-about" target="__blank" class="nav-link_">ABOUT</a></li>
+                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/profile-photos" target="__blank" class="nav-link_">PHOTOS</a></li>
+                     <li class="nav-item"><a href="#/agent-layout/dashboard"  class="nav-link_">DASHBOARD</a></li>
+                     <li class="nav-item"><a href="" target="__blank" class="nav-link_ active show">TRANSFERS</a></li>
+                  </ul>
+                  <!-- END profile-header-tab -->
+               </div>
+            </div>
+            <!-- end profile -->
+            <!-- begin profile-content -->
+            <div class="profile-content">
+               <!-- begin tab-content -->
+               <div class="tab-content p-0">
+                  <!-- begin #profile-post tab -->
+                  <div class="tab-pane fade active show" id="profile-post">
+                     <!-- begin timeline -->
+                     <ul class="timeline">
+                        
+                        <li *ngFor="let transfer of transfers">
+                           <!-- begin timeline-time -->
+                           <div class="timeline-time">
+                              <span class="date">{{  transfer.dateCreation | date }}    </span>
+                              <span class="time">{{ transfer.dateCreation  | date:'HH:mm' }}</span>
+                           </div>
+                           <!-- end timeline-time -->
+                           <!-- begin timeline-icon -->
+                           <div class="timeline-icon">
+                              <a href="javascript:;">&nbsp;</a>
+                           </div>
+                           <!-- end timeline-icon -->
+                           <!-- begin timeline-body -->
+                           <div class="timeline-body">
+                              <div class="timeline-header">
+                                
+                              
+                               
+                                    
+                                    <div class="avatar avatar-lg "  >
+                                       <img src={{transfer.agency.logo}}/>
+                                    </div>
+
+
+                           
+                                
+                              
+                                 <span class="username"> &nbsp; {{transfer.agency.name}} <small></small></span>
+                             
+                         </div> 
+                              <div class="timeline-content">
+                                 <!-- <button (click)="deleteTransfer(transfer.id)">Supprimer</button> -->
+                                 <p>
+                                    My transfer is from <B> {{transfer.from}} </B> to <B> {{transfer.to}} </B>, departing on <B> {{transfer.date_time_Depart |  date}}  </B> at <B>{{ transfer.date_time_Depart | date:'HH:mm' }}</B> and arriving on <B> {{transfer.date_time_Arrive |  date}} </B>  at <B>{{ transfer.date_time_Arrive | date:'HH:mm' }}</B>. 
+                                    There are <B>{{transfer.nbrePlacesDisponibles}}</B> available seats, priced at <B> ${{transfer.priceTransferForPerson}} </B> per person <span *ngIf="transfer.extra !== 0"> with an <B>extra</B>  <span class="badge bg-success">{{transfer.extra}}</span></span> .
+                                 
+                              </div>
+                              <div class="timeline-likes">
+                                 <div class="stats-right">
+                                    <!-- <span class="stats-text">259 Shares</span>
+                                    <span class="stats-text">21 Comments</span> -->
+                                 </div>
+                                 <div class="stats">
+                                    <span class="fa-stack fa-fw stats-icon">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
+                                    </span>
+                                    <span class="fa-stack fa-fw stats-icon">
+                                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                    <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                    <!-- <span class="stats-total">4.3k</span> -->
+                                 </div>
+                              </div>
+                              <div class="timeline-footer">
+                                 <!-- <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+                                 <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
+                                 <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a> -->
+                              </div>
+                            
+                           </div>
+                           <!-- end timeline-body -->
+                  
+                 
+                         
+</li></ul>
+
+
+ 
+ 
+</div>

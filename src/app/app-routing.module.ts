@@ -7,6 +7,8 @@ import {Page404Component} from './pages/page404/page404.component'
 import {Page500Component} from './pages/page500/page500.component'
 import {RegisterComponent} from './pages/register/register.component'
 import {LoginComponent} from './pages/login/login.component'
+import {CustomerLayoutComponent} from './layouts/customer-layout/customer-layout.component'
+import {guardGuard} from './guard/guard.guard'
 
 
 const routes: Routes = [
@@ -15,15 +17,22 @@ const routes: Routes = [
   //   redirectTo: 'dashboard',
   //   pathMatch: 'full'
   // },
-  {path:'', component:FrontLayoutComponent},
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, 
+  {path:'front', component:FrontLayoutComponent},
+  {path:'profile', component:CustomerLayoutComponent},
 
   {
-    path: 'agent-layout',
+    path: 'agent-layout', canActivate:[guardGuard],
     component: DefaultLayoutComponent,
     data: {
       title: 'Home'
     },
     children: [
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./layouts/agent-layout/agent-layout.module').then((m) => m.AgentLayoutModule)
+      },
       {
         path: 'dashboard',
         loadChildren: () =>
