@@ -42,6 +42,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { DataTablesModule } from 'angular-datatables';
+import { NavbarComponent } from './layouts/agent-layout/views/navbar/navbar.component';
 
 
 const APP_CONTAINERS = [
@@ -53,6 +54,7 @@ const APP_CONTAINERS = [
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
+    NavbarComponent,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

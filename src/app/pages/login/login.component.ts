@@ -37,13 +37,11 @@ export class LoginComponent {
   constructor( private router : Router, private authService : LoginService) { }
 
   test(){
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-  // Example starter TypeScript for disabling form submissions if there are invalid fields
+
   (function () {
     'use strict'
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  
     const forms: NodeListOf<HTMLFormElement> = document.querySelectorAll('.needs-validation')
-    // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
       .forEach(function (form: HTMLFormElement) {
         form.addEventListener('submit', function (event: Event) {
@@ -65,14 +63,10 @@ onSubmit(){
           .subscribe(
             (response) => {
               console.log('User is logged in');
-            //  console.log(response.role);
-    
-              // Vérifier si la réponse contient le jeton d'accès et le rôle de l'utilisateur
+              console.log(response.role);
               if (response && response.access_token && response.role) {
                 // Enregistrer le jeton d'accès dans le stockage local ou dans un service d'authentification approprié
-                localStorage.setItem('access_token', response.access_token);
-               // localStorage.setItem('access_payload', response.payload_);
-              // console.log(response.payload_);
+                localStorage.setItem('access_token', response.access_token); 
               this.firstname = response.payload_.firstname;
               this.lastname = response.payload_.lastname;
               this.email = response.payload_.email;
@@ -81,8 +75,8 @@ onSubmit(){
                 // Rediriger l'utilisateur en fonction de son rôle
                 if (response.role === 'Agent' ) {
                   this.router.navigateByUrl('/agent-layout/dashboard');
-                } else if (response.role === 'Customer' || response.role === 'Driver')  {
-                  this.router.navigateByUrl('profile');
+                } else if (response.role === 'SuperAgent')  {
+                  this.router.navigateByUrl('/super-agent-layout/dashboard');
                 }
               } else {
                 console.error('Access token or role not found in response');

@@ -1,6 +1,9 @@
+
 import { INavData } from '@coreui/angular';
 
+
 export const navItems: INavData[] = [
+
   {title: true,
   name:''},
   {
@@ -36,30 +39,34 @@ export const navItems: INavData[] = [
    url: 'payment',
     iconComponent: { name: 'cilMoney' }
   },
-
-  {
-    name: 'Users',
-    url: '',
-    iconComponent: { name: 'cilUser' },
-    children: [
-      {
-        name: 'Agents',
+    {
+      name: 'Users',
+      url: '/',
+      iconComponent: { name: 'cilUser' },
+      children: [
+        {
+          name: 'Agents',
         url: 'agents',
         iconComponent: { name: 'cilWalk' },
+        },
+        {
+          name: 'Drivers',
+          url: 'drivers',
+          iconComponent: { name: 'cilCarAlt' },
+        },],
       },
-      {
-        name: 'Custmers',
-        url: 'customers',
-        iconComponent: { name: 'cilWc' },
-      },
-      {
-        name: 'Drivers',
-        url: 'drivers',
-        iconComponent: { name: 'cilCarAlt' },
-      },
- 
-     
-    ]
-  },
+        {
+          name: 'Offers',
+          url: 'profile',
+          iconComponent: { name: 'cilTag' },
+          badge:  { text: 'New', color: 'success' },
+        },
+        {
+          name: 'Need Transfer',
+          url: 'needs-transfer',
+          iconComponent: { name: 'cilBullhorn' },
+          badge:  { text: '', color: 'success' },
+        },
 
+        
 ];

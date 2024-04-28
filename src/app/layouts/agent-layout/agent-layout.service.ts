@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { TransfersService } from './views/transfers/transfers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,11 @@ export class AgentLayoutService {
   getSharedTransfers(): Observable<any[]> {
     return of(this.sharedTransfers);
   }
+
+getVille(){
+  return this.http.get<any>('http://localhost:3000/ville');
+}
+
+
 
 }

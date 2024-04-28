@@ -9,7 +9,7 @@ import {RegisterComponent} from './pages/register/register.component'
 import {LoginComponent} from './pages/login/login.component'
 import {CustomerLayoutComponent} from './layouts/customer-layout/customer-layout.component'
 import {guardGuard} from './guard/guard.guard'
-
+import {superAgentGuard} from './guard/super-agent.guard'
 
 const routes: Routes = [
   // {
@@ -32,6 +32,16 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: () =>
           import('./layouts/agent-layout/agent-layout.module').then((m) => m.AgentLayoutModule)
+      },
+      {
+        path: 'needs-transfer',
+        loadChildren: () =>
+          import('./layouts/agent-layout/views/needs-transfer/needs-transfer.module').then((m) => m.NeedsTransferModule)
+      },
+      {
+        path: 'notification',
+        loadChildren: () =>
+          import('./layouts/agent-layout/views/notification/notification.module').then((m) => m.NotificationModule)
       },
       {
         path: 'dashboard',
@@ -80,6 +90,70 @@ const routes: Routes = [
     
     ]
   },
+
+
+  {
+    path: 'super-agent-layout', canActivate:[superAgentGuard],
+    component: DefaultLayoutComponent,
+    data: {
+      title: 'Home'
+    },
+    children: [
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./layouts/super-agent-layout/super-agent-layout.module').then((m) => m.SuperAgentLayoutModule)
+      },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./layouts/super-agent-layout/views/dashboard/dashboard.module').then((m) => m.DashboardModule)
+      }, {
+       path: 'buses',
+        loadChildren: () =>
+          import('./layouts/super-agent-layout/views/buses/buses.module').then((m) => m.BusesModule)
+      },
+      {
+        path: 'missions',
+         loadChildren: () =>
+           import('./layouts/super-agent-layout/views/missions/missions.module').then((m) => m.MissionsModule)
+       },
+       {
+        path: 'transfers',
+         loadChildren: () =>
+           import('./layouts/super-agent-layout/views/transfers/transfers.module').then((m) => m.TransfersModule)
+       },
+       {
+        path: 'bookings',
+         loadChildren: () =>
+           import('./layouts/super-agent-layout/views/bookings/bookings.module').then((m) => m.BookingsModule)
+       },
+       {
+        path: 'payment',
+         loadChildren: () =>
+           import('./layouts/super-agent-layout/views/payment/payment.module').then((m) => m.PaymentModule)
+       },
+       {
+        path: 'customers',
+         loadChildren: () =>
+           import('./layouts/super-agent-layout/views/users/customers/customers.module').then((m) => m.CustomersModule)
+       },
+       {
+        path: 'drivers',
+         loadChildren: () =>
+           import('./layouts/super-agent-layout/views/users/drivers/drivers.module').then((m) => m.DriversModule)
+       },
+       {
+        path: 'agents',
+         loadChildren: () =>
+           import('./layouts/super-agent-layout/views/users/agents/agents.module').then((m) => m.AgentsModule)
+       },
+    
+    ]
+  },
+
+
+
   {
     path: '404',
     component: Page404Component,
@@ -102,7 +176,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'register',
+    path: 'register',canActivate:[superAgentGuard],
     component: RegisterComponent,
     data: {
       title: 'Register Page'

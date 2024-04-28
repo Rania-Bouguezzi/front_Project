@@ -19,6 +19,16 @@ export class DriversComponent {
   idAgency:string="";
   dtoptions: DataTables.Settings = {};
   dtTrigger:Subject<any>=new Subject<any>();
+  agentId:string="";
+  firstname:string="";
+  lastname:string="";
+  email:string="";
+  dateCreation:string="";
+  avatar:string="";
+  nameSpa:string="";
+  avatarSpa:string="";
+  agentData:any;
+  status:string="";
   constructor(private shareService : DriversService, private authService: LoginService){}
   
   
@@ -78,4 +88,30 @@ export class DriversComponent {
       console.log('Suppression annulée');
     }
   }
+
+
+  
+  Details(id: string): void {
+    this.agentId = id;    
+    this.shareService.getById(this.agentId).subscribe(data => {
+      this.agentData = data;
+      this.firstname=data.firstname;
+      this.lastname=data.lastname;
+      this.email=data.email;
+      this.dateCreation= data.dateCreation;
+      this.avatar=data.picture;
+      this.nameSpa= data.super_agent.firstname + ' ' + data.super_agent.lastname;
+      this.avatarSpa=data.super_agent.picture;
+      this.status=data.status;
+      // Open the update modal here
+      const modal = document.getElementById('ModalUpdate');
+      if (modal) {
+        modal.classList.add('show');
+        modal.style.display = 'block';
+      }
+    }, error => {
+      console.error('Error retrieving bus data:', error);
+    });
+  }
+  
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {  AgentLayoutRoutingModule} from './agent-layout-routing.module'
+import { NavbarComponent } from './views/navbar/navbar.component';
 
 
 
@@ -8,7 +9,8 @@ import {  AgentLayoutRoutingModule} from './agent-layout-routing.module'
   declarations: [],
   imports: [
     CommonModule,
-    AgentLayoutRoutingModule
+    NavbarComponent,
+    AgentLayoutRoutingModule,
   ]
 })
 export class AgentLayoutModule { }

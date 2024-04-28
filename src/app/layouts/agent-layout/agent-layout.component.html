@@ -1,13 +1,17 @@
-<div class="container " >
-   <div class="row">
-      <div class="col-md-12">
+<app-navbar></app-navbar>
+<br>
+<div >
+
+   <!-- <div class="row">
+      <div class="col-md-12"> -->
          <div id="content" class="content content-full-width">
          
             <!-- begin profile -->
             <div class="profile">
                <div class="profile-header">
                   <!-- BEGIN profile-header-cover -->
-                  <div class="profile-header-cover"></div>
+                  <div class="profile-header-cover"> 
+                      </div>
                   <!-- END profile-header-cover -->
                   <!-- BEGIN profile-header-content -->
                   <div class="profile-header-content">
@@ -15,38 +19,60 @@
                      <div class="profile-header-img">
                         <img src={{picture}} alt="" >
                      </div>
+                  
                      <!-- END profile-header-img -->
                      <!-- BEGIN profile-header-info -->
                      <div class="profile-header-info">
-                        <h4 class="m-t-10 m-b-5" >{{firstname}} {{lastname}} </h4>
-                        <p class="m-b-10">{{email}}</p>
+                        <h5 class="m-b-10">{{firstname}} {{lastname}} </h5> 
+                          <h6>{{email}}
+                        </h6>
+                       
                         <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
                      </div>
                      <!-- END profile-header-info -->
                   </div>
                   <!-- END profile-header-content -->
+                  
                   <!-- BEGIN profile-header-tab -->
                   <ul class="profile-header-tab nav nav-tabs">
-                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/bs4-profile-with-timeline-posts" target="__blank" class="nav-link_">POSTS</a></li>
-                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/bs4-profile-about" target="__blank" class="nav-link_">ABOUT</a></li>
-                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/profile-photos" target="__blank" class="nav-link_">PHOTOS</a></li>
                      <li class="nav-item"><a href="#/agent-layout/dashboard"  class="nav-link_">DASHBOARD</a></li>
-                     <li class="nav-item"><a href="" target="__blank" class="nav-link_ active show">TRANSFERS</a></li>
+                     <li class="nav-item"><a href="#/agent-layout/profile"  class="nav-link_ active show">AVAILBALE TRANSFERS</a></li>
+                     <li class="nav-item"><a href="#/agent-layout/needs-transfer"  >NEEDS TRANSFERS</a></li>
                   </ul>
                   <!-- END profile-header-tab -->
                </div>
             </div>
             <!-- end profile -->
             <!-- begin profile-content -->
-            <div class="profile-content">
+            <div class="profile-content" >
                <!-- begin tab-content -->
-               <div class="tab-content p-0">
-                  <!-- begin #profile-post tab -->
+               <div class="tab-content p-0" >
+                  <div class="row justify-content-center">
+                     <div class="col-md-6" >
+                        
+                       <div class="input-group">
+ 
+                         <input type="text"[(ngModel)]="searchTermDepart" (keyup)="onSearchDepart($event)" class="form-control" placeholder="search by depart">
+
+                       <button (click)="searchTransferByDepart(searchTermDepart)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+      </svg></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <input type="text"[(ngModel)]="searchTermDestination" (keyup)="onSearchDestination($event)" class="form-control" placeholder="search by destination">
+ <button (click)="searchTransferByDestination(searchTermDestination)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+    </svg></button> 
+ 
+    
+ </div>
+
+                 </div> 
+              
+                 
                   <div class="tab-pane fade active show" id="profile-post">
                      <!-- begin timeline -->
                      <ul class="timeline">
                         
-                        <li *ngFor="let transfer of transfers">
+                        <li *ngFor="let transfer of transfers" >
                            <!-- begin timeline-time -->
                            <div class="timeline-time">
                               <span class="date">{{  transfer.dateCreation | date }}    </span>
@@ -61,26 +87,20 @@
                            <!-- begin timeline-body -->
                            <div class="timeline-body">
                               <div class="timeline-header">
-                                
-                              
-                               
-                                    
+                           
                                     <div class="avatar avatar-lg "  >
                                        <img src={{transfer.agency.logo}}/>
                                     </div>
-
-
-                           
-                                
-                              
                                  <span class="username"> &nbsp; {{transfer.agency.name}} <small></small></span>
                              
+                                 <button type="button"  class="btn-close float-end" *ngIf="agencyId==transfer.agency.id" data-bs-dismiss="modal" (click)="deleteTransfer(transfer.id)" aria-label="Close"></button>
+                            
                          </div> 
                               <div class="timeline-content">
                                  <!-- <button (click)="deleteTransfer(transfer.id)">Supprimer</button> -->
                                  <p>
                                     My transfer is from <B> {{transfer.from}} </B> to <B> {{transfer.to}} </B>, departing on <B> {{transfer.date_time_Depart |  date}}  </B> at <B>{{ transfer.date_time_Depart | date:'HH:mm' }}</B> and arriving on <B> {{transfer.date_time_Arrive |  date}} </B>  at <B>{{ transfer.date_time_Arrive | date:'HH:mm' }}</B>. 
-                                    There are <B>{{transfer.nbrePlacesDisponibles}}</B> available seats, priced at <B> ${{transfer.priceTransferForPerson}} </B> per person <span *ngIf="transfer.extra !== 0"> with an <B>extra</B>  <span class="badge bg-success">{{transfer.extra}}</span></span> .
+                                    There are <B>{{transfer.nbrePlacesDisponibles}}</B> available seats, priced at <B> ${{transfer.priceTransferForPerson}} </B> per person <span *ngIf="transfer.extra !== 0"> with an <B>extra </B> &nbsp;  <span class="badge bg-success">{{transfer.extra}} $</span></span> .
                                  
                               </div>
                               <div class="timeline-likes">
@@ -88,23 +108,13 @@
                                     <!-- <span class="stats-text">259 Shares</span>
                                     <span class="stats-text">21 Comments</span> -->
                                  </div>
-                                 <div class="stats">
-                                    <span class="fa-stack fa-fw stats-icon">
-                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                                    <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
-                                    </span>
-                                    <span class="fa-stack fa-fw stats-icon">
-                                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                    <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                    <!-- <span class="stats-total">4.3k</span> -->
+                             
+                                    
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <button  class="btn btn-info btn-sm" style="color: white;" data-bs-toggle="modal" (click)="details(transfer.id)" data-bs-target="#exampleModal">View</button></div>
                                  </div>
-                              </div>
-                              <div class="timeline-footer">
-                                 <!-- <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-                                 <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
-                                 <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a> -->
-                              </div>
+                           
+                          
                             
                            </div>
                            <!-- end timeline-body -->
@@ -114,6 +124,119 @@
 </li></ul>
 
 
- 
+    <div class="fixed-bottom text-end"  style="margin-right: 20px; margin-bottom: 30px;">
+    <button type="button" class="btn btn-success" style="color: white;;" data-bs-toggle="modal" data-bs-target="#examplePublication">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+       </svg>
+    </button>
+    
+   </div>
+
+
+
  
 </div>
+
+
+
+</div>
+</div></div></div></div>
+<!-- </div></div>  -->
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" (hidden.bs.modal)="onModalHidden()">
+   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+     <div class="modal-content">
+       <div class="modal-header">
+         <div class="modal-title" id="exampleModalLabel"><c-avatar size="xl" src= {{logo}}></c-avatar> <span class="username"> <B> {{agencyNameDetails}}</B></span></div>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+         <div class="card w-100">
+            <div class="card-body">
+              
+     
+               <table class="table">
+                  <tbody>
+                     <tr><th scope="row"> From :</th>  <td> {{from}}</td> </tr>
+                     <tr><th scope="row"> To :</th>  <td> {{to}}</td> </tr>
+                     <tr><th scope="row">  Date Depart :</th>  <td>  {{depart | date}}      At: {{depart |date:'HH:mm'}}</td> </tr>
+                     <tr><th scope="row">  Date Arrive :  </th>  <td> {{arrive | date}} At: {{arrive |date:'HH:mm'}}</td> </tr>
+                     <tr><th scope="row">  Available Place :</th>  <td> {{nbplaces}}</td> </tr>
+                     <tr><th scope="row">  Price of Place :</th>  <td> {{pricePlace}}</td> </tr>
+                     <tr><th scope="row">  Note :</th>  <td> {{note}}</td> </tr>
+                     <tr><th scope="row">  Extra :</th>  <td> {{extra}}</td> </tr>
+                     <tr><th scope="row">  Availability :</th>  <td> <span *ngIf="etat==='Available'" class="badge bg-success" >{{etat}}</span> 
+                        <span *ngIf="etat === 'Not Available'" class="badge bg-warning">{{ etat }}</span></td> </tr>
+                        <tr *ngIf="showInputnbPlace===true"><th scope="row">  Number Of Places :</th>  <td> <input type="text" class="form-control" [(ngModel)]="placeNumber"  [ngClass]="{'input-red': moreNb}"  (input)="calculateTotalPrice()" >
+                           <div *ngIf="moreNb" class="error-message">{{ message }}</div>
+                        </td> </tr>
+                        <tr *ngIf="showPrice===true" ><th scope="row">  Total Price :</th>  <td  [ngClass]="{'input-red': moreNb}" >{{TotalPrice}}$</td> </tr>
+                     
+                     </tbody>
+               </table>
+               <div *ngIf="sendMessageBool" class="alert alert-success" role="alert">{{sendMessage}}</div>
+            </div>
+          </div>
+          
+     
+      
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
+         <button type="button" class="btn" (click)="onReserveClick()"  style="background-color: #ff3364; color: white;" [disabled]="moreNb || isExpired || sendMessageBool || agencyId==transferAgencyId ">Reserve</button>
+       </div>
+   
+     </div>
+   
+   </div>
+ </div>
+ 
+ 
+
+
+ <div class="modal fade" id="examplePublication" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel"><c-avatar size="xl" src= {{logo}}></c-avatar> <span class="username"> <B style="font-size: small;"> {{agencyNameDetails}}</B></span></h5>
+
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+  
+
+        <form [formGroup]="myFormTransfer" (ngSubmit)="onSubmit()" >
+             
+          
+              <textarea class="form-control" placeholder="write your publication ..." id="floatingTextarea2" style="height: 100px" formControlName="text"></textarea>
+          
+      
+         
+         <br>
+
+           
+             <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" style="color: white;" [disabled]="myFormTransfer.invalid">Publish</button>
+     
+            </div>
+    
+         </form>
+
+
+
+
+
+
+       </div>
+      
+     </div>
+   </div>
+ </div>

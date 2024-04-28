@@ -111,7 +111,7 @@ function () {
 }
 
 
-onSubmit() {
+async onSubmit() {
   if (this.myFormRegister.invalid) {
 
     this.emptymessage = true;
@@ -119,49 +119,26 @@ onSubmit() {
     return;
   }
 
-  const username = this.myFormRegister.value.username  || '';
-  const email = this.myFormRegister.value.email || '';
-  const firstname = this.myFormRegister.value.firstname || '';
-  const lastname = this.myFormRegister.value.lastname || '';
-  const password = this.myFormRegister.value.password || '';
-  const birthDate = this.myFormRegister.value.birthDate || '';
-  const address = this.myFormRegister.value.address || '';
-  const picture = this.myFormRegister.value.picture || '';
-  const phone = this.myFormRegister.value.phone || '';
-  const genre = this.myFormRegister.value.genre || '';
-  const formData = JSON.stringify(this.myFormRegister.value);
-  this.registerService.Register(
-
-  username,
-   email, 
-   firstname, 
-   lastname, 
-   password, 
-   birthDate, 
-   address, 
-   picture, 
-   phone, 
-   genre 
-
-  ).subscribe(
-    () => {
-      console.log('User created !');
-      this.message = "Bus Created !";
-      this.emptymessage = false;
+  const user = this.myFormRegister.value;
   
-      this.myFormRegister.reset();
-     //this.router.navigate(['/'])
-      
-    //  this.router.navigate(['/'])
+  try {
+    const response = await this.registerService.Register(user);
 
-    },
-
-  );
-  console.log(formData)
+    console.log('Agent adeed:', response);
+    this.message = "Agent Created!";
+    this.emptymessage = true;
+    this.myFormRegister.reset();
+  } catch (error) {
+    console.error('Error creating user:', error);
+    this.message = "User was not created!";
+   
+  }
 }
 
 
-
+Dashboard(){
+  this.router.navigate(['/super-agent-layout/dashboard']);
+}
 
   
 

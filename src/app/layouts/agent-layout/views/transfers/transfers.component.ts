@@ -2,17 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TransfersService } from './transfers.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CardModule, FormModule, GridModule } from '@coreui/angular';
+import { AvatarModule, CardModule, FormModule, GridModule } from '@coreui/angular';
 import { Router } from '@angular/router';
-import { AgentLayoutService } from '../../agent-layout.service';
 import { LoginService } from 'src/app/pages/login/login.service';
 import { Subject } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
+import { AgentLayoutService } from '../../agent-layout.service';
 
 @Component({
   selector: 'app-transfers',
   standalone: true,
-  imports: [CommonModule, FormModule,CardModule, GridModule,ReactiveFormsModule,DataTablesModule ],
+  imports: [CommonModule, FormModule,CardModule, GridModule,ReactiveFormsModule,DataTablesModule, AvatarModule ],
   templateUrl: './transfers.component.html',
   styleUrl: './transfers.component.scss'
 })
@@ -30,6 +30,21 @@ export class TransfersComponent implements OnInit {
   idAgency:string="";
   dtoptions: DataTables.Settings = {};
   dtTrigger:Subject<any>=new Subject<any>();
+  from:string='';
+  to:string='';
+  arrive:string='';
+  depart:string='';
+  nbplaces:string='';
+  pricePlace:number=0;
+  etat:string='';
+  note:string='';
+  extra:number=0;
+  status:string='';
+  avatar:string='';
+  firstName:string='';
+  lastName:string='';
+  dateCreation:string='';
+  isExpired:boolean=false;
 
   myFormTransfer = new FormGroup({
     from: new FormControl('', Validators.required),
@@ -191,14 +206,14 @@ this.message='Formulaire Invalid !'
 
   this.shareService.updateTransfer(this.TransferId, updatedUpdateData).subscribe(
     () => {
-  //    console.log('bus mis à jour avec succès !');
+     
       this.message='Transfer Updated!'
 
     },
     error => {
       console.error('Erreur lors de la mise à jour de transfer :', error);
       this.message='Transfer Does Not Updated !'
-     
+      console.log('erreur!');
     }
   );
  }
@@ -235,21 +250,45 @@ this.message='Formulaire Invalid !'
 
 
 
-// shareTransfer(id:string): void {
-//   this.shareService.getById(id).subscribe(
-//     (data: any[]) => {
-//       this.transfer = data; // Stocke les buses récupérés dans une variable locale
-//     //  console.log(this.transfer);
-//    this.router.navigate(['/agent-layout/profile']);
-//    this.id = id;
-//    return this.transfer;
+Details(id: string): void {
+  this.TransferId = id;    //id bus récupéré depuis la table affichée
+  console.log(this.TransferId);
+  this.shareService.getById(this.TransferId).subscribe(data => {
+    this.TransferData = data;
+    this.from=data.from;
+    this.to=data.to;
+    this.arrive=data.date_time_Arrive;
+    this.depart=data.date_time_Depart;
+    this.nbplaces=data.nbrePlacesDisponibles;
+    this.pricePlace=data.priceTransferForPerson;
+    this.etat=data.etat;
+    this.note=data.note;
+    this.extra=data.extra;
+    this.status=data.status;
+    this.avatar=data.agent.picture;
+    this.firstName=data.agent.firstname;
+    this.lastName=data.agent.lastname;
+    this.dateCreation=data.dateCreation;
+    const currentDate = new Date();
+    const arrival = new Date(this.arrive);
+   if (arrival < currentDate)
+    {this.isExpired==true;
+      this.etat='Not Available'
+      this
+    }
+   else{this.isExpired==false;
+    this.etat=data.etatTransfer;
+   }
+    const modal = document.getElementById('ModalDetails');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+    }
+  }, error => {
+    console.error('Error retrieving bus data:', error);
+  });
+}
 
-//     },
-//     (error) => {
-//       console.error('Erreur lors de la récupération de ce transfer :', error);
-//     }
-//   );
-// }
 
 
 shareTransfer(id: string): void {
@@ -284,6 +323,7 @@ shareTransfer(id: string): void {
    
   }
 }
+
 
 
 

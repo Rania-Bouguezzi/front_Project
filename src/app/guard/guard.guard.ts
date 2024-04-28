@@ -13,8 +13,9 @@ export const guardGuard: CanActivateFn = (route, state): Observable<boolean> | P
      
      
         if (response.role === 'Agent') {
-          observer.next(true); // Autoriser l'accès à l'agent
+          
+          observer.next(true); 
         } else {
-          observer.next(false); // Refuser l'accès aux autres rôles
+          observer.next(false); 
         }}   );
 })}

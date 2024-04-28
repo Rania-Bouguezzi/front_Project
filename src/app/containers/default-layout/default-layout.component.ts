@@ -13,6 +13,9 @@ import { LoginService } from 'src/app/pages/login/login.service';
 export class DefaultLayoutComponent {
    authService = inject(LoginService);
    logo :string ="";
+   name :string ="";
+   email :string ="";
+
   currentUrl : string = ''
   public navItems = navItems;
 
@@ -29,6 +32,8 @@ ngOnInit(): void {
   this.authService.getTokenData().subscribe(
     (response) => {
       this.logo= response.agency.logo;
+      this.name= response.agency.name;
+      this.email= response.agency.email;
     })
 
 }

@@ -1,0 +1,188 @@
+<app-navbar> </app-navbar>
+<br>
+<div class="container " >
+    <div class="row">
+       <div class="col-md-12">
+          <div id="content" class="content content-full-width">
+          
+             <!-- begin profile -->
+             <div class="profile">
+                <div class="profile-header">
+                   <!-- BEGIN profile-header-cover -->
+                   <div class="profile-header-cover"> 
+                       </div>
+                   <!-- END profile-header-cover -->
+                   <!-- BEGIN profile-header-content -->
+                   <div class="profile-header-content">
+                      <!-- BEGIN profile-header-img -->
+                      <div class="profile-header-img">
+                         <img src={{picture}} alt="" >
+                      </div>
+                   
+                      <!-- END profile-header-img -->
+                      <!-- BEGIN profile-header-info -->
+                      <div class="profile-header-info">
+                         <h5 class="m-b-10">{{firstname}} {{lastname}} </h5> 
+                           <h6>{{email}}
+                         </h6>
+                        
+                         <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+                      </div>
+                      <!-- END profile-header-info -->
+                   </div>
+                   <!-- END profile-header-content -->
+                   
+                   <!-- BEGIN profile-header-tab -->
+                   <ul class="profile-header-tab nav nav-tabs">
+                      <li class="nav-item"><a href="#/agent-layout/dashboard"  class="nav-link_">DASHBOARD</a></li>
+                      <li class="nav-item"><a href="#/agent-layout/profile"  >AVAILBALE TRANSFERS</a></li>
+                      <li class="nav-item"><a href="#/agent-layout/needs-transfer" class="nav-link_ active show" >NEEDS TRANSFERS</a></li>
+                 
+                   </ul>
+                   <!-- END profile-header-tab -->
+                </div>
+
+                <div class="profile-content" >
+                  <!-- begin tab-content -->
+                  <div class="tab-content p-0" >
+                     <div class="row justify-content-center">
+                        
+                        <div class="col-md-4" >
+                        
+                           <div class="input-group">
+                              <input type="text" class="form-control" placeholder="search..." [(ngModel)]="searchTerm" (keyup)="onSearch($event)">
+                              <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                              </svg></button>
+                            </div>
+                            
+    
+                     </div> 
+
+
+
+                        <div class="tab-pane fade active show" id="profile-post">
+                           <!-- begin timeline -->
+                           <ul class="timeline">
+                              
+                              <li *ngFor="let transfer of transfers" >
+                                 <!-- begin timeline-time -->
+                                 <div class="timeline-time">
+                                    <span class="date">{{  transfer.dateCreation | date }}    </span>
+                                    <span class="time">{{ transfer.dateCreation  | date:'HH:mm' }}</span>
+                                 </div>
+                                 <!-- end timeline-time -->
+                                 <!-- begin timeline-icon -->
+                                 <div class="timeline-icon">
+                                    <a href="javascript:;">&nbsp;</a>
+                                 </div>
+                                 <!-- end timeline-icon -->
+                                 <!-- begin timeline-body -->
+                                 <div class="timeline-body">
+                                    <div class="timeline-header">
+         
+                                          <div class="avatar avatar-lg "  >
+                                             <img src={{transfer.agency.logo}}/>
+                                          </div>
+                                       <span class="username"> &nbsp; {{transfer.agency.name}} <small></small></span>
+                                       <div class="btn-group" class=" float-end"  *ngIf="idAgency==transfer.agency.id">
+                                       <button class="btn btn-light" *ngIf="idAgency==transfer.agency.id" style="background-color: white; color: grey;" (click)="openUpdateModal(transfer.id)"  type="button" data-bs-toggle="modal" data-bs-target="#ModalUpdate">
+                                          <svg xmlns="http://www.w3.org/2000/svg"  width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                          </svg>
+                                        </button>
+                                        <button type="button" class=" btn-close"  data-bs-dismiss="modal" (click)="deleteTransfer(transfer.id)" aria-label="Close"></button></div>
+                                    </div> 
+                                    <div class="timeline-content">
+                                       <!-- <button (click)="deleteTransfer(transfer.id)">Supprimer</button> -->
+                                       <p>
+                                          {{transfer.text}}
+                                        </p>
+                                       
+                                    </div>
+                                    <div class="timeline-likes">
+                                       <div class="stats-right">
+                                          <!-- <span class="stats-text">259 Shares</span>
+                                          <span class="stats-text">21 Comments</span> -->
+                                       </div>                                           
+                                 </div>
+                                 <!-- end timeline-body -->
+                        
+                       
+                               
+   </div></li></ul>
+</div>      
+
+
+
+
+
+                        </div></div></div>
+
+
+                
+                
+    <div class="fixed-bottom text-end"  style="margin-right: 20px; margin-bottom: 30px;">
+        <button type="button" class="btn btn-success" style="color: white;;" data-bs-toggle="modal" data-bs-target="#examplePublication">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+           </svg>
+        </button>
+        
+       </div>
+             </div>
+
+
+
+
+
+
+
+             
+
+<!-- Modal Publication -->
+<div class="modal fade" id="examplePublication" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><c-avatar size="xl" src= {{logo}}></c-avatar> <span class="username"> <B style="font-size: small;"> {{agencyName}}</B></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <form [formGroup]="myFormTransferUpdate" (ngSubmit)="onSubmit()" >
+               <textarea class="form-control" placeholder="write your publication ..." id="floatingTextarea2" style="height: 100px" formControlName="text"></textarea>
+          <br>   
+              <div class="modal-footer">
+               <button type="submit" class="btn btn-primary" style="color: white;" [disabled]="myFormTransferUpdate.invalid">Publish</button>
+      
+             </div>
+          </form>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Publication Update -->
+<div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel"><c-avatar size="xl" src= {{logo}}></c-avatar> <span class="username"> <B style="font-size: small;"> {{agencyName}}</B></span></h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+        <form [formGroup]="myFormTransferUpdate" (ngSubmit)="UpdateTransfer()" >
+              <textarea class="form-control" id="floatingTextarea2" style="height: 100px" formControlName="text"></textarea>
+         <br>   
+             <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" style="color: white;" [disabled]="myFormTransferUpdate.invalid">Publish</button>
+     
+            </div>
+         </form>
+       </div> 
+     </div>
+   </div>
+ </div>

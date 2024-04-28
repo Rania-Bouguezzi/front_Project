@@ -1,12 +1,5 @@
 <body class="container">
-   
-    <div class="d-flex justify-content-end mb-3">
-        <button type="submit"   class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bus-front" viewBox="0 0 16 16">
-                <path d="M5 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0m8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-6-1a1 1 0 1 0 0 2h2a1 1 0 1 0 0-2zm1-6c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9s3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44 44 0 0 0 8 4m0-1c-1.837 0-3.353.107-4.448.22a.5.5 0 1 1-.104-.994A44 44 0 0 1 8 2c1.876 0 3.426.109 4.552.226a.5.5 0 1 1-.104.994A43 43 0 0 0 8 3"/>
-                <path d="M15 8a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1V2.64c0-1.188-.845-2.232-2.064-2.372A44 44 0 0 0 8 0C5.9 0 4.208.136 3.064.268 1.845.408 1 1.452 1 2.64V4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v3.5c0 .818.393 1.544 1 2v2a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V14h6v1.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-2c.607-.456 1-1.182 1-2zM8 1c2.056 0 3.71.134 4.822.261.676.078 1.178.66 1.178 1.379v8.86a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5V2.64c0-.72.502-1.301 1.178-1.379A43 43 0 0 1 8 1"/>
-              </svg> 
-          </button> </div>
+
 <div class="container">
 <div><c-card-header  class="card-header">
   <strong class="fs-4">List Of Buses</strong>
@@ -24,7 +17,9 @@
             <th scope="col">Places</th>
             <th scope="col" >Date Creation</th>
             <th scope="col" >Status</th>
-            <th scope="col" >Action</th>
+            <th scope="col" >Picture</th>
+            <th scope="col" >Details</th>
+         
           </tr>
         </thead>
         <tbody>
@@ -40,21 +35,17 @@
                 <span *ngIf="bus.status == 'Blocked'" class="badge bg-dark">{{bus.status}}</span>
                 <span *ngIf="bus.status == 'Expired'" class="badge bg-danger">{{bus.status}}</span>
             </td>
+            <td><c-avatar  size="xl"  src="{{bus.picture}}" ></c-avatar></td>
             <td>
 <div class="btn-group">
   <!-- Button trigger modal -->
-<button class="btn btn-outline-secondary" (click)="openUpdateModal(bus.id)"  type="button" data-bs-toggle="modal" data-bs-target="#ModalUpdate">
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+<button class="btn btn-outline-secondary" (click)="Details(bus.id)"  type="button" data-bs-toggle="modal" data-bs-target="#ModalUpdate">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+    <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"/>
+    <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
   </svg>
 </button>
-      <button class="btn btn-outline-secondary" (click)=" deleteBus(bus.id)" type="submit"> 
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-          </svg>
-
-    </button>
+  
 </div>
                
                      
@@ -68,69 +59,7 @@
 
 
 
-  
-  <!-- Modal To Create -->
-  <div class="modal fade bd-example-modal-lg"   id="exampleModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg"   >
-      <div class="modal-content justify-content-center"  >
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create New Bus ! <svg    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bus-front" viewBox="0 0 16 16">
-            <path d="M5 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0m8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-6-1a1 1 0 1 0 0 2h2a1 1 0 1 0 0-2zm1-6c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9s3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44 44 0 0 0 8 4m0-1c-1.837 0-3.353.107-4.448.22a.5.5 0 1 1-.104-.994A44 44 0 0 1 8 2c1.876 0 3.426.109 4.552.226a.5.5 0 1 1-.104.994A43 43 0 0 0 8 3"/>
-            <path d="M15 8a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1V2.64c0-1.188-.845-2.232-2.064-2.372A44 44 0 0 0 8 0C5.9 0 4.208.136 3.064.268 1.845.408 1 1.452 1 2.64V4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v3.5c0 .818.393 1.544 1 2v2a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V14h6v1.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-2c.607-.456 1-1.182 1-2zM8 1c2.056 0 3.71.134 4.822.261.676.078 1.178.66 1.178 1.379v8.86a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5V2.64c0-.72.502-1.301 1.178-1.379A43 43 0 0 1 8 1"/>
-          </svg></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body " >
-            <form [formGroup]="myForm" (ngSubmit)="onSubmit()" >
-     
-        <c-col [md]="6">
-          <label cLabel for="validationCustom01">Marque :</label>
-          <input cFormControl id="validationCustom01" formControlName="marque"   type="text" />
-        </c-col>
-        <c-col [md]="6">
-            <label cLabel for="validationCustom01">Puissance :</label>
-            <input cFormControl id="validationCustom01" formControlName="puissance"  type="number" />
-          </c-col>
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Number of places :</label>
-            <input cFormControl id="validationCustom01" formControlName="nbrePlaces"  type="number" />
-          </c-col>
-        <c-col [md]="6">
-          <label cLabel for="validationCustom04">Status</label>
-          <select cSelect id="validationCustom04" formControlName="status" >
-            <option value="">Status...</option>
-            <option>Actif</option>
-            <option>Inactif</option>
-            <option>Expired</option>
-            <option>Blocked</option>
-          </select>
-    
-        </c-col>
-      
-      <br>
-        <c-col >
-          <button class="btn btn-success"  type="submit" [disabled]="myForm.invalid">
-            Submit form
-          </button> &nbsp;
-          <button  class="btn btn-secondary" type="reset">
-            Reset
-          </button>
-        </c-col>
-      </form>
-      <div *ngIf="emptymessage" class="alert alert-danger" role="alert">
-        Veuillez remplir tous les champs.
-      </div>
-      <div *ngIf="message" class="alert alert-success" role="alert">
-      {{message}}
-      </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        
-        </div>
-      </div>
-    </div>
-  </div>
+ 
   </div>
   
 
@@ -138,56 +67,47 @@
 
 
 
-<!-- Modal To Update-->
+<!-- Modal To Details-->
 <div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Bus !</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{marque}} ! <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bus-front" viewBox="0 0 16 16">
+          <path d="M5 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0m8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-6-1a1 1 0 1 0 0 2h2a1 1 0 1 0 0-2zm1-6c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9s3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44 44 0 0 0 8 4m0-1c-1.837 0-3.353.107-4.448.22a.5.5 0 1 1-.104-.994A44 44 0 0 1 8 2c1.876 0 3.426.109 4.552.226a.5.5 0 1 1-.104.994A43 43 0 0 0 8 3"/>
+          <path d="M15 8a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1V2.64c0-1.188-.845-2.232-2.064-2.372A44 44 0 0 0 8 0C5.9 0 4.208.136 3.064.268 1.845.408 1 1.452 1 2.64V4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v3.5c0 .818.393 1.544 1 2v2a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V14h6v1.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-2c.607-.456 1-1.182 1-2zM8 1c2.056 0 3.71.134 4.822.261.676.078 1.178.66 1.178 1.379v8.86a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5V2.64c0-.72.502-1.301 1.178-1.379A43 43 0 0 1 8 1"/>
+        </svg></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="myFormUpdate" (ngSubmit)="updateBus()" >
-     
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Marque :</label>
-            <input cFormControl id="validationCustom01" formControlName="marque"   type="text" />
-          </c-col>
-          <c-col [md]="6">
-              <label cLabel for="validationCustom01">Puissance :</label>
-              <input cFormControl id="validationCustom01" formControlName="puissance"  type="number" />
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom01">Number of places :</label>
-              <input cFormControl id="validationCustom01" formControlName="nbrePlaces"  type="number" />
-            </c-col>
-          <c-col [md]="6">
-            <label cLabel for="validationCustom04">Status</label>
-            <select cSelect id="validationCustom04" formControlName="status" >
-              <option value="">Status...</option>
-              <option>Actif</option>
-              <option>Inactif</option>
-              <option>Expired</option>
-              <option>Blocked</option>
-            </select>
-      
-          </c-col>
         
-        <br>
-          <c-col >
-            <button class="btn btn-success"  type="submit" [disabled]="myFormUpdate.invalid">
-              Submit form
-            </button> &nbsp;
-            <button  class="btn btn-secondary" type="reset">
-              Reset
-            </button>
-          </c-col>
-        </form>
+        <div class="card w-100">
+          <div class="card-body">
+     
+            <p class="card-text">
+             <table class="table">
+                <tbody>
+              
+                   <tr><th scope="row"> Marque :</th>  <td> {{marque}}</td> </tr>
+                   <tr><th scope="row"> Puissance :</th>  <td> {{puissance}}</td> </tr>
+                   <tr><th scope="row">  Number of Places :</th>  <td> {{place}}</td> </tr>
+                   <tr><th scope="row">  Status :  </th>  <td>            <span *ngIf="status == 'Actif'" class="badge bg-success">{{status}}</span>
+                    <span *ngIf="status == 'Inactif'" class="badge bg-secondary">{{status}}</span>
+                    <span *ngIf="status == 'Blocked'" class="badge bg-dark">{{status}}</span>
+                    <span *ngIf="status == 'Expired'" class="badge bg-danger">{{status}}</span></td> </tr>
+                   <tr><th scope="row">  Picture  :</th>  <td><c-avatar  size="xl"  src={{picture}}></c-avatar></td> </tr>
+                 
+                 
+                   </tbody>
+             </table>
+             <div> <small> Created By  : </small>  <br><c-avatar  src={{avatar}}></c-avatar> {{firstName}} {{lastName}}  <br> <div style="text-align: right;">  On {{dateCreation | date}} at {{dateCreation | date : 'HH:mm'}} </div></div>
+          </div>
+        </div>
+       
 
       </div>
       <div class="modal-footer">
         <button type="submit"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+       
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { LoginService } from '../login/login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,19 +10,24 @@ export class RegisterService {
 
  
 
-  constructor(private http: HttpClient ) {  
+  constructor(private http: HttpClient, private authService :LoginService ) {  
 }
 
 
 
 
-Register(username:string, email: string, firstname:string, lastname:string, password:string,birthDate:string,address:string,picture:string,phone:string, genre:string  ){
+async Register(agent : any ) : Promise <any>{
   
-  const user = { username, email, firstname, lastname, password, birthDate, address, picture, phone, genre };
-  return this.http.post<any>('localhost:3000/auth/customer/register', user, { headers: {'Content-Type': 'application/json'} })
-  .pipe(
-    catchError(this.handleError) // Gestion des erreurs
-  );
+  try {
+    const response = await this.authService.getTokenData().toPromise();
+    const idAgency = response.agency.id;
+    agent.agencyId = idAgency;
+
+    return this.http.post<any>('http://localhost:3000/auth/agent/register', agent, { headers: { 'Content-Type': 'application/json' } }).toPromise();
+  } catch (error) {
+    console.error('Error adding transfer:', error);
+    throw error;
+  }
 }
 
 

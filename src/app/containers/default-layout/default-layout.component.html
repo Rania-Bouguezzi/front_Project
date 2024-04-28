@@ -1,5 +1,4 @@
-<!--sidebar-->
-<c-sidebar *ngIf="currentUrl !== '/agent-layout/profile'"
+<c-sidebar *ngIf="currentUrl !== '/agent-layout/profile' && currentUrl !== '/agent-layout/needs-transfer'"
   #sidebar="cSidebar"
   class="d-print-none sidebar sidebar-fixed"
   id="sidebar"
@@ -9,8 +8,12 @@
 
 <ng-scrollbar pointerEventsMethod="scrollbar">
 
-  <img src="{{ logo }}" style="width: 250px; height: 45px;">
-
+  <div class="d-flex align-items-center mb-3">
+    <c-avatar size="xl" src={{logo}}></c-avatar>
+    <div class="ms-2">
+      <p class="mb-0">{{name}}</p>
+      <p class="mb-0" style="font-size: 10px;">{{email}}</p>
+    </div></div>
   <c-sidebar-nav
     [navItems]="navItems"
     dropdownMode="close"
@@ -27,7 +30,7 @@
 <div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
   <!--app-header-->
 
-  <app-default-header *ngIf="currentUrl !== '/agent-layout/profile'" class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar" />
+  <app-default-header *ngIf="currentUrl !== '/agent-layout/profile' && currentUrl !== '/agent-layout/needs-transfer' " class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar" />
 
 
   <!-- <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar" /> -->

@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {DefaultHeaderService} from './default-header.service'
 import { AvatarModule, ClassToggleService, HeaderComponent } from '@coreui/angular';
+import { Route, Router } from '@angular/router';
+import { LoginService } from 'src/app/pages/login/login.service';
 
 @Component({
   selector: 'app-default-header',
@@ -19,9 +21,12 @@ export class DefaultHeaderComponent extends HeaderComponent {
   email : string ='';
   picture : string ='';
   status : string ='';
-  constructor(private classToggler: ClassToggleService , private tokenService :DefaultHeaderService ) {
-    super();
-  }
+  showAlert:boolean=false;
+  constructor(private classToggler: ClassToggleService , private tokenService :DefaultHeaderService, private router:Router,
+   ) {
+      super();
+    }
+ 
 
   
 
@@ -43,5 +48,22 @@ export class DefaultHeaderComponent extends HeaderComponent {
       console.error('Erreur lors de la récupération des données du token:', error);
     }
   );
+}
+
+
+logout(){
+  this.tokenService.getTokenData().subscribe(
+    (tokenData) => {
+      localStorage.removeItem('access_token'); // Assurez-vous de supprimer la clé correcte
+      console.log('Token supprimé du localStorage');
+    },
+    (error) => {
+      console.error('Erreur lors de la suppression du token:', error);
+    }
+  );
+  
+  
+   this.router.navigate(['/login']);
+
 }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BusesService} from './buses.service'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CardModule, FormModule, GridModule,  } from '@coreui/angular';
+import { AvatarModule, CardModule, FormModule, GridModule,  } from '@coreui/angular';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/pages/login/login.service';
 import { DataTablesModule } from 'angular-datatables';
@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-buses',
   standalone: true,
-  imports: [CommonModule, FormModule,CardModule, GridModule,ReactiveFormsModule, RouterLink,DataTablesModule ],
+  imports: [CommonModule, FormModule,CardModule, GridModule,ReactiveFormsModule, RouterLink,DataTablesModule,AvatarModule ],
   templateUrl: './buses.component.html',
   styleUrl: './buses.component.scss',
   
@@ -45,6 +45,15 @@ export class BusesComponent implements OnInit {
   searchText: string = '';
   dtoptions: DataTables.Settings = {};
   dtTrigger:Subject<any>=new Subject<any>();
+  marque:string='';
+  puissance:string='';
+  place:string='';
+  status:string='';
+  picture:string='';
+  firstName:string='';
+  lastName:string='';
+  avatar:string='';
+  dateCreation:string='';
  
  
  
@@ -75,7 +84,8 @@ loadBuses(): void {
   
   this.busesService.getBusByAgency(this.idAgency).subscribe(
     (data: any[]) => {
-      this.buses = data; // Stocke les buses récupérés dans une variable locale
+      this.buses = data; 
+      this.buses.sort((a, b) => new Date(b.dateCreation).getTime() - new Date(a.dateCreation).getTime());
       this.busesLength= data.length;
       this.dtTrigger.next(null);
       
@@ -83,7 +93,7 @@ loadBuses(): void {
     (error) => {
       console.error('Erreur lors de la récupération des transfers :', error);
     }
-  ); })
+  ); });
 }
 
 async onSubmit() {
@@ -176,17 +186,19 @@ deleteBus(id: string): void {
 
 
 
-openUpdateModal(id: string): void {
+Details(id: string): void {
   this.busId = id;    //id bus récupéré depuis la table affichée
-  console.log(this.busId);
   this.busesService.getById(this.busId).subscribe(data => {
     this.busData = data;
-    this.myFormUpdate.patchValue({
-      marque: this.busData.marque,
-      puissance: this.busData.puissance,
-      nbrePlaces: this.busData.nbrePlaces,
-      status: this.busData.status
-    });
+   this.marque=data.marque;
+   this.puissance=data.puissance;
+   this.place=data.nbrePlaces;
+   this.status=data.status;
+   this.picture=data.picture;
+  this.firstName =data.super_agent.firstname;
+  this.lastName=data.super_agent.lastname;
+  this.avatar=data.super_agent.picture;
+  this.dateCreation=data.dateCreation;
     // Open the update modal here
     const modal = document.getElementById('ModalUpdate');
     if (modal) {

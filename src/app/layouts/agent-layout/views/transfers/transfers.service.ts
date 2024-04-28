@@ -25,7 +25,9 @@ export class TransfersService {
     try {
       const response = await this.authService.getTokenData().toPromise();
       const idAgency = response.agency.id;
+      const idSpa = response.id;
       transferData.agencyId = idAgency;
+  
 
       return this.http.post<any>('http://localhost:3000/transfers/add', transferData, { headers: { 'Content-Type': 'application/json' } }).toPromise();
     } catch (error) {

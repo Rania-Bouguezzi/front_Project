@@ -1,0 +1,77 @@
+<body class="container">
+    <br>
+    <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" class="table table-striped">
+        <thead class="table-light" ctablecolor="light">
+          
+          <tr>
+    
+            <th  scope="col" style="text-align: center;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+              </svg></th>
+            <th scope="col" >User</th>
+            <th scope="col" >Email</th>
+            <th scope="col" >Phone</th>
+            <th scope="col" >Adress</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <div   class="alert alert-dark" role="alert" *ngIf="message" >{{message}} </div>
+          <tr *ngFor="let customer of customers; index as i">
+            <td class="text-center">
+         <!-- <img src="{{customer.picture}}"> -->
+         <c-avatar src="{{customer.picture}}" *ngIf="customer.status == 'Actif'" status="success"  ></c-avatar>
+         <c-avatar src="{{customer.picture}}" *ngIf="customer.status == 'Expired'" status="warning"  ></c-avatar>
+         <c-avatar src="{{customer.picture}}" *ngIf="customer.status == 'Inactif'" status="secondary"  ></c-avatar>
+         <c-avatar src="{{customer.picture}}" *ngIf="customer.status == 'Blocked'" status="danger"  ></c-avatar>
+       
+         
+            </td>
+            <td>
+              <div>{{ customer.firstname }} {{customer.lastname}} </div>
+              <div class="small text-medium-emphasis text-nowrap">
+                <span>
+                   Registered: {{ customer.dateCreation | date:'MMM d, y' }}
+                </span>
+              </div>
+            </td>
+            <td >
+          {{customer.email}}
+            </td>
+            <td>
+              <div class="d-flex justify-content-between">
+                <div class="float-start">
+                    {{customer.phone}}
+                </div>
+          
+              </div>
+       
+           
+           
+            </td>
+          <td>    
+            <small class="text-medium-emphasis">
+              {{customer.address}}
+            </small></td>
+            <td>
+                <div class="btn-group">
+                <button class="btn btn-outline-secondary" type="submit"> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                      </svg></button>
+                      <button class="btn btn-outline-secondary" (click)=" deleteCustomer(customer.id)" type="submit"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                          </svg>
+                
+                    </button>
+                </div>
+                               
+                                     
+                
+                            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="text-align: center;" class="alert alert-warning" role="alert" *ngIf="message" >{{message}} </div>
