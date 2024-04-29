@@ -12,6 +12,16 @@ $background-color_1: #fff;
 $border-color_1: #4a4a4a;
 $border-right-color_1: #fff;
 
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.content {
+    padding: 20px; /* Ajustez la marge intérieure selon vos besoins */
+}
 .input-red {
 	border-color: red;
 	color: red;

@@ -27,6 +27,7 @@ export class TransfersService {
       const idAgency = response.agency.id;
       const idSpa = response.id;
       transferData.agencyId = idAgency;
+      transferData.agentId = idSpa;
   
 
       return this.http.post<any>('http://localhost:3000/transfers/add', transferData, { headers: { 'Content-Type': 'application/json' } }).toPromise();

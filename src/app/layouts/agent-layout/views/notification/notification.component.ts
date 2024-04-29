@@ -15,6 +15,7 @@ export class NotificationComponent {
 
   notifs :any[]=[];
 agencyId:string='';
+count:number=0;
 
 
   constructor( private notifService : NotificationService, private tokenService : LoginService){}
@@ -23,29 +24,30 @@ agencyId:string='';
   ngOnInit(): void {
 
   this.getNotif();
-  this.tokenService.getTokenData().subscribe(
-    (tokenData) => {
-     // console.log('Données du token:', tokenData);
- this.agencyId = tokenData.agency.id;
 
-  
-
-
-    },);
 
   
   }
 
   getNotif() : void{
+    this.tokenService.getTokenData().subscribe(
+      (response) => {
+        this.agencyId= response.agency.id;
+       console.log(this.agencyId)
+     
+     
+    
     this.notifService.getNotifByAgency(this.agencyId).subscribe(
-      (data) => {
+      (data: any[]) => {
         this.notifs = data; 
-      console.log(data);
+        this.count = data.length;
+        console.log(this.count)
+       
       },
       (error) => {
-        console.error('Erreur lors de la récupération des notifs :', error);
+        console.error('Erreur lors de la récupération des notifications :', error);
       }
-    ); 
+    ); })
   }
   }
 

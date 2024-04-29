@@ -30,9 +30,18 @@
 
     <c-header-nav class="d-none d-lg-flex">
       <c-nav-item>
-        <a routerLink="./" cNavLink>
+        <button type="button" class="btn btn-outline position-relative" (click)="go()">
           <svg cIcon name="cilBell" size="lg"></svg>
-        </a>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{count}}
+          </span>
+        </button>
+        <!-- <a routerLink="notification" cNavLink>
+          <svg cIcon name="cilBell" size="lg"></svg>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{count}}
+          </span>
+        </a> -->
       </c-nav-item>
       <c-nav-item>
         <a routerLink="./" cNavLink>
@@ -86,12 +95,14 @@
           Offers
         </a>
       </li>
-      <li>
-        <a routerLink="/agent-layout/notification" cDropdownItem>
+      <li class="d-flex align-items-center">
+        <a routerLink="/agent-layout/notification" cDropdownItem class="d-flex align-items-center">
           <svg cIcon class="me-2" name="cilBell"></svg>
           Notifications
+          <c-badge class="ms-2" color="success">{{ count }}</c-badge>
         </a>
       </li>
+      
       <li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilEnvelopeOpen"></svg>
