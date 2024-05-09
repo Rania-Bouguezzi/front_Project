@@ -36,7 +36,9 @@ export class DashboardComponent implements OnInit {
   idAgency:string='';
   nbBus:any;
   constructor(private chartsData: DashboardChartsData, private shareService : DashboardService, private authService : LoginService) {
-    this.getAgent();
+   this.authService.getTokenData();
+ 
+   
   }
 
   public users: IUser[] = [

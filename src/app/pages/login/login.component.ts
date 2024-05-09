@@ -34,7 +34,10 @@ export class LoginComponent {
     password: new FormControl('', Validators.required),
   });
 
-  constructor( private router : Router, private authService : LoginService) { }
+  constructor( private router : Router, private authService : LoginService) {
+
+    } 
+   
 
   test(){
 
@@ -57,7 +60,7 @@ export class LoginComponent {
 
 onSubmit(){
   const val = this.myFormLogin.value;
-  const formData = JSON.stringify(this.myFormLogin.value);
+  //const formData = JSON.stringify(this.myFormLogin.value);
   if (val.email && val.password) {
       this.authService.Authentification(val.email, val.password)
           .subscribe(
@@ -65,8 +68,6 @@ onSubmit(){
               console.log('User is logged in');
               console.log(response.role);
               if (response && response.access_token && response.role) {
-                // Enregistrer le jeton d'accès dans le stockage local ou dans un service d'authentification approprié
-                localStorage.setItem('access_token', response.access_token); 
               this.firstname = response.payload_.firstname;
               this.lastname = response.payload_.lastname;
               this.email = response.payload_.email;
@@ -77,7 +78,8 @@ onSubmit(){
                   this.router.navigateByUrl('/agent-layout/dashboard');
                 } else if (response.role === 'SuperAgent')  {
                   this.router.navigateByUrl('/super-agent-layout/dashboard');
-                }
+                }  sessionStorage.setItem('access_token', response.access_token);
+              
               } else {
                 console.error('Access token or role not found in response');
                
@@ -92,7 +94,7 @@ onSubmit(){
             }
           );
   }
-  
+ 
 
 }
 

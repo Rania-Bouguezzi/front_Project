@@ -1,14 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import {DefaultHeaderService} from './default-header.service'
-import { AvatarModule, ClassToggleService, HeaderComponent } from '@coreui/angular';
+import { ClassToggleService, HeaderComponent, PopoverModule} from '@coreui/angular';
 import { Route, Router } from '@angular/router';
-import { LoginService } from 'src/app/pages/login/login.service';
 import { NotificationService } from 'src/app/layouts/agent-layout/views/notification/notification.service';
+import { LoginService } from 'src/app/pages/login/login.service';
 
 @Component({
+
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
+ 
+
 })
 export class DefaultHeaderComponent extends HeaderComponent {
 
@@ -25,8 +27,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
   showAlert:boolean=false;
   agencyId:string='';
   count:number=0;
-  constructor(private classToggler: ClassToggleService , private tokenService :DefaultHeaderService, private router:Router,
-  private notifService : NotificationService
+  constructor(private classToggler: ClassToggleService , private tokenService :LoginService, private router:Router,
+  private notifService : NotificationService, private authService : LoginService
   ) {
       super();
     }
@@ -68,18 +70,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
 
 logout(){
-  this.tokenService.getTokenData().subscribe(
-    (tokenData) => {
-      localStorage.removeItem('access_token'); // Assurez-vous de supprimer la clé correcte
-      console.log('Token supprimé du localStorage');
-    },
-    (error) => {
-      console.error('Erreur lors de la suppression du token:', error);
-    }
-  );
-  
-  
-   this.router.navigate(['/login']);
+ this.authService.logout()
 
 }
 go(){

@@ -11,6 +11,10 @@ $color_10: #ff5b57;
 $background-color_1: #fff;
 $border-color_1: #4a4a4a;
 $border-right-color_1: #fff;
+.scrollable-container {
+    max-height: 700px; 
+    overflow-y: auto; 
+  }
 
 .container-fluid {
     padding-right: 15px;

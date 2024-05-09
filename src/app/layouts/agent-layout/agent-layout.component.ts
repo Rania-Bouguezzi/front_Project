@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { NeedsTransferService } from './views/needs-transfer/needs-transfer.service';
 import {NotificationService} from './views/notification/notification.service';
 import { NavbarComponent } from './views/navbar/navbar.component';
+import { LoginService } from 'src/app/pages/login/login.service';
 @Component({
   selector: 'app-agent-layout',
   standalone: true,
@@ -55,9 +56,11 @@ export class AgentLayoutComponent {
   emptymessage:boolean=false;
   agencyId:string='';
   transferAgencyId:string='';
+  transfer_agency_id:string='';
   agentEmetteurNotifId :string='';
   agentRecepteurNotifId :string='';
   agencyNameDetails:string='';
+  TransferEtat:boolean=false;
   myFormTransfer = new FormGroup({
     text: new FormControl('', Validators.required),
   });
@@ -65,14 +68,14 @@ export class AgentLayoutComponent {
 
     constructor (private tokenService : AgentLayoutService, private transferService :TransfersService , 
     private tokenLogout:  DefaultHeaderService, private router:Router, private  shareService : NeedsTransferService,
-    private notifService : NotificationService ){}
+    private notifService : NotificationService , private authService : LoginService){}
    
   
    ngOnInit(): void {
     this.loadVille();
-    this.tokenService.getTokenData().subscribe(
+    this.authService.getTokenData().subscribe(
       (tokenData) => {
-       // console.log('Données du token:', tokenData);
+       console.log('Données du token:', tokenData);
         this.firstname = tokenData.firstname;
         this.lastname = tokenData.lastname;
         this.email = tokenData.email;
@@ -80,7 +83,8 @@ export class AgentLayoutComponent {
         this.logoToken= tokenData.agency.logo;
         this.agencyName=tokenData.agency.name;
         this.agencyId=tokenData.agency.id;
-    
+        this.agentEmetteurNotifId = tokenData.id;
+    console.log('agency Id'+this.agencyId);
 
 
       },
@@ -95,7 +99,7 @@ export class AgentLayoutComponent {
       this.currentDate= new Date();
 
  
- this.loadSharedTransfers();
+ this.loadTransfers();
 
 this.time=this.transferService.time;
 
@@ -108,45 +112,78 @@ this.time=this.transferService.time;
     }
 
 
-    loadSharedTransfers(): void {
-      const sharedTransfersData = localStorage.getItem('sharedTransfers');
-      if (sharedTransfersData) {
-        const transfers = JSON.parse(sharedTransfersData);
-          this.transfers = transfers.sort((a: any, b: any) => {
-      return new Date(b.dateCreation).getTime() - new Date(a.dateCreation).getTime();
-    });
-    console.log(this.transfers);
-      }
+    // loadSharedTransfers(): void {
+    //   const sharedTransfersData = localStorage.getItem('sharedTransfers');
+    //   if (sharedTransfersData) {
+    //     const transfers = JSON.parse(sharedTransfersData);
+    //       this.transfers = transfers.sort((a: any, b: any) => {
+    //   return new Date(b.dateCreation).getTime() - new Date(a.dateCreation).getTime();
+    // });
+    // console.log(this.transfers);
+    //   }
      
-       else {
-        this.transfers = [];
-      }
+    //    else {
+    //     this.transfers = [];
+    //   }
+    // }
+
+    loadTransfers(): void {
+      this.authService.getTokenData().subscribe(
+        (response) => {
+          this.agencyId= response.agency.id;
+         console.log(this.agencyId)
+       
+       
+      
+      this.tokenService.getSharedTransfer().subscribe(
+        (data: any[]) => {
+          this.transfers = data.sort((a: any, b: any) => {
+            return new Date(b.dateShare).getTime() - new Date(a.dateShare).getTime();
+          });
+         
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des transfers :', error);
+        }
+      ); })
     }
-
-
+    
+    
 
 
     deleteTransfer(transferId: string): void {
       const confirmation = window.confirm('You want to delete this Transfer ?');
       if (confirmation) {
-      const sharedTransfersData = localStorage.getItem('sharedTransfers');
-      if (sharedTransfersData) {
-        const transfers = JSON.parse(sharedTransfersData);
-        const updatedTransfers = transfers.filter((transfer: any) => transfer.id !== transferId);
-        localStorage.setItem('sharedTransfers', JSON.stringify(updatedTransfers));
-        // Mettez à jour également la liste des transferts dans votre composant si nécessaire
-        this.transfers = updatedTransfers;
-      } }
+        this.transferService.getById(transferId).subscribe(
+          (data: any) => {
+            this.transfer = data;
+            const pdateTransfer = 
+            {isShared :false,
+             
+            }
+    
+            this.transferService.updateTransfer(transferId, pdateTransfer).subscribe(
+              () => {
+               
+                this.message='Transfer Updated!'
+          
+              },)});
+            
+              this.loadTransfers();
+      }
+     
     else{
       console.log("suppression annulée")
-    }}
+    }
+    
+  }
   
 
 
     searchTransferByDestination(destination: string): void {
       if (!destination.trim()) {
      
-        this.loadSharedTransfers();
+        this.loadTransfers();
       
       }
     
@@ -158,7 +195,7 @@ this.time=this.transferService.time;
     searchTransferByDepart(depart: string): void {
       if (!depart.trim()) {
      
-        this.loadSharedTransfers();
+        this.loadTransfers();
       
       }
     
@@ -172,7 +209,7 @@ this.time=this.transferService.time;
      
       if (this.searchTermDestination.trim() === '') {
        
-        this.loadSharedTransfers();
+        this.loadTransfers();
       }
       this.transfers = this.transfers.filter(transfer =>
         transfer.to.toLowerCase().includes(this.searchTermDestination.toLowerCase())
@@ -182,7 +219,7 @@ this.time=this.transferService.time;
      
       if (this.searchTermDepart.trim() === '') {
        
-        this.loadSharedTransfers();
+        this.loadTransfers();
       }
       this.transfers = this.transfers.filter(transfer =>
         transfer.from.toLowerCase().includes(this.searchTermDepart.toLowerCase())
@@ -190,17 +227,7 @@ this.time=this.transferService.time;
     }
 
     logout(){
-       this.tokenLogout.logOut().subscribe(
-        (tokenData) => {
-      console.log('Données du token:', tokenData);
       
-        },
-        (error) => {
-          console.error('Erreur lors de la récupération des données du token:', error);
-        }
-      );
-    
-       this.router.navigate(['/login']);
     }
 
 
@@ -221,6 +248,9 @@ this.time=this.transferService.time;
       this.note=data.note;
       this.extra=data.extra;
       this.status=data.status;
+      this.transferAgencyId=data.id;
+      this.transfer_agency_id=data.agency.id;
+      console.log('transferAgencyId'+this.transfer_agency_id);
       const currentDate = new Date();
     const arrival = new Date(this.arrive);
    if (arrival < currentDate)
@@ -231,7 +261,10 @@ this.time=this.transferService.time;
    else{this.isExpired=false;
     this.etat=data.etatTransfer;
    }
-  
+   if (data.etatTransfer =='Not Available'  )
+    { this.TransferEtat=true;
+     
+    }
         },
         (error) => {
           console.error('Erreur lors de la récupération des données du token:', error);
@@ -251,8 +284,18 @@ this.time=this.transferService.time;
         const notifData = {
           agentId: this.agentRecepteurNotifId,
           message: messageNotif,
+          agencyEmettriceId : this.agencyId,
           agencyEmettriceName : this.agencyName,
-          agencyEmettriceLogo: this.logoToken
+          agencyEmettriceLogo: this.logoToken,
+          agentEmetteurId : this.agentEmetteurNotifId,
+          from:this.from,
+          to:this.to,
+          nbPlaces:this.placeNumber,
+          date_time:this.depart,
+          notifAccept:false,
+          notifRefus:false,
+          transferId:this.transferAgencyId,
+          validate:false
 
         };
       

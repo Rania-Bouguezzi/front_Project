@@ -36,6 +36,9 @@
             {{count}}
           </span>
         </button>
+     
+        
+      
         <!-- <a routerLink="notification" cNavLink>
           <svg cIcon name="cilBell" size="lg"></svg>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -104,7 +107,7 @@
       </li>
       
       <li>
-        <a routerLink="./" cDropdownItem>
+        <a routerLink="/agent-layout/discussion" cDropdownItem>
           <svg cIcon class="me-2" name="cilEnvelopeOpen"></svg>
           Messages
           <c-badge class="ms-2 float-end" color="success">
@@ -164,8 +167,8 @@
       </li>
       <li>
         <a   (click)="logout()"  cDropdownItem>
-          <svg  cIcon class="me-2" name="cilLockLocked" ></svg>
-          Lock Account
+        <button class="btn btn-outline position-relative">  <svg  cIcon class="me-2" name="cilLockLocked" ></svg>
+          Lock Account</button>
         </a>
       </li>
       <li></li>

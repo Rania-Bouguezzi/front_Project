@@ -1,0 +1,44 @@
+.container {
+    background-color: #f8f9fa; /* Couleur de fond */
+    padding: 20px; /* Espacement intérieur */
+    border-top: 1px solid #dee2e6; /* Bordure supérieure */
+  }
+  
+  .docs-footer-links {
+    list-style: none; /* Supprimer les puces */
+    padding: 0; /* Réinitialiser le remplissage */
+  }
+  
+  .docs-footer-links li {
+    display: inline-block; /* Afficher en ligne */
+    margin-right: 10px; /* Espacement entre les éléments */
+  }
+  
+  .docs-footer-links li a {
+    color: #6c757d; /* Couleur du texte */
+    text-decoration: none; /* Supprimer la soulignement des liens */
+    transition: color 0.3s ease; /* Transition de couleur fluide */
+  }
+  
+  .docs-footer-links li a:hover {
+    color: #343a40; /* Couleur du texte au survol */
+  }
+  
+  .container p {
+    margin-bottom: 10px; /* Espacement entre les paragraphes */
+  }
+  
+  .container strong {
+    color: #007bff; /* Couleur du texte en gras */
+  }
+  
+  .container a {
+    color: #007bff; /* Couleur des liens */
+    text-decoration: none; /* Supprimer la soulignement des liens */
+    transition: color 0.3s ease; /* Transition de couleur fluide */
+  }
+  
+  .container a:hover {
+    color: #0056b3; /* Couleur des liens au survol */
+  }
+  

@@ -1,19 +1,41 @@
 
-<div class="container" >
-    <div class="row">
+<div class="container " >
+    <div class="row scrollable-container">
+      <div class="alert alert-success" *ngIf="notifAccept == true  " >
+         <strong>Success !</strong> Your Response has been sent successfully.
+         <button  type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+       </div>
+       <div class="alert alert-danger" *ngIf="notifRefus == true   " >
+         <strong>Success !</strong> Your Response has been sent successfully.
+         <button  type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+       </div>
        <div class="col-md-12" *ngFor="let notif of notifs">
           <div class="g-brd-around g-brd-gray-light-v7 g-rounded-4 g-pa-15 g-pa-20--md g-mb-30">
-             <div class="noty_bar noty_type__success noty_theme__unify--v1 g-mb-25">
+            <div class="noty_bar noty_theme__unify--v1 g-mb-25"
+            [ngClass]="{'noty_type__warning': notif.notifAccept , 'noty_type__error': notif.notifRefus , 'noty_type__success': !notif.notifAccept && !notif.notifRefus }">
                 <div class="noty_body">
                    <div class="g-mr-20">
                       <div class="noty_body__icon">
                          <i class="hs-admin-check"></i>
                       </div>
                    </div>
+               
                    <div >
+                     
                     
-                    
-                     <c-avatar  src= {{notif.agencyEmettriceLogo}}></c-avatar> &nbsp;   <B>{{notif.agencyEmettriceName}}</B>{{notif.message}} </div>
+                     <c-avatar  src= {{notif.agencyEmettriceLogo}}></c-avatar> &nbsp;   <B>{{notif.agencyEmettriceName}}</B>{{notif.message}}
+                  <br><small class="float-end"> {{notif.dateCreation | date}}  at {{notif.dateCreation | date:'HH:mm'}} </small>
+               <br>
+                  <div class="float-end" *ngIf="notif.notifAccept===false && notif.notifRefus===false "  >
+                     <button type="button" style="color:white" class="btn btn-success btn-sm" (click)="accept(notif.id)" [disabled]=" this.notif.validate">Accept</button> &nbsp;
+   <button type="button" style="color:white" class="btn btn-danger btn-sm" (click)="supp(notif.id)" [disabled]=" this.notif.validate">Delete</button> </div>
                 </div>
+               </div>
+             
+           
              </div>
-             </div></div></div></div>
+             
+             </div>
+            </div>
+         </div></div>
+        

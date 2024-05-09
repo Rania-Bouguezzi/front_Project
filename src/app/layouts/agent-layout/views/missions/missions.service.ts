@@ -1,24 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LoginService } from 'src/app/pages/login/login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MissionsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService : LoginService) { }
 
 
-  getAllMissions(): Observable<any[]> {
-    return this.http.get<any[]>("http://localhost:3000/missions");
+  getAllMissions(idAgency:string): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:3000/missions/agency/${idAgency}`);
   }
   
-  addMissions(name:string, from:string,to:string, date_time_start:string, date_time_end:string, nbrPassengers:string, totalPrice:string,status:string,dateMission:string){
-    const mission = { name, from, to, date_time_start, date_time_end,nbrPassengers,totalPrice, status, dateMission };
-    return this.http.post<any>('http://localhost:3000/missions/add', mission, { headers: {'Content-Type': 'application/json'} });
 
+async addMissions(missionData: any): Promise<any> {
+  try {
+    const response = await this.authService.getTokenData().toPromise();
+    const idAgent = response.id;
+    missionData.agentId = idAgent;
+
+
+    return this.http.post<any>('http://localhost:3000/missions/add', missionData, { headers: { 'Content-Type': 'application/json' } }).toPromise();
+  } catch (error) {
+    console.error('Error adding transfer:', error);
+    throw error;
   }
+}
   
   updateMissions(id:string, mission:any):Observable<any>{
 
@@ -40,5 +50,6 @@ export class MissionsService {
     return this.http.get<any>(`http://localhost:3000/missions/${id}`)
       }
 
+      
 
 }

@@ -13,7 +13,5 @@ export class DefaultHeaderService {
     return this.http.get<any>('http://localhost:3000/auth/tokenData');
   }
 
-  logOut(){
-    return this.http.get<any>('http://localhost:3000/auth/logout');
-  }
+  
 }

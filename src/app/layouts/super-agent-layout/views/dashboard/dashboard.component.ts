@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
   idAgency:string='';
   nbBus:any;
   constructor(private chartsData: DashboardChartsData, private shareService : DashboardService, private authService : LoginService) {
-    this.getAgent();
+
   }
 
   public users: IUser[] = [
@@ -157,7 +157,7 @@ export class DashboardComponent implements OnInit {
     this.shareService.getAgent().subscribe(
       (data: any[]) => {
         this.agent = data; 
-        console.log(this.agent);
+
 
        // console.log(data)
       },

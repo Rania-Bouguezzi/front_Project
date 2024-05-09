@@ -7,6 +7,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { LoginService } from 'src/app/pages/login/login.service';
 import { DataTablesModule } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import { event } from 'jquery';
 
 
 @Component({
@@ -110,6 +111,7 @@ async onSubmit() {
     this.message = "Bus was not created!";
     this.emptymessage = false;
   }
+  console.log(transferData)
 }
 
 updateBus(): void {
@@ -199,12 +201,13 @@ openUpdateModal(id: string): void {
     console.error('Error retrieving bus data:', error);
   });
 }
+onFileSelected(event: any) {
+  const file = event.target.files[0];
+  this.myForm.patchValue({
+    picture: file.name
+  });
 
-
-
-
-
-
+}
 
 
 

@@ -53,6 +53,8 @@ export class DriversComponent {
     picture: new FormControl('', Validators.required),
     phone: new FormControl('', Validators.required),
     genre: new FormControl('', Validators.required),
+    numPermis: new FormControl('', Validators.required),
+    permisExpir: new FormControl('', Validators.required),
 
   
   });

@@ -39,7 +39,7 @@ export class NeedsTransferComponent {
     text: new FormControl('', Validators.required),
   });
 
-constructor(private tokenService : AgentLayoutService, private tokenLogout:  DefaultHeaderService, private router:Router,
+constructor(private tokenService : LoginService, private tokenLogout:  DefaultHeaderService, private router:Router,
   private  shareService : NeedsTransferService, private authService : LoginService
 ){}
 
@@ -168,17 +168,7 @@ this.message='Formulaire Invalid !'
 
   
   logout(){
-    this.tokenLogout.logOut().subscribe(
-     (tokenData) => {
-   console.log('Données du token:', tokenData);
-   
-     },
-     (error) => {
-       console.error('Erreur lors de la récupération des données du token:', error);
-     }
-   );
- 
-    this.router.navigate(['/login']);
+
  }
 
 

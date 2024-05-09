@@ -1,15 +1,15 @@
 nav {
     margin: 27px auto 0;
     position: relative;
-    width: 590px;
+    width: 1000px;
     height: 50px;
     background-color: #34495e;
     border-radius: 8px;
     font-size: 0;
-    display: flex; /* Utilisation de flexbox pour aligner les éléments */
-    justify-content: space-between; /* Espacement égal entre les éléments */
-    align-items: center; /* Alignement vertical au centre */
-    padding: 0 10px; /* Espacement intérieur pour les éléments */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 10px; 
   }
   
   nav a {
@@ -31,5 +31,52 @@ nav {
     font-size: 12px;
     font-family: sans-serif;
     background: #2c3e50;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .scrollable-container {
+    max-height: 370px; 
+    overflow-y: auto; 
+  }
+
+
+
+  .popover-notifications {
+    max-width: 300px; /* Ajustez la largeur selon vos besoins */
+  }
+  
+  .notification-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .notification-item:last-child {
+    border-bottom: none; /* Supprime la bordure du dernier élément */
+  }
+  
+  .notification-content {
+    margin-left: 10px;
   }
   

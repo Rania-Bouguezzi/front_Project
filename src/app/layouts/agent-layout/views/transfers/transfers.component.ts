@@ -45,6 +45,8 @@ export class TransfersComponent implements OnInit {
   lastName:string='';
   dateCreation:string='';
   isExpired:boolean=false;
+  shareTime:string='';
+  isShared:boolean=false;
 
   myFormTransfer = new FormGroup({
     from: new FormControl('', Validators.required),
@@ -85,11 +87,24 @@ export class TransfersComponent implements OnInit {
       (data: any[]) => {
         this.transfers = data;
          console.log(data);
-        
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des transfers :', error);
-      }
+         const currentDate = new Date();
+         this.transfers.forEach(transfer => {
+          const arrival = new Date(transfer.date_time_Arrive); // Assurez-vous que la propriété date_time_Arrive existe dans votre objet de transfert
+          if (arrival < currentDate && transfer.etatTransfer=='Available') {
+            const updatedTransferData = { etatTransfer: 'Not Available' };
+            this.shareService.updateTransfer(transfer.id, updatedTransferData).subscribe(
+              () => {
+                console.log('Transfer Updated!' +transfer.from +transfer.to);
+                this.message = 'Transfer Updated!';
+              },
+              error => {
+                console.error('Error updating transfer:', error);
+                this.message = 'Error updating transfer';
+              }
+            );
+          
+          }})}
+     
     );
  
   }
@@ -126,13 +141,16 @@ loadTransfers(): void {
   
   this.shareService.getTransferByAgency(this.idAgency).subscribe(
     (data: any[]) => {
-      this.transfers = data; 
+      this.transfers = data.sort((a: any, b: any) => {
+        return new Date(b.date_time_Depart).getTime() - new Date(a.date_time_Depart).getTime();
+      });
       this.dtTrigger.next(null);
     },
     (error) => {
       console.error('Erreur lors de la récupération des transfers :', error);
     }
-  ); })
+  ); });
+
 }
 
 
@@ -262,7 +280,7 @@ Details(id: string): void {
     this.depart=data.date_time_Depart;
     this.nbplaces=data.nbrePlacesDisponibles;
     this.pricePlace=data.priceTransferForPerson;
-    this.etat=data.etat;
+    this.etat=data.etatTransfer;
     this.note=data.note;
     this.extra=data.extra;
     this.status=data.status;
@@ -274,8 +292,16 @@ Details(id: string): void {
     const arrival = new Date(this.arrive);
    if (arrival < currentDate)
     {this.isExpired==true;
-      this.etat='Not Available'
-      this
+      const updatedUpdateData ={etatTransfer:'Not Available'};
+
+      this.shareService.updateTransfer(this.TransferId, updatedUpdateData).subscribe(
+        () => {
+         
+          this.message='Transfer Updated!'
+    
+        },)
+    //  this.etat='Not Available'
+    
     }
    else{this.isExpired==false;
     this.etat=data.etatTransfer;
@@ -292,41 +318,89 @@ Details(id: string): void {
 
 
 
-shareTransfer(id: string): void {
-  const confirmation = window.confirm('Vous voulez partager ce transfert ?');
-  if (confirmation) {
-    this.shareService.getById(id).subscribe(
-      (data: any) => {
-        this.transfer = data;
-        const shareTime = new Date().toISOString();
+// shareTransfer(id: string): void {
+//   const confirmation = window.confirm('Vous voulez partager ce transfert ?');
+//   if (confirmation) {
+//     this.shareService.getById(id).subscribe(
+//       (data: any) => {
+//         this.transfer = data;
+//         const shareTime = new Date().toISOString();
   
-           this.shareService.logo = data.agency.logo; 
-            this.shareService.agencyName = data.agency.logo; 
-            data.dateCreation = shareTime;
-            this.shareService.setTransferData(this.transfer); 
-            this.agentLayoutService.addTransfer(this.transfer); 
-            // Ajout du transfert partagé dans le localStorage
-            const sharedTransfersData = localStorage.getItem('sharedTransfers');
-            const sharedTransfers = sharedTransfersData ? JSON.parse(sharedTransfersData) : [];
-          //  this.transfer.shareTime = shareTime; 
-            sharedTransfers.push(this.transfer); 
+//            this.shareService.logo = data.agency.logo; 
+//             this.shareService.agencyName = data.agency.logo; 
+//             data.dateCreation = shareTime;
+//             this.shareService.setTransferData(this.transfer); 
+//             this.agentLayoutService.addTransfer(this.transfer); 
+//             // Ajout du transfert partagé dans le localStorage
+//             const sharedTransfersData = localStorage.getItem('sharedTransfers');
+//             const sharedTransfers = sharedTransfersData ? JSON.parse(sharedTransfersData) : [];
+//           //  this.transfer.shareTime = shareTime; 
+//             sharedTransfers.push(this.transfer); 
        
-            localStorage.setItem('sharedTransfers', JSON.stringify(sharedTransfers));
+//             localStorage.setItem('sharedTransfers', JSON.stringify(sharedTransfers));
 
-            this.router.navigate(['/agent-layout/profile']);
-          },
-          (error) => {
-            console.error('Erreur lors de la récupération du token de l\'agence :', error);
-          }
-        );
+//             this.router.navigate(['/agent-layout/profile']);
+//           },
+//           (error) => {
+//             console.error('Erreur lors de la récupération du token de l\'agence :', error);
+//           }
+//         );
       
      
    
-  }
+//   }
+// }
+
+
+shareTransfer(id: string): void {
+  this.shareService.getById(id).subscribe(
+    (data: any) => {
+      this.transfer = data;
+     if(data.isShared === true)
+      {
+        const isSharedAlready = window.confirm('This Transfer Is Already Shared !');
+  if (isSharedAlready) {
+    this.isShared=true;
+      }
+    } else 
+    { const confirmation = window.confirm('Vous voulez partager ce transfert ?');
+    if (confirmation) {
+      this.shareService.getById(id).subscribe(
+        (data: any) => {
+          this.transfer = data;
+          this.TransferId=data.id;
+          const pdateTransfer = 
+          {isShared :true,
+            dateShare:new Date().toISOString()
+          }
+  
+          this.shareService.updateTransfer(this.TransferId, pdateTransfer).subscribe(
+            () => {
+             
+              this.message='Transfer Updated!'
+        
+            },)
+  
+  
+  
+  
+          const shareTime = new Date().toISOString();
+    
+      
+  
+              this.router.navigate(['/agent-layout/profile']);
+            },
+            (error) => {
+              console.error('Erreur lors de la récupération du token de l\'agence :', error);
+            }
+          );
+        
+       
+     
+    }}
+      });
+ 
 }
-
-
-
 
 
 }

@@ -73,6 +73,11 @@ const routes: Routes = [
            import('./layouts/agent-layout/views/payment/payment.module').then((m) => m.PaymentModule)
        },
        {
+        path: 'discussion',
+         loadChildren: () =>
+           import('./layouts/agent-layout/views/chat/chat.module').then((m) => m.ChatModule)
+       },
+       {
         path: 'customers',
          loadChildren: () =>
            import('./layouts/agent-layout/views/users/customers/customers.module').then((m) => m.CustomersModule)
@@ -87,6 +92,8 @@ const routes: Routes = [
          loadChildren: () =>
            import('./layouts/agent-layout/views/users/agents/agents.module').then((m) => m.AgentsModule)
        },
+ 
+    
     
     ]
   },
@@ -148,7 +155,7 @@ const routes: Routes = [
          loadChildren: () =>
            import('./layouts/super-agent-layout/views/users/agents/agents.module').then((m) => m.AgentsModule)
        },
-    
+
     ]
   },
 
