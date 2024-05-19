@@ -180,7 +180,8 @@ console.log(this.notif.validate);
          date_time:this.notif.date_time,
          notifAccept:false,
          notifRefus:true,
-         validate:false
+         transferId:this.notif.transferId,
+       
    
        };
      

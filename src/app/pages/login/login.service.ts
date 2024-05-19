@@ -51,7 +51,7 @@ export class LoginService {
     
     if (token) {
       const decodedToken: any = jwtDecode(token);
-      console.log(decodedToken); // Affiche le contenu du token décodé
+    //  console.log(decodedToken); // Affiche le contenu du token décodé
     
     //  Exemple d'accès aux données de l'utilisateur
        this.userId = decodedToken.id;
@@ -61,7 +61,7 @@ export class LoginService {
   
    
     }
-
+//console.log(this.userId);
     return this.http.get<any>(`http://localhost:3000/auth/${this.userId}`);
 
 

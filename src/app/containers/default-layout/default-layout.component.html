@@ -1,4 +1,4 @@
-<c-sidebar *ngIf="currentUrl !== '/agent-layout/profile' && currentUrl !== '/agent-layout/needs-transfer'"
+<c-sidebar *ngIf="currentUrl !== '/agent-layout/profile' && currentUrl !== '/agent-layout/needs-transfer' &&   !currentUrl.startsWith('/agent-layout/agencyProfile/')  " 
   #sidebar="cSidebar"
   class="d-print-none sidebar sidebar-fixed"
   id="sidebar"
@@ -30,7 +30,7 @@
 <div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
   <!--app-header-->
 
-  <app-default-header *ngIf="currentUrl !== '/agent-layout/profile' && currentUrl !== '/agent-layout/needs-transfer' " class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar" />
+  <app-default-header *ngIf="currentUrl !== '/agent-layout/profile' && currentUrl !== '/agent-layout/needs-transfer' &&  !currentUrl.startsWith('/agent-layout/agencyProfile/') " class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar" />
 
 
   <!-- <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar" /> -->

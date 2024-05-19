@@ -1,248 +1,355 @@
 <body class="container">
 
-   <div class="d-flex justify-content-end mb-3">
-   <!-- Button trigger modal -->
+  <div class="d-flex justify-content-end mb-3">
+  <!-- Button trigger modal -->
 <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#exampleModal">
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
-        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-      </svg>
-  </button>
-    </div>
-  
-    <table  class="table table-striped">
-        <thead class="table-light" ctablecolor="light">
+   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+       <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+     </svg>
+ </button>
+   </div>
+ 
+   <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+       <thead class="table-light" ctablecolor="light">
+         
+         <tr>
           
-          <tr>
-           
-            <th scope="col" >Name</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Date Start</th>
-            <th scope="col">Date End</th>
-            <th scope="col">Numbre of Passengers</th>
-            <th scope="col">Price</th>
-            <th scope="col">Date Mission</th>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let mission of missions">
-            <td>{{mission.name}}</td>
-            <td>{{mission.from}}</td>
-            <td>{{mission.to}}</td>
-            <td>{{mission.date_time_start | date:'MMM d, y' }}</td>
-            <td>{{ mission.date_time_end | date:'MMM d, y' }}
-            </td>
-            <td style="text-align: center;" ><span>{{mission.nbrPassengers}}</span></td>
-            <td>{{mission.totalPrice}}</td>
-            <td>{{mission.dateMission | date:'MMM d, y' }}</td>
-            <td>
-                <span *ngIf="mission.status == 'Actif'" class="badge bg-success">{{mission.status}}</span>
-                <span *ngIf="mission.status == 'Inactif'" class="badge bg-secondary">{{mission.status}}</span>
-                <span *ngIf="mission.status == 'Blocked'" class="badge bg-dark">{{mission.status}}</span>
-                <span *ngIf="mission.status == 'Expired'" class="badge bg-danger">{{mission.status}}</span>
-            </td>
-            <td>
-                <div class="btn-group">
-                  <button class="btn btn-outline-secondary" (click)="openUpdate(mission.id)" type="submit" data-bs-toggle="modal" data-bs-target="#ModalUpdate">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                      <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                      <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                    </svg>
-                  </button>
-                      <button class="btn btn-outline-secondary"  (click)=" deleteMission(mission.id)"  type="submit"> 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                          </svg>
-                
-                    </button>
-                </div>
-                               
-                                     
-                
-                            </td>
-            </tr>
-          
-        </tbody>
-      </table>
+           <th scope="col" >Name</th>
+           <th scope="col">From</th>
+           <th scope="col">To</th>
+           <th scope="col">Date Start</th>
+           <th scope="col">Date End</th>
+           <th scope="col">Numbre of Passengers</th>
+           <th scope="col">Price</th>
+           <th scope="col">Avaibility</th>
+           <!-- <th scope="col">Status</th> -->
+           <th scope="col">Action</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr *ngFor="let mission of missions">
+           <td>{{mission.name}}</td>
+           <td>{{mission.from}}</td>
+           <td>{{mission.to}}</td>
+           <td>{{mission.date_time_start | date:'MMM d, y' }}</td>
+           <td>{{ mission.date_time_end | date:'MMM d, y' }}
+           </td>
+           <td style="text-align: center;" ><span>{{mission.nbrPassengers}}</span></td>
+           <td>{{mission.totalPrice}}</td>
+           <td> <span *ngIf="mission.etatMission == 'Available'" class="badge bg-success" >{{mission.etatMission}}</span>
+             <span *ngIf="mission.etatMission == 'Not Available'" class="badge bg-warning">{{mission.etatMission}}</span>
+           </td>
+           <!-- <td>
+               <span *ngIf="mission.status == 'Actif'" class="badge bg-success">{{mission.status}}</span>
+               <span *ngIf="mission.status == 'Inactif'" class="badge bg-secondary">{{mission.status}}</span>
+               <span *ngIf="mission.status == 'Blocked'" class="badge bg-dark">{{mission.status}}</span>
+               <span *ngIf="mission.status == 'Expired'" class="badge bg-danger">{{mission.status}}</span>
+           </td> -->
+           <td>
+               <div class="btn-group">
+                 <button class="btn btn-outline-secondary"  (click)=" details(mission.id)"  type="submit" data-bs-toggle="modal" data-bs-target="#ModalDetails">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                     <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"/>
+                     <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
+                   </svg>
+                 </button>
+
+                 <button class="btn btn-outline-secondary" (click)=" shareMission(mission.id)"   type="submit"  [disabled]="mission.isShared" > 
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                     <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/>
+                   </svg>
+               </button> </div>
+               <div class="btn-group">
 
 
-
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" >
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Mission</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form [formGroup]="myFormMission" (ngSubmit)="onSubmit()"  >
-     
-                <c-col [md]="6">
-                  <label cLabel for="validationCustom01">Name :</label>
-                  <input cFormControl id="validationCustom01" formControlName="name"   type="text" />
-                </c-col>
-                <c-col [md]="6">
-                    <label cLabel for="validationCustom01">From :</label>
-                    <select cSelect id="validationCustom04" formControlName="from">
-                        <option value="">Ville...</option>
-                        <option *ngFor="let ville of villes" >{{ville.name}}</option>
-                      </select>
-                  </c-col>
-                  <c-col [md]="6">
-                    <label cLabel for="validationCustom01">To :</label>
-                    <select cSelect id="validationCustom04" formControlName="to">
-                        <option value="">Ville...</option>
-                        <option *ngFor="let ville of villes" >{{ville.name}}</option>
-                      </select>
-                  </c-col>
-                  <c-col [md]="6">
-                    <label cLabel for="validationCustom01">Date Start :</label>
-                    <input cFormControl id="validationCustom01" formControlName="date_time_start"  type="datetime-local"  />
-                  </c-col>
-                  <c-col [md]="6">
-                    <label cLabel for="validationCustom01">Date End :</label>
-                    <input cFormControl id="validationCustom01" formControlName="date_time_end"  type="datetime-local" />
-                  </c-col>
-                  <c-col [md]="6">
-                    <label cLabel for="validationCustom01">Number of Passenger :</label>
-                    <input cFormControl id="validationCustom01" formControlName="nbrPassengers"  type="number" />
-                  </c-col>
-                  <c-col [md]="6">
-                    <label cLabel for="validationCustom01">Price :</label>
-                    <input cFormControl id="validationCustom01" formControlName="totalPrice"  type="number" />
-                  </c-col>
-                  <c-col [md]="6">
-                    <label cLabel for="validationCustom01">Date Mission :</label>
-                    <input cFormControl id="validationCustom01" formControlName="dateMission"  type="datetime-local" />
-                  </c-col>
-                  <c-col [md]="6">
-                    <label cLabel for="validationCustom04">Status</label>
-                    <select cSelect id="validationCustom04" formControlName="status" >
-                      <option value="">Status...</option>
-                      <option>Actif</option>
-                      <option>Inactif</option>
-                      <option>Expired</option>
-                      <option>Blocked</option>
-                    </select>
+                 <button class="btn btn-outline-secondary" (click)="openUpdate(mission.id)" type="submit" data-bs-toggle="modal" data-bs-target="#ModalUpdate">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                   </svg>
+                 </button>
+                     <button class="btn btn-outline-secondary"  (click)=" deleteMission(mission.id)"  type="submit"> 
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                           <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                         </svg>
+               
+                   </button>
+                 </div>
               
-                  </c-col>
-              
-            
-              
-              
-              <br>
-                <c-col >
-                  <button class="btn btn-success"  type="submit" [disabled]="myFormMission.invalid">
-                    Submit form
-                  </button> &nbsp;
-                  <button  class="btn btn-secondary" type="reset">
-                    Reset
-                  </button>
-                </c-col>
-              </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-<!-- Modal To Update-->
-<div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Mission !</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-
-        <form [formGroup]="FormUpdateMission" (ngSubmit)="updateMission()"  >
-     
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Name :</label>
-            <input cFormControl id="validationCustom01" formControlName="name"   type="text" />
-          </c-col>
-          <c-col [md]="6">
-              <label cLabel for="validationCustom01">From :</label>
-              <select cSelect id="validationCustom04" formControlName="from">
-                  <option value="">Ville...</option>
-                  <option *ngFor="let ville of villes" >{{ville.name}}</option>
-                </select>
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom01">To :</label>
-              <select cSelect id="validationCustom04" formControlName="to">
-                  <option value="">Ville...</option>
-                  <option *ngFor="let ville of villes" >{{ville.name}}</option>
-                </select>
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom01">Date Start :</label>
-              <input cFormControl id="validationCustom01" formControlName="date_time_start"  type="datetime-local"  />
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom01">Date End :</label>
-              <input cFormControl id="validationCustom01" formControlName="date_time_end"  type="datetime-local" />
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom01">Number of Passenger :</label>
-              <input cFormControl id="validationCustom01" formControlName="nbrPassengers"  type="number" />
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom01">Price :</label>
-              <input cFormControl id="validationCustom01" formControlName="totalPrice"  type="number" />
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom01">Date Mission :</label>
-              <input cFormControl id="validationCustom01" formControlName="dateMission"  type="datetime-local" />
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom04">Status</label>
-              <select cSelect id="validationCustom04" formControlName="status" >
-                <option value="">Status...</option>
-                <option>Actif</option>
-                <option>Inactif</option>
-                <option>Expired</option>
-                <option>Blocked</option>
-              </select>
-        
-            </c-col>
-        
-      
-        
-        
-        <br>
-          <c-col >
-            <button class="btn btn-success"  type="submit" [disabled]="FormUpdateMission.invalid">
-           Validate
-            </button> &nbsp;
-            <button  class="btn btn-secondary" type="reset">
-              Reset
-            </button>
-          </c-col>
-        </form>
+                              
+                                    
+               
+                           </td>
+           </tr>
+         
+       </tbody>
+     </table>
 
 
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+ 
+ <!-- Modal -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+     <div class="modal-content" >
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Mission</h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+           <form [formGroup]="myFormMission" (ngSubmit)="onSubmit()"  >
     
-      </div>
-    </div>
-  </div>
+<div class="row">
+ <div class="col">  <label cLabel for="validationCustom01">Name :</label>
+   <input cFormControl id="validationCustom01" formControlName="name"   type="text" /></div>
+ <div class="col">
+   <label cLabel for="validationCustom01">Date Mission :</label>
+   <input cFormControl id="validationCustom01" formControlName="dateMission"  type="datetime-local" />
+ </div>
+</div>
+<div class="row">
+ <div class="col">
+   <label cLabel for="validationCustom01">From :</label>
+   <select cSelect id="validationCustom04" formControlName="from">
+       <option value="">Ville...</option>
+       <option *ngFor="let ville of villes" >{{ville.name}}</option>
+     </select>
+ </div>
+ <div class="col">
+   <label cLabel for="validationCustom01">To :</label>
+   <select cSelect id="validationCustom04" formControlName="to">
+       <option value="">Ville...</option>
+       <option *ngFor="let ville of villes" >{{ville.name}}</option>
+     </select>
+ </div>
+</div>
+<div class="row">
+ <div class="col">
+   <label cLabel for="validationCustom01">Bus :</label>
+   <select cSelect id="validationCustom04"   formControlName="busId"  >
+       <option *ngFor="let bus of buses" [value]="bus.id" >
+           {{ bus.marque }} 
+       </option>
+   </select>
+ </div>
+
+ <div class="col">
+   <label cLabel for="validationCustom01">Transfers :</label>
+   <select cSelect id="validationCustom04" formControlName="transfers" multiple>
+       <option *ngFor="let transfer of transfers" [value]="transfer.id">
+           {{ transfer.name }} - From: {{ transfer.from }} - To: {{ transfer.to }}
+       </option>
+   </select> 
+ </div>
+</div>
+<div class="row">
+ <div class="col">    <label cLabel for="validationCustom01">Driver :</label>
+   <select cSelect id="validationCustom04" formControlName="driverId"  >
+   
+       <option *ngFor="let driver of drivers" [value]="driver.id" >
+           {{ driver.firstname }}  {{ driver.lastname }} 
+       </option>
+   </select></div>
+ <div class="col">
+   <label cLabel for="validationCustom01">Number of Passenger :</label>
+   <input cFormControl id="validationCustom01" formControlName="nbrPassengers"  type="number" />
+ </div>
+</div>
+<div class="row">
+ <div class="col">     <label cLabel for="validationCustom01">Date Start :</label>
+   <input cFormControl id="validationCustom01" formControlName="date_time_start"  type="datetime-local"  /></div>
+ <div class="col"><label cLabel for="validationCustom01">Date End :</label>
+   <input cFormControl id="validationCustom01" formControlName="date_time_end"  type="datetime-local" /></div>
+</div>
+<div class="row">
+ <div class="col">
+   <label cLabel for="validationCustom01">Price :</label>
+   <input cFormControl id="validationCustom01" formControlName="totalPrice"  type="number" />
+ </div>
+
 </div>
 
 
+    
+              
+             
+           
+                 <div *ngIf="message" class="alert alert-success" role="alert">{{message}}</div>
+             
+             <br>
+               <c-col >
+                 <button class="btn btn-success"  type="submit" [disabled]="myFormMission.invalid">
+                   Submit form
+                 </button> &nbsp;
+                 <button  class="btn btn-secondary" type="reset">
+                   Reset
+                 </button>
+               </c-col>
+             </form>
+             <div *ngIf="isCreated" class="alert alert-success" : class="alert alert-danger"  role="alert">
+               {{message}}</div>
+       </div>
+     </div>
+   </div>
+ </div>
+ 
+<!-- Modal To Update-->
+<div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel">Update Mission !</h5>
+       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     </div>
+     <div class="modal-body">
+       
 
+       <form [formGroup]="FormUpdateMission" (ngSubmit)="updateMission()"  >
+    
+         <c-col [md]="6">
+           <label cLabel for="validationCustom01">Name :</label>
+           <input cFormControl id="validationCustom01" formControlName="name"   type="text" />
+         </c-col>
+         <c-col [md]="6">
+             <label cLabel for="validationCustom01">From :</label>
+             <select cSelect id="validationCustom04" formControlName="from">
+                 <option value="">Ville...</option>
+                 <option *ngFor="let ville of villes" >{{ville.name}}</option>
+               </select>
+           </c-col>
+           <c-col [md]="6">
+             <label cLabel for="validationCustom01">To :</label>
+             <select cSelect id="validationCustom04" formControlName="to">
+                 <option value="">Ville...</option>
+                 <option *ngFor="let ville of villes" >{{ville.name}}</option>
+               </select>
+           </c-col>
+           <c-col [md]="12">
+             <label cLabel for="validationCustom01">Transfers :</label>
+             <select cSelect id="validationCustom04" formControlName="transfers" multiple>
+                 <option *ngFor="let transfer of transfers" [value]="transfer.id" >
+                     {{ transfer.name }} - From: {{ transfer.from }} - To: {{ transfer.to }} 
+                 </option>
+             </select>
+         </c-col>
+         <c-col [md]="12">
+           <label cLabel for="validationCustom01">Bus :</label>
+           <select cSelect id="validationCustom04" formControlName="busId" multiple>
+               <option *ngFor="let bus of buses" [value]="bus.id" >
+                   {{ bus.marque }} 
+               </option>
+           </select>
+       </c-col>
+       <c-col [md]="12">
+         <label cLabel for="validationCustom01">Driver :</label>
+         <select cSelect id="validationCustom04" formControlName="driverId" multiple>
+             <option *ngFor="let driver of drivers" [value]="driver.id" >
+                 {{ driver.firstname }}  {{ driver.lastname }} 
+             </option>
+         </select>
+     </c-col>
+       <c-col [md]="6">
+         <label cLabel for="validationCustom01">Etat  :</label>
+         <select cSelect id="validationCustom04" formControlName="etatMission">
+          
+           <option>Available</option>
+           <option>Not Available</option>
+         </select>
+       </c-col>
+           <c-col [md]="6">
+             <label cLabel for="validationCustom01">Date Start :</label>
+             <input cFormControl id="validationCustom01" formControlName="date_time_start"  type="datetime-local"  />
+           </c-col>
+           <c-col [md]="6">
+             <label cLabel for="validationCustom01">Date End :</label>
+             <input cFormControl id="validationCustom01" formControlName="date_time_end"  type="datetime-local" />
+           </c-col>
+           <c-col [md]="6">
+             <label cLabel for="validationCustom01">Number of Passenger :</label>
+             <input cFormControl id="validationCustom01" formControlName="nbrPassengers"  type="number" />
+           </c-col>
+           <c-col [md]="6">
+             <label cLabel for="validationCustom01">Price :</label>
+             <input cFormControl id="validationCustom01" formControlName="totalPrice"  type="number" />
+           </c-col>
+           <c-col [md]="6">
+             <label cLabel for="validationCustom01">Date Mission :</label>
+             <input cFormControl id="validationCustom01" formControlName="dateMission"  type="datetime-local" />
+           </c-col>
+           <c-col [md]="6">
+             <label cLabel for="validationCustom04">Status</label>
+             <select cSelect id="validationCustom04" formControlName="status" >
+               <option value="">Status...</option>
+               <option>Actif</option>
+               <option>Inactif</option>
+               <option>Expired</option>
+               <option>Blocked</option>
+             </select>
+       
+           </c-col>
+       
+     
+       
+       
+       <br>
+         <c-col >
+           <button class="btn btn-success"  type="submit" [disabled]="FormUpdateMission.invalid">
+          Validate
+           </button> &nbsp;
+           <button  class="btn btn-secondary" type="reset">
+             Reset
+           </button>
+         </c-col>
+       </form>
+
+
+
+     </div>
+ 
+   </div>
+ </div>
+</div>
+
+<!-- Modal Details -->
+<div class="modal fade" id="ModalDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-lg">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel">Details {{name}}</h5>
+       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     </div>
+     <div class="modal-body">
+       <div class="card w-100">
+         <div class="card-body">
+           
+           <p class="card-text">
+            <table class="table">
+               <tbody>
+             
+                  <tr><th scope="row"> From :</th>  <td> {{from}}</td> </tr>
+                  <tr><th scope="row"> To :</th>  <td> {{to}}</td> </tr>
+                  <tr><th scope="row">  Date Depart :</th>  <td>  {{dateMission | date}}      At: {{dateMission |date:'HH:mm'}}</td> </tr>
+                  <tr><th scope="row">  Available Place :</th>  <td> {{nbPlaces}}</td> </tr>
+                  <tr><th scope="row">  Price of Place :</th>  <td> {{price}}</td> </tr>
+                  <tr><th scope="row">  Transfers : </th>  <td><div *ngFor="let transfer of transfersMission">
+                   From : {{transfer.from}} To : {{transfer.to}}
+                    </div></td> </tr>
+              
+                  </tbody>
+            </table>
+            <div> <small> Created By  : </small>  <br> <c-avatar  src={{avatar}}></c-avatar> {{firstName}} {{lastName}}  <br> <div style="text-align: right;">  On {{dateCreation | date}} at {{dateCreation | date : 'HH:mm'}} </div></div>
+         </div>
+       </div>
+       
       
-  </body>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+     </div>
+   </div>
+ </div>
+</div>
+
+     
+ </body>

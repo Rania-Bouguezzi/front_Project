@@ -3,61 +3,30 @@
          <div id="content" class="content content-full-width">
          
             <!-- begin profile -->
-            <div class="profile">
-               <div class="profile-header">
-                  <!-- BEGIN profile-header-cover -->
-                  <div class="profile-header-cover"> 
-                      </div>
-                  <!-- END profile-header-cover -->
-                  <!-- BEGIN profile-header-content -->
-                  <div class="profile-header-content">
-                     <!-- BEGIN profile-header-img -->
-                     <div class="profile-header-img">
-                        <img src={{picture}} alt="" >
-                     </div>
-                  
-                     <!-- END profile-header-img -->
-                     <!-- BEGIN profile-header-info -->
-                     <div class="profile-header-info">
-                        <h5 class="m-b-10">{{firstname}} {{lastname}} </h5> 
-                          <h6>{{email}}
-                        </h6>
-                       
-                        <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
-                     </div>
-                     <!-- END profile-header-info -->
-                  </div>
-                  <!-- END profile-header-content -->
-                  
-                  <!-- BEGIN profile-header-tab -->
-                  <ul class="profile-header-tab nav nav-tabs">
-                     <li class="nav-item"><a href="#/agent-layout/dashboard"  class="nav-link_">DASHBOARD</a></li>
-                     <li class="nav-item"><a href="#/agent-layout/profile"  class="nav-link_ active show">AVAILBALE TRANSFERS</a></li>
-                     <li class="nav-item"><a href="#/agent-layout/needs-transfer"  >NEEDS TRANSFERS</a></li>
-                  </ul>
-                  <!-- END profile-header-tab -->
-               </div>
-            </div>
+          
             <!-- end profile -->
             <!-- begin profile-content -->
             <div class="profile-content" >
                <!-- begin tab-content -->
                <div class="tab-content p-0" >
-                  <div class="row justify-content-center">
+                  <div class="row justify-content-md-end">
                      <div class="col-md-6" >
-                       <div class="input-group">
-                         <input type="text"[(ngModel)]="searchTermDepart" (keyup)="onSearchDepart($event)" class="form-control" placeholder="search by depart">
+                        <div class="row"><div class="col">
+                           <div class="input-icons">
+                              <i class="fa fa-search icon"></i> 
+                               <input type="text"[(ngModel)]="searchTermDepart" class="form-control input-field custom-input" (keyup)="onSearchDepartByTransfers($event)"   placeholder="search by depart ...">
+      </div>
+                        </div> 
+                        <div class="col">
+                           <div class="input-icons">
+                              <i class="fa fa-search icon"></i>   
+               <input type="text" [(ngModel)]="searchTermDestination" class="form-control input-field custom-input" (keyup)="onSearchDestination($event)"  placeholder="search by destination ..."   > 
+               <!-- <input type="date" [(ngModel)]="searchTermDate" class="custom-input" (keyup)="onSearchDate($event)" class="form-control custom-input" placeholder="search by date ..."  > -->
+             </div>
+                        </div>  </div>
+                       
+                
 
-                       <button (click)="searchTransferByDepart(searchTermDepart)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-      </svg></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   <input type="text"[(ngModel)]="searchTermDestination" (keyup)="onSearchDestination($event)" class="form-control" placeholder="search by destination">
- <button (click)="searchTransferByDestination(searchTermDestination)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-    </svg></button> 
- 
-    
- </div>
 
                  </div> 
               
@@ -66,11 +35,11 @@
                      <!-- begin timeline -->
                      <ul class="timeline">
                         
-                        <li *ngFor="let transfer of transfers"   >
+                        <li *ngFor="let mission of missions"   >
                            <!-- begin timeline-time -->
                            <div class="timeline-time">
-                              <span class="date">{{  transfer.dateShare | date }}    </span>
-                              <span class="time">{{ transfer.dateShare  | date:'HH:mm' }}</span>
+                              <span class="date">{{  mission.dateShare | date }}    </span>
+                              <span class="time">{{ mission.dateShare  | date:'HH:mm' }}</span>
                            </div>
                            <!-- end timeline-time -->
                            <!-- begin timeline-icon -->
@@ -81,41 +50,98 @@
                            <!-- begin timeline-body -->
                            <div class="timeline-body">
                               <div class="timeline-header">
-                           
+                                 <a  href="#/agent-layout/agencyProfile/{{ mission.agent.agency.id }}" style="text-decoration: none;" (click)="agencyProfile(mission.agent.agency.id)">
                                     <div class="avatar avatar-lg "  >
-                                       <img src={{transfer.agency.logo}}/>
+                                      
+                                       <img src={{mission.agent.agency.logo}} />
                                     </div>
-                                 <span class="username"> &nbsp; {{transfer.agency.name}} <small></small></span>
-                             
-                                 <button type="button"  class="btn-close float-end" *ngIf="agencyId==transfer.agency.id" data-bs-dismiss="modal" (click)="deleteTransfer(transfer.id)" aria-label="Close"></button>
+                                 <span class="username"> &nbsp; {{mission.agent.agency.name}} <small></small></span>
+                              </a>
+                                 <button type="button" (click)="deleteMission(mission.id)"  class="btn-close float-end"  *ngIf="agencyId==mission.agent.agency.id" data-bs-dismiss="modal"  aria-label="Close"></button>
                             
-                         </div> 
+                            </div> 
                               <div class="timeline-content">
                                  <!-- <button (click)="deleteTransfer(transfer.id)">Supprimer</button> -->
                                  <p>
-                                    My transfer is from <B> {{transfer.from}} </B> to <B> {{transfer.to}} </B>, departing on <B> {{transfer.date_time_Depart |  date}}  </B> at <B>{{ transfer.date_time_Depart | date:'HH:mm' }}</B> and arriving on <B> {{transfer.date_time_Arrive |  date}} </B>  at <B>{{ transfer.date_time_Arrive | date:'HH:mm' }}</B>. 
-                                    There are <B>{{transfer.nbrePlacesDisponibles}}</B> available seats, priced at <B> ${{transfer.priceTransferForPerson}} </B> per person <span *ngIf="transfer.extra !== 0"> with an <B>extra </B> &nbsp;  <span class="badge bg-success">{{transfer.extra}} $</span></span> .
-                                 
+                                    My Mission is from <B> {{mission.from}} </B> to <B> {{mission.to}} </B>, departing on <B> {{mission.date_time_start |  date}}  </B> at <B>{{ mission.date_time_start | date:'HH:mm' }}</B> and arriving on <B> {{mission.date_time_end |  date}} </B>  at <B>{{ mission.date_time_end | date:'HH:mm' }}</B>. 
+                                    There are <B>{{mission.nbrPassengers}}</B> available seats, priced at <B> ${{mission.totalPrice}} </B> per person  .
+                                    <table class="table">
+                                       <tbody>
+                                          <tr *ngFor="let transfer of mission.transfers">
+                                             <td> from : <B>{{transfer.from}} </B> to :  <B>{{transfer.to}} </B>  </td>
+                                             <td> <span *ngIf="transfer.etatTransfer==='Available'" class="badge bg-success" >{{transfer.etatTransfer}}</span> 
+                                                <span *ngIf="transfer.etatTransfer === 'Not Available'" class="badge bg-warning">{{ transfer.etatTransfer }}</span></td>  
+                                          <td>       <button   class="btn btn-outline position-relative" style="color: rgb(88, 89, 90);" data-bs-toggle="modal" (click)="detailsTransfer(transfer.id)" data-bs-target="#exampleModal"> <small style="font-size: 12px;"> Details </small> </button></td>
+                                          </tr>
+                                       </tbody>
+                                       </table>
+                                       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                          <button   class="btn btn-outline position-relative" style="color: rgb(5, 61, 117);" (click)="detailsMission(mission.id)" data-bs-toggle="modal" data-bs-target="#modalMission"><small  style="font-size: 15px;">Details</small> </button>
+                                       </div>
                               </div>
-                              <div class="timeline-likes">
-                                 <div class="stats-right">
-                                    <!-- <span class="stats-text">259 Shares</span>
-                                    <span class="stats-text">21 Comments</span> -->
-                                 </div>
                              
-                                    
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button  class="btn btn-info btn-sm" style="color: white;" data-bs-toggle="modal" (click)="details(transfer.id)" data-bs-target="#exampleModal">View</button></div>
+                                
+                              
+                                 <div class="timeline-likes">
+                                 <div class="timeline-footer">
+                                    <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+                                    <a href="javascript:;" class="m-r-15 text-inverse-lighter" (click)="showDivComment(mission.id)"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
+                                 </div> 
+                                 
+                                 <!-- Comments -->
+                                 <div *ngIf="selectedMissionId === mission.id && showComments" class="card-footer py-3 border-0" >
+                                    <div class="d-flex flex-start">
+                                      <c-avatar src={{picture}} ></c-avatar> &nbsp;
+                                      <div data-mdb-input-init class="form-outline w-100">
+                                       <form [formGroup]="myFormComment" (ngSubmit)="comment(mission.id)">
+                                       <div class="input-group">
+                                        
+                                          <textarea class="form-control test-input" placeholder="Leave a comment here ..." id="floatingTextarea" formControlName="text" style="height: 30px;"></textarea>
+                                          <button  type="submit" class="btn btn-outline-secondary" >  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+                                          </svg></button>
+                                      
+                                       </div>
+                                    </form>
+                                       </div>
+                                      <!-- <button (click)="getFeedbacks(mission.id)" > view</button> -->
+                                    </div>
+                                    <ul class="media-list">
+                                       <div class="media scrollable-container" *ngFor="let feedback of feedbacks" >
+                                       <a href="#" class="pull-left">
+                                       <c-avatar size="small" src={{feedback.agent.picture}} ></c-avatar>
+                                       </a>
+                                       <div class="media-body">
+                                          <span class="text-muted float-end">
+                                             <small>&nbsp;&nbsp; {{feedback.dateCreation | date}} {{feedback.dateCreation | date: 'HH:mm'}} </small>
+                                          </span>
+                                          <strong>{{feedback.agent.firstname}} {{feedback.agent.lastname}}</strong>
+                                          <p style="font-weight: normal;"> <!-- Style en ligne pour le texte non en gras -->
+                                            {{feedback.text}}
+                                          </p>
+                                        </div>
+                                        
+                                           </div> 
+                                       </ul>
+                                  </div>
+                                       <!--Fin Comments -->
+
+
+
+
                                  </div>
-                           
+                                 
+                       
                           
                             
                            </div>
                            <!-- end timeline-body -->
                   
-                 
+                       
                          
-</li></ul>
+</li>
+
+</ul>
 
 
     <div class="fixed-bottom text-end"  style="margin-right: 40px; margin-bottom: 80px;">
@@ -232,6 +258,50 @@
 
        </div>
       
+     </div>
+   </div>
+ </div>
+
+
+
+ <!-- Modal Mission -->
+<div class="modal fade" id="modalMission" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+     <div class="modal-content">
+      <div class="modal-header">
+         <div class="modal-title" id="exampleModalLabel"><c-avatar size="xl" src= {{logo}}></c-avatar> <span class="username"> <B> {{agencyNameDetails}}</B></span></div>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+         
+         <div class="card w-100">
+            <div class="card-body">
+              
+     
+               <table class="table">
+                  <tbody>
+                     <tr><th scope="row"> From :</th>  <td> {{fromMission}}</td> </tr>
+                     <tr><th scope="row"> To :</th>  <td> {{toMission}}</td> </tr>
+                     <tr><th scope="row">  Date Depart :</th>  <td>  {{dateMission | date}}      At: {{dateMission |date:'HH:mm'}}</td> </tr>
+                     <tr><th scope="row">  Transfers : </th>  <td><div *ngFor="let transfer of transfersMission">
+                     <small>  From : {{transfer.from}} To : {{transfer.to}}  &nbsp;&nbsp;
+                        <span *ngIf="transfer.etatTransfer==='Available'" class="badge bg-success" >{{transfer.etatTransfer}}</span> 
+                           <span *ngIf="transfer.etatTransfer === 'Not Available'" class="badge bg-warning">{{ transfer.etatTransfer }}</span> </small>    </div></td>  
+                         </tr>
+                   
+                     <tr><th scope="row">  Availability :</th>  <td> <span *ngIf="etatMission==='Available'" class="badge bg-success" >{{etatMission}}</span> 
+                        <span *ngIf="etatMission === 'Not Available'" class="badge bg-warning">{{ etatMission }}</span></td> </tr>
+                     
+                     </tbody>
+               </table>
+               <div *ngIf="sendMessageBool" class="alert alert-success" role="alert">{{sendMessage}}</div>
+            </div>
+          </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+       </div>
      </div>
    </div>
  </div>

@@ -47,6 +47,7 @@ export class BusesComponent implements OnInit {
   dtTrigger:Subject<any>=new Subject<any>();
   marque:string='';
   puissance:string='';
+  matricule:string='';
   place:string='';
   status:string='';
   picture:string='';
@@ -196,6 +197,7 @@ Details(id: string): void {
    this.place=data.nbrePlaces;
    this.status=data.status;
    this.picture=data.picture;
+   this.matricule= data.matricule;
   this.firstName =data.super_agent.firstname;
   this.lastName=data.super_agent.lastname;
   this.avatar=data.super_agent.picture;

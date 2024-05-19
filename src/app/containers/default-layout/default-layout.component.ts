@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 
 import { navItems } from './_nav';
 import { NavigationEnd, Router } from '@angular/router';
-import { DashboardService } from 'src/app/layouts/agent-layout/views/dashboard/dashboard.service';
 import { LoginService } from 'src/app/pages/login/login.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { LoginService } from 'src/app/pages/login/login.service';
   styleUrls: ['./default-layout.component.scss'],
 })
 export class DefaultLayoutComponent {
-   authService = inject(LoginService);
+   //authService = inject(LoginService);
    logo :string ="";
    name :string ="";
    email :string ="";
@@ -20,7 +19,7 @@ export class DefaultLayoutComponent {
   public navItems = navItems;
 
   //récupéer l'url courant
-  constructor( private  router : Router) { 
+  constructor( private  router : Router, private authService : LoginService ) { 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentUrl = event.url;

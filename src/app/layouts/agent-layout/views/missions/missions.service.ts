@@ -21,6 +21,8 @@ async addMissions(missionData: any): Promise<any> {
     const response = await this.authService.getTokenData().toPromise();
     const idAgent = response.id;
     missionData.agentId = idAgent;
+   
+
 
 
     return this.http.post<any>('http://localhost:3000/missions/add', missionData, { headers: { 'Content-Type': 'application/json' } }).toPromise();
@@ -50,6 +52,8 @@ async addMissions(missionData: any): Promise<any> {
     return this.http.get<any>(`http://localhost:3000/missions/${id}`)
       }
 
-      
+      getAll(){
+        return this.http.get<any[]>("http://localhost:3000/missions");  
+      }
 
 }

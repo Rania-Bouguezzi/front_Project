@@ -10,6 +10,7 @@ import { NeedsTransferService } from './views/needs-transfer/needs-transfer.serv
 import {NotificationService} from './views/notification/notification.service';
 import { NavbarComponent } from './views/navbar/navbar.component';
 import { LoginService } from 'src/app/pages/login/login.service';
+import { MissionsService } from './views/missions/missions.service';
 @Component({
   selector: 'app-agent-layout',
   standalone: true,
@@ -24,6 +25,7 @@ export class AgentLayoutComponent {
   email : string ='';
   picture : string ='';
   transfer:any[]=[];
+  mission:any[]=[];
   logo: string='';
   logoToken: string='';
   agencyName:string='';
@@ -32,6 +34,7 @@ export class AgentLayoutComponent {
   transfers:any[]=[];
   searchTermDestination: string = '';
   searchTermDepart: string = '';
+  searchTermDate: string = '';
   from:string='';
   to:string='';
   arrive:string='';
@@ -61,21 +64,22 @@ export class AgentLayoutComponent {
   agentRecepteurNotifId :string='';
   agencyNameDetails:string='';
   TransferEtat:boolean=false;
+  missions:any[]=[];
+  showComments = false; 
   myFormTransfer = new FormGroup({
     text: new FormControl('', Validators.required),
   });
 
-
+  
     constructor (private tokenService : AgentLayoutService, private transferService :TransfersService , 
-    private tokenLogout:  DefaultHeaderService, private router:Router, private  shareService : NeedsTransferService,
-    private notifService : NotificationService , private authService : LoginService){}
-   
+     private router:Router, private  shareService : NeedsTransferService,
+    private notifService : NotificationService , private authService : LoginService, private missionService :MissionsService , ){}
+    
   
    ngOnInit(): void {
     this.loadVille();
     this.authService.getTokenData().subscribe(
       (tokenData) => {
-       console.log('Données du token:', tokenData);
         this.firstname = tokenData.firstname;
         this.lastname = tokenData.lastname;
         this.email = tokenData.email;
@@ -100,8 +104,11 @@ export class AgentLayoutComponent {
 
  
  this.loadTransfers();
+ this.loadMissions();
+ //this.getFeedbacks();
 
 this.time=this.transferService.time;
+
 
       
     });
@@ -148,28 +155,49 @@ this.time=this.transferService.time;
       ); })
     }
     
-    
+    loadMissions(): void {
+      this.authService.getTokenData().subscribe(
+        (response) => {
+          this.agencyId= response.agency.id;
+        
+       
+       
+      
+      this.tokenService.getSharedMission().subscribe(
+        (data: any[]) => {
+          this.missions = data.sort((a: any, b: any) => {
+            return new Date(b.dateShare).getTime() - new Date(a.dateShare).getTime();
+      
+          });
+         
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des missions :', error);
+        }
+      ); })
+    }
+  
 
 
-    deleteTransfer(transferId: string): void {
-      const confirmation = window.confirm('You want to delete this Transfer ?');
+    deleteMission(missionId: string): void {
+      const confirmation = window.confirm('You want to delete this Mission ?');
       if (confirmation) {
-        this.transferService.getById(transferId).subscribe(
+        this.missionService.getById(missionId).subscribe(
           (data: any) => {
-            this.transfer = data;
-            const pdateTransfer = 
+            this.mission = data;
+            const updateMission = 
             {isShared :false,
              
             }
     
-            this.transferService.updateTransfer(transferId, pdateTransfer).subscribe(
+            this.missionService.updateMissions(missionId, updateMission).subscribe(
               () => {
                
-                this.message='Transfer Updated!'
+                this.message='Mission Updated!'
           
               },)});
             
-              this.loadTransfers();
+             return this.loadMissions();
       }
      
     else{
@@ -209,30 +237,43 @@ this.time=this.transferService.time;
      
       if (this.searchTermDestination.trim() === '') {
        
-        this.loadTransfers();
+        this.loadMissions();
       }
-      this.transfers = this.transfers.filter(transfer =>
-        transfer.to.toLowerCase().includes(this.searchTermDestination.toLowerCase())
+    
+      this.missions = this.missions.filter(mission =>
+        mission.to.toLowerCase().includes(this.searchTermDestination.toLowerCase()) ||
+        mission.transfers.some((transfer : any) => transfer.to.toLowerCase().includes(this.searchTermDestination.toLowerCase()))
       );
     }
-    onSearchDepart(event: KeyboardEvent): void {
+
+    onSearchDate(event: KeyboardEvent): void {
+     
+      if (this.searchTermDate.trim() === '') {
+       
+        this.loadMissions();
+      }
+    
+      this.missions = this.missions.filter(mission =>
+        mission.date_time_start.includes(this.searchTermDate) 
+      );
+    }
+    onSearchDepartByTransfers(event: KeyboardEvent): void {
      
       if (this.searchTermDepart.trim() === '') {
        
-        this.loadTransfers();
+        this.loadMissions();
       }
-      this.transfers = this.transfers.filter(transfer =>
-        transfer.from.toLowerCase().includes(this.searchTermDepart.toLowerCase())
+
+      this.missions = this.missions.filter(mission =>
+        mission.from.toLowerCase().includes(this.searchTermDepart.toLowerCase()) ||
+        mission.transfers.some((transfer : any) => transfer.from.toLowerCase().includes(this.searchTermDepart.toLowerCase()))
       );
     }
 
-    logout(){
-      
-    }
+    
+ 
 
-
-
-    details(id:string){
+    detailsTransfer(id:string){
       console.log( this.transferService.getById(id).subscribe(
         (data) => {
       console.log('Données du tranfsert:', data);
@@ -271,6 +312,36 @@ this.time=this.transferService.time;
         }
       ));
     }
+
+
+  transfersMission : any ;
+  name:string='';
+  dateMission : string ='';
+  dateCreationMission: string='';
+  fromMission : string ='';
+  toMission : string='';
+  etatMission : string ='';
+
+detailsMission(id:string){
+  console.log( this.missionService.getById(id).subscribe(
+    (data) => {
+      this.logo= data.agent.agency.logo;
+      this.agencyNameDetails= data.agent.agency.name;
+      this.toMission=data.to;
+      this.fromMission=data.from;
+      this.transfersMission=data.transfers;
+      this.dateMission=data.dateMission;
+      this.dateCreationMission=data.dateCreation;
+      this.etatMission = data.etatMission;
+
+    }
+  )
+  )
+}
+
+
+
+
 
 
     onReserveClick(): void {
@@ -384,7 +455,59 @@ async onSubmit() {
 
 
 
+selectedMissionId:string='';
 
-
+showDivComment(id:string){
+  this.selectedMissionId = id;
+  this.showComments = true;
+  return this.getFeedbacks(id);
 
 }
+myFormComment = new FormGroup({
+  text: new FormControl('', Validators.required),});
+
+async comment (idMission : string){
+  if (this.myFormComment.invalid) {
+    return;
+  }
+
+  const commentData = this.myFormComment.value;
+console.log(idMission)
+console.log(commentData);
+  try {
+    const response = await this.tokenService.addComment(commentData, idMission);
+
+    console.log('comment created:', response);
+    this.myFormComment.reset();
+  } catch (error) {
+    console.error('Error creating comment:', error);
+
+   
+  }
+  return this.getFeedbacks(idMission);
+}
+
+feedbacks : any[]=[];
+idMission:string = '';
+currentDateComment: Date = new Date();
+commentDate : string ='';
+getFeedbacks(idMission : string){  
+  this.tokenService.getFeedbackByMission(idMission).subscribe(
+    (data: any[]) => {
+      this.feedbacks = data.sort((a: any, b: any) => {
+        return new Date(b.dateShare).getTime() - new Date(a.dateShare).getTime();
+      });
+     
+    },
+    (error) => {
+      console.error('Erreur lors de la récupération des feedbacks :', error);
+    }
+  ); }
+
+
+agencyProfile(id:string){
+  console.log(id);
+}
+
+}
+

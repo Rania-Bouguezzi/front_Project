@@ -3,7 +3,7 @@ import {MissionsService} from './missions.service'
 import { CommonModule } from '@angular/common';
 import {  AvatarModule, FormModule, GridModule } from '@coreui/angular';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TransfersService } from '../transfers/transfers.service';
 import { LoginService } from 'src/app/pages/login/login.service';
 import { DataTablesModule } from 'angular-datatables';
@@ -20,19 +20,20 @@ import { DriversService } from '../users/drivers/drivers.service';
 })
 export class MissionsComponent implements OnInit {
   transfers:any[]=[];
+  dateTime : any = new Date().toISOString().slice(0, 16);
   myFormMission = new FormGroup({
     name: new FormControl('', Validators.required),
     from: new FormControl('', Validators.required),
     to: new FormControl('', Validators.required),
-    date_time_start: new FormControl('', Validators.required),
-    date_time_end: new FormControl('', Validators.required),
+    date_time_start: new FormControl(this.dateTime, Validators.required),
+    date_time_end: new FormControl(this.dateTime, Validators.required),
     nbrPassengers: new FormControl('', Validators.required),
     totalPrice: new FormControl('', Validators.required),
-    status: new FormControl('', Validators.required),
-    dateMission: new FormControl('', Validators.required),
+    dateMission: new FormControl(this.dateTime, Validators.required),
     transfers: new FormControl([], Validators.required),
-    buses: new FormControl([], Validators.required),
-    drivers: new FormControl([], Validators.required,)
+    busId: new FormControl('', Validators.required),
+    driverId: new FormControl('', Validators.required,),
+   
 
   });
 
@@ -45,9 +46,11 @@ export class MissionsComponent implements OnInit {
     date_time_end: new FormControl('', Validators.required),
     nbrPassengers: new FormControl('', Validators.required),
     totalPrice: new FormControl('', Validators.required),
-    status: new FormControl('', Validators.required),
     dateMission: new FormControl('', Validators.required),
     transfers: new FormControl([], Validators.required),
+    busId: new FormControl('', Validators.required),
+    driverId: new FormControl('', Validators.required,),
+
 
   }); 
   drivers:any[]=[];
@@ -73,11 +76,46 @@ buses:any[]=[];
   dateCreation:string='';
   nbPlaces:number=0;
   price:number=0;
+  transferUsed:any;
+  busUsed:any;
+  busData:any;
+  nbrPlaces:number=0;
+  nbrePlacesOccupees:number=0
+  messageAnyTransfer:string=''
+  filteredTransfers: any[] = [];
   dtoptions: DataTables.Settings = {};
   dtTrigger:Subject<any>=new Subject<any>();
-constructor(private missionService: MissionsService,  private route : ActivatedRoute, private transferService : TransfersService,
-  private authService : LoginService, private busesService : BusesService, private driversService : DriversService
-){}
+
+constructor(private missionService: MissionsService,  private router : Router, private transferService : TransfersService,
+  private authService : LoginService, private busesService : BusesService, private driversService : DriversService,
+private busService :BusesService ){
+
+
+  this.missionService.getAll().subscribe(
+    (data: any[]) => {
+      this.missions = data;
+       const currentDate = new Date();
+       this.missions.forEach(mission => {
+        const arrival = new Date(mission.date_time_start); // Assurez-vous que la propriété date_time_Arrive existe dans votre objet de transfert
+        if (arrival < currentDate && mission.etatMission=='Available') {
+          const updatedMissionData = { etatMission: 'Not Available' };
+          this.missionService.updateMissions(mission.id, updatedMissionData).subscribe(
+            () => {
+              console.log('Mission Etat Updated!' +mission.from +mission.to);
+             
+            },
+            error => {
+              console.error('Error updating mission:', error);
+            
+            }
+          );
+        
+        }})}
+   
+  );
+
+
+}
 
 
 ngOnInit(): void {
@@ -90,6 +128,7 @@ ngOnInit(): void {
    this.loadTransfers();
    this.loadBuses();
    this.loaddrivers();
+console.log(this.filteredTransfers)
   
  
 }
@@ -101,9 +140,7 @@ loadMission(): void {
   
   this.missionService.getAllMissions(this.agencyId).subscribe(
     (data: any[]) => {
-      this.missions = data.sort((a: any, b: any) => {
-        return new Date(b.dateCreation).getTime() - new Date(a.dateCreation).getTime();
-      });
+      this.missions = data.sort((a, b) => new Date(b.date_time_start).getTime() - new Date(a.date_time_start).getTime());
 
       this.dtTrigger.next(null);
       
@@ -123,8 +160,8 @@ loadTransfers():void{
   this.transferService.getTransferByAgency(this.agencyId).subscribe(
     (data: any[]) => {
       
-      this.transfers =data.filter(transfer => transfer.etatTransfer === 'Available');
-      
+      this.transfers =data.filter(transfer => transfer.etatTransfer === 'Not Available' &&  transfer.status === 'Actif');
+      this.filteredTransfers = this.transfers;
     },
     (error) => {
       console.error('Erreur lors de la récupération des missions :', error);
@@ -171,7 +208,33 @@ loaddrivers(): void {
   ); })
 }
 
-    onSubmit() {
+// Déclarez une liste temporaire pour stocker les résultats filtrés
+
+
+filterTransfersByCity(selectedCity: string) {
+
+  this.filteredTransfers = this.transfers.filter(transfer => transfer.from === selectedCity);
+  if (selectedCity=='') {
+    this.filteredTransfers = this.transfers;
+  } 
+  if (!this.filteredTransfers || this.filteredTransfers.length === 0) {
+    console.log('Aucun transfert à filtrer.');
+   this.messageAnyTransfer='Any Transfert !';
+   console.log(this.messageAnyTransfer)
+
+  }
+
+}
+
+onCitySelected(selectedCity: string) {
+   this.filterTransfersByCity(selectedCity);
+
+}
+
+
+
+
+ async   onSubmit() {
   if (this.myFormMission.invalid) {
 
     this.emptymessage = true;
@@ -182,16 +245,39 @@ loaddrivers(): void {
 
   const formData = this.myFormMission.value;
   try {
+    this.busUsed = formData.busId;
+    const dataBus = await this.busService.getById(this.busUsed).toPromise();
+    this.nbrPlaces = dataBus.nbrePlaces;
+    console.log('Nombre de places dans le bus:', this.nbrPlaces);
+      this.transferUsed = formData.transfers;
+    for (const idTransfer of  this.transferUsed) {
+      const dataTransfert = await this.transferService.getById(idTransfer).toPromise();
+        this.nbrePlacesOccupees = dataTransfert.nbrePlacesOccupees;
+        const updateTransfer = {
+          nbrePlacesDisponibles: (this.nbrPlaces - this.nbrePlacesOccupees),
+          status : 'Blocked'}
+          console.log('transfer', updateTransfer.nbrePlacesDisponibles)
+  this.transferService.updateTransfer(idTransfer, updateTransfer).subscribe(
+    () => { 
+      console.log('Transfer mis à jour avec succès !', );
+    },)
+      }
     const response = this.missionService.addMissions(formData);
     console.log('mission created:', response);
     this.message = "Misson created!";
     this.isCreated=true;
+   
     this.myFormMission.reset();
+   
   } catch (error) {
     console.error('Error creating mission:', error);
     this.message = "Mission was not created!";
    
-  }}
+  }
+
+    //return this.loadMission();
+
+}
 
 
 loadVille():void{
@@ -275,8 +361,10 @@ openUpdate(id: string): void {
       date_time_end: this.missionData.date_time_end,
       nbrPassengers: this.missionData.nbrPassengers,
       totalPrice: this.missionData.totalPrice,
-      status: this.missionData.status,
       dateMission: this.missionData.dateMission,
+      transfers: this.missionData.transfers,
+      driverId: this.missionData.drivers,
+      busId : this.missionData.buses,
 
     });
     // Open the update modal here
@@ -308,6 +396,52 @@ this.nbPlaces=this.mission.nbrPassengers;
 this.price=this.mission.totalPrice;
   })
 }
+
+
+shareMission(id:string): void{
+  this.missionService.getById(id).subscribe(
+    (data: any) => {
+      this.mission = data;
+     
+    { const confirmation = window.confirm('Vous voulez partager cette Mission ?');
+    if (confirmation) {
+      this.missionService.getById(id).subscribe(
+        (data: any) => {
+          this.mission = data;
+          this.missionId=data.id;
+          const updateMission = 
+          {isShared :true,
+            dateShare:new Date().toISOString()
+          }
+  
+          this.missionService.updateMissions(this.missionId, updateMission).subscribe(
+            () => {
+             
+              this.message='Mission Updated!'
+        
+            },)
+  
+  
+  
+  
+         
+    
+      
+  
+              this.router.navigate(['/agent-layout/profile']);
+            },
+            (error) => {
+              console.error('Erreur lors de la récupération du token de l\'agence :', error);
+            }
+          );
+        
+       
+     
+    }}
+      });
+}
+
+
 
 }
 

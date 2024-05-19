@@ -1,0 +1,142 @@
+<app-navbar> </app-navbar>
+<br>
+<div class="container"> <div class="container">
+    <div class="bg-white shadow rounded overflow-hidden"> <div class="px-4 pt-0 pb-4 cover">
+         <div class="media align-items-end profile-head"> <div class="profile mr-3">
+            <img src={{logo}} alt="..." width="130" class="rounded mb-2 img-thumbnail">
+
+        </div> 
+            <div > <h4 class="mt-0 mb-0">{{name}}</h4> 
+         
+            </div> </div> 
+           
+        </div>
+         <!-- <a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a> -->
+        <div class="bg-light p-4 d-flex justify-content-end text-center">
+                 <ul class="list-inline mb-0"> <li class="list-inline-item"> <h5 class="font-weight-bold mb-0 d-block">{{missionLength}}</h5>
+                    <small class="text-muted">Missions</small> </li> 
+                    <li class="list-inline-item"> <h5 class="font-weight-bold mb-0 d-block">{{commentLength}}</h5><small class="text-muted"> 
+                       Comments</small> </li> <li class="list-inline-item"> 
+                            <h5 class="font-weight-bold mb-0 d-block">{{needLength}}</h5><small class="text-muted"> 
+                              Need Transfer</small> </li> </ul> </div> <div class="px-4 py-3">
+                                     <h5 class="mb-0">About</h5>
+                                      <div class="p-4 rounded shadow-sm bg-light"> 
+                                        <p class="font-italic mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                                          </svg> : {{email}}</p> 
+                                      <a href="http://{{website}}" style="text-decoration: none; color: #2e2e2e;"> <p class="font-italic mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-link" viewBox="0 0 16 16">
+                                            <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9q-.13 0-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/>
+                                            <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4 4 0 0 1-.82 1H12a3 3 0 1 0 0-6z"/>
+                                          </svg> : {{website}}</p> </a> 
+                                        <p class="font-italic mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                          </svg> : {{address}}</p> </div>
+                                         </div> 
+                                
+                                     <div class="row">
+                                        <div class="col d-flex"><a  class="btn btn-outline position-relative" [ngClass]="{'font-weight-bold': showRecent, 'text-light': showNeeds, }" (click)="showRecentPublication()"><h5 class="mb-0"> Recent publication</h5></a></div>
+                                        <div class="col d-flex"><a  class="btn btn-outline position-relative" [ngClass]="{'font-weight-bold': showNeeds, 'text-light': showRecent}"  (click)="showNeedsPublication()"><h5 class="mb-0"> Needs publication</h5></a></div>
+                                       </div>
+                                        <div class="row justify-content-center">
+                                           
+                                            <!-- Publication -->
+                                            <div class="col-md-8" *ngIf="showRecent" >
+                                           
+                                            <ul class="panel-activity__list scrollable-container">                              
+                                                <li  *ngFor="let mission of missions" >
+                                                    <i class="activity__list__icon fa fa-question-circle-o"></i>
+                                                    <div class="activity__list__header">
+                                                        <c-avatar src={{mission.agent.agency.logo}} size="xl"></c-avatar>
+                                                        <a>{{mission.agent.agency.name}}</a>
+                                                    </div>
+                                                    <div class="activity__list__body">
+                                                        <p>
+                                                            My Mission is from <B> {{mission.from}} </B> to <B> {{mission.to}} </B>, departing on <B> {{mission.date_time_start |  date}}  </B> at <B>{{ mission.date_time_start | date:'HH:mm' }}</B> and arriving on <B> {{mission.date_time_end |  date}} </B>  at <B>{{ mission.date_time_end | date:'HH:mm' }}</B>. 
+                                                            There are <B>{{mission.nbrPassengers}}</B> available seats, priced at <B> ${{mission.totalPrice}} </B> per person  .
+                                                            <table class="table">
+                                                               <tbody>
+                                                                  <tr *ngFor="let transfer of mission.transfers">
+                                                                     <td> from : <B>{{transfer.from}} </B> to :  <B>{{transfer.to}} </B>  </td>
+                                                                     <td> <span *ngIf="transfer.etatTransfer==='Available'" class="badge bg-success" >{{transfer.etatTransfer}}</span> 
+                                                                        <span *ngIf="transfer.etatTransfer === 'Not Available'" class="badge bg-warning">{{ transfer.etatTransfer }}</span></td>  
+                                                                  </tr>
+                                                               </tbody>
+                                                               </table>
+                                                    </div>
+                                                    <div class="activity__list__footer">
+                                                        <div class="timeline-footer">
+                                                            <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+                                                            <a href="javascript:;" class="m-r-15 text-inverse-lighter" (click)="showDivComment(mission.id)"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
+                                                         </div> 
+                                                    </div>
+                                                        <!-- Comments -->
+                                 <div *ngIf="selectedMissionId === mission.id && showComments" class="card-footer py-3 border-0" >
+                                    <div class="d-flex flex-start">
+                                      <c-avatar  ></c-avatar> &nbsp;
+                                      <div data-mdb-input-init class="form-outline w-100">
+                                       <form [formGroup]="myFormComment" (ngSubmit)="comment(mission.id)">
+                                       <div class="input-group">
+                                        
+                                          <textarea class="form-control test-input" placeholder="Leave a comment here ..." id="floatingTextarea" formControlName="text" style="height: 30px;"></textarea>
+                                          <button  type="submit" class="btn btn-outline-secondary" >  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+                                          </svg></button>
+                                      
+                                       </div>
+                                    </form>
+                                       </div>
+                                      <!-- <button (click)="getFeedbacks(mission.id)" > view</button> -->
+                                    </div>
+                                    <ul class="media-list">
+                                       <div class="media scrollable-container" *ngFor="let feedback of feedbacks" >
+                                       <a href="#" class="pull-left">
+                                       <c-avatar size="small" src={{feedback.agent.picture}} ></c-avatar>
+                                       </a>
+                                       <div class="media-body">
+                                          <span class="text-muted float-end">
+                                             <small>&nbsp;&nbsp; {{feedback.dateCreation | date}} {{feedback.dateCreation | date: 'HH:mm'}} </small>
+                                          </span>
+                                          <strong>{{feedback.agent.firstname}} {{feedback.agent.lastname}}</strong>
+                                          <p style="font-weight: normal;"> <!-- Style en ligne pour le texte non en gras -->
+                                            {{feedback.text}}
+                                          </p>
+                                        </div>
+                                        
+                                           </div> 
+                                       </ul>
+                                  </div> 
+                                       <!--Fin Comments -->
+                                                </li></ul> </div> </div>
+                                          <!-- Fin Publication -->
+
+
+                                          
+                                             <!-- Need publication -->
+                                             <div class="row justify-content-center">
+                                             <div class="col-md-8" *ngIf="showNeeds">
+                                                <ul class="panel-activity__list">                              
+                                                    <li  *ngFor="let need of needTransfer">
+                                                        <i class="activity__list__icon fa fa-question-circle-o"></i>
+                                                        <div class="activity__list__header">
+                                                            <c-avatar src={{need.agency.logo}} size="xl"></c-avatar>
+                                                            <a>{{need.agency.name}}</a>
+                                                        </div>
+                                                        <div class="activity__list__body">
+                                                            <p>
+                                                                {{need.text}}
+                                                               </p>
+                                                               
+                                                        </div>
+                                                        <div class="activity__list__footer">
+                                                            <div class="timeline-footer">
+                                                                <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+                                                                <a href="javascript:;" class="m-r-15 text-inverse-lighter" ><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
+                                                             </div> 
+                                                        </div>
+                                                          
+
+
+                                                     </li></ul>
+                                                     </div></div>
+                                                <!-- Fin Need publication -->

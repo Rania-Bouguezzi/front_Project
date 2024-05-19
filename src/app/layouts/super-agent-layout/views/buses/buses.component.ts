@@ -23,6 +23,7 @@ export class BusesComponent implements OnInit {
   myForm = new FormGroup({
     marque: new FormControl('', Validators.required),
     puissance: new FormControl('', Validators.required),
+    matricule: new FormControl('', Validators.required),
     nbrePlaces: new FormControl('', Validators.required),
     picture: new FormControl('', Validators.required),
     status: new FormControl('', Validators.required)
@@ -31,6 +32,7 @@ export class BusesComponent implements OnInit {
   myFormUpdate = new FormGroup({
     marque: new FormControl('', Validators.required),
     puissance: new FormControl('', Validators.required),
+    matricule: new FormControl('', Validators.required),
     nbrePlaces: new FormControl('', Validators.required),
     status: new FormControl('', Validators.required)
 
@@ -188,6 +190,7 @@ openUpdateModal(id: string): void {
     this.myFormUpdate.patchValue({
       marque: this.busData.marque,
       puissance: this.busData.puissance,
+      matricule : this.busData.matricule,
       nbrePlaces: this.busData.nbrePlaces,
       status: this.busData.status
     });

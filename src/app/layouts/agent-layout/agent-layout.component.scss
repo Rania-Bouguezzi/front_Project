@@ -15,6 +15,39 @@ $border-right-color_1: #fff;
     max-height: 700px; 
     overflow-y: auto; 
   }
+  .custom-input::placeholder {
+    font-size: 14px; 
+	text-align: center;
+  
+}
+.test-input::placeholder {
+    font-size: 14px; 
+
+  
+}
+
+.input-icons {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.input-icons i {
+	position: absolute;
+}
+
+.icon {
+	padding: 10px;
+	min-width: 50px;
+	text-align: center;
+	color: #7a7d80;
+}
+
+.input-field {
+	width: 100%;
+	padding: 10px;
+	text-align: center;
+}
+
 
 .container-fluid {
     padding-right: 15px;

@@ -34,6 +34,11 @@ const routes: Routes = [
           import('./layouts/agent-layout/agent-layout.module').then((m) => m.AgentLayoutModule)
       },
       {
+        path: 'agencyProfile/:id',
+        loadChildren: () =>
+          import('./layouts/agent-layout/views/agency-profile/agency-profile.module').then((m) => m.AgencyProfileModule)
+      },
+      {
         path: 'needs-transfer',
         loadChildren: () =>
           import('./layouts/agent-layout/views/needs-transfer/needs-transfer.module').then((m) => m.NeedsTransferModule)

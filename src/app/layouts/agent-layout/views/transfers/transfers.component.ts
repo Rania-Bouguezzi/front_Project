@@ -47,35 +47,47 @@ export class TransfersComponent implements OnInit {
   isExpired:boolean=false;
   shareTime:string='';
   isShared:boolean=false;
+  currentDateString : any;
+ dateTime : any = new Date().toISOString().slice(0, 16);
+ validateDates(formGroup: FormGroup) {
+  const dateDepart = formGroup.get('date_time_Depart')?.value;
+  const dateArrive = formGroup.get('date_time_Arrive')?.value;
+
+  if (dateDepart < dateArrive) {
+    
+    console.log('oui');
+  } else {
+   
+    console.log('non');
+  }
+}
 
   myFormTransfer = new FormGroup({
     from: new FormControl('', Validators.required),
     to: new FormControl('', Validators.required),
-    date_time_Depart: new FormControl('', Validators.required),
-    date_time_Arrive: new FormControl('', Validators.required),
-    nbrePlacesDisponibles: new FormControl('', Validators.required),
+    date_time_Depart: new FormControl(this.dateTime, Validators.required),
+    date_time_Arrive: new FormControl(this.dateTime,  [Validators.required]),
+    nbrePlacesOccupees: new FormControl('', Validators.required),
     priceTransferForPerson: new FormControl('', Validators.required),
-    etatTransfer: new FormControl('', Validators.required),
     note: new FormControl('', Validators.required),
     extra: new FormControl('', Validators.required),
-    status: new FormControl('', Validators.required)
 
-  });
+
+  }, );
+  
 
   myFormTransferUpdate = new FormGroup({
     from: new FormControl('', Validators.required),
     to: new FormControl('', Validators.required),
     date_time_Depart: new FormControl('', Validators.required),
-    date_time_Arrive: new FormControl('', Validators.required),
-    nbrePlacesDisponibles: new FormControl('', Validators.required),
+    date_time_Arrive: new FormControl( '', Validators.required),
+    nbrePlacesOccupees: new FormControl('', Validators.required),
     priceTransferForPerson: new FormControl('', Validators.required),
-    etatTransfer: new FormControl('', Validators.required),
     note: new FormControl('', Validators.required),
     extra: new FormControl('', Validators.required),
-    status: new FormControl('', Validators.required)
+
 
   });
-
 
 
 
@@ -106,21 +118,23 @@ export class TransfersComponent implements OnInit {
           }})}
      
     );
+
  
   }
 
 
 
-ngOnInit(): void {
-  this.dtoptions = {
-    pagingType: 'full_numbers',
+  ngOnInit(): void {
+    this.dtoptions = {
+      pagingType: 'full_numbers',
+    
+    };
   
-  };
-this.loadVille();
-  this.loadTransfers();
+  this.loadVille();
+   this.loadTransfers();
+    
   
-
-}
+  }
 
 // getToken():void{
 // this.authService.getTokenData().subscribe(
@@ -141,16 +155,14 @@ loadTransfers(): void {
   
   this.shareService.getTransferByAgency(this.idAgency).subscribe(
     (data: any[]) => {
-      this.transfers = data.sort((a: any, b: any) => {
-        return new Date(b.date_time_Depart).getTime() - new Date(a.date_time_Depart).getTime();
-      });
+      this.transfers = data.sort((a, b) => new Date(b.dateCreation).getTime() - new Date(a.dateCreation).getTime());
       this.dtTrigger.next(null);
     },
     (error) => {
       console.error('Erreur lors de la récupération des transfers :', error);
     }
   ); });
-
+   
 }
 
 
@@ -174,7 +186,7 @@ async onSubmit() {
   }
 
   const transferData = this.myFormTransfer.value;
-
+console.log(transferData)
   try {
     const response = await this.shareService.addTransfer(transferData);
 
@@ -187,6 +199,7 @@ async onSubmit() {
     this.message = "Transfer was not created!";
    
   }
+  return this.loadTransfers();
 }
 
 deleteTransfer(id: string): void {
@@ -213,6 +226,7 @@ deleteTransfer(id: string): void {
  
     console.log('Suppression annulée');
   }
+
 }
 
 UpdateTransfer(): void {
@@ -235,6 +249,7 @@ this.message='Formulaire Invalid !'
       console.log('erreur!');
     }
   );
+ 
  }
 
  openUpdateModal(id: string): void {
@@ -247,12 +262,11 @@ this.message='Formulaire Invalid !'
       to: this.TransferData.to,
       date_time_Depart: this.TransferData.date_time_Depart,
       date_time_Arrive: this.TransferData.date_time_Arrive,
-      nbrePlacesDisponibles: this.TransferData.nbrePlacesDisponibles,
+      nbrePlacesOccupees: this.TransferData.nbrePlacesOccupees,
       priceTransferForPerson: this.TransferData.priceTransferForPerson,
-      etatTransfer: this.TransferData.etatTransfer,
       note: this.TransferData.note,
       extra: this.TransferData.extra,
-      status: this.TransferData.status,
+
 
     });
     // Open the update modal here
@@ -314,6 +328,7 @@ Details(id: string): void {
   }, error => {
     console.error('Error retrieving bus data:', error);
   });
+
 }
 
 

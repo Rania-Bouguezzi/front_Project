@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AgentLayoutService } from '../../agent-layout.service';
-import { AvatarModule, PopoverModule, Triggers } from '@coreui/angular';
+import { AvatarModule, DropdownModule, PopoverModule, Triggers } from '@coreui/angular';
 import { NavigationEnd, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../notification/notification.service';
@@ -10,7 +10,7 @@ import { LoginService } from 'src/app/pages/login/login.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [AvatarModule, CommonModule, PopoverModule],
+  imports: [AvatarModule, CommonModule, PopoverModule, DropdownModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -20,8 +20,10 @@ export class NavbarComponent {
   email:string='';
   phone:string='';
   currentUrl:string='';
+  avatar:string='';
   count:number=0;
   agencyId:string='';
+  firstname:string=''
   notifs :any[]=[];
   dateCreation:string='';
   public isPopoverOpen: boolean = false;
@@ -46,6 +48,8 @@ export class NavbarComponent {
         this.email= tokenData.agency.email;
         this.phone= tokenData.agency.phone;
         this.agencyId= tokenData.agency.id;
+        this.avatar=tokenData.picture;
+        this.firstname=tokenData.firstname;
         this.notifService.getNotifByAgency(this.agencyId).subscribe(
           (data: any[]) => {
             this.count = data.length;
@@ -95,4 +99,14 @@ export class NavbarComponent {
     closePopover() {
       this.isPopoverOpen = false;
     }
+    async logout(){
+      sessionStorage.removeItem('access_token');
+    
+        //  window.location.reload();
+          await  this.router.navigate([ '/' ]);
+ 
+   }
+   go(){
+    this.router.navigate([ '/agent-layout/notification' ]);
+   }
 }

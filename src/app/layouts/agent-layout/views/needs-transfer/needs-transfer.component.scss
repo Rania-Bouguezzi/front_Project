@@ -12,6 +12,29 @@ $background-color_1: #fff;
 $border-color_1: #4a4a4a;
 $border-right-color_1: #fff;
 
+.input-icons {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.input-icons i {
+	position: absolute;
+}
+
+.icon {
+	padding: 10px;
+	min-width: 50px;
+	text-align: center;
+	color: #7a7d80;
+}
+
+.input-field {
+	width: 100%;
+	padding: 10px;
+	text-align: center;
+}
+
+
 .input-red {
 	border-color: red;
 	color: red;
@@ -21,7 +44,10 @@ $border-right-color_1: #fff;
 	font-size: 12px;
   }
   
-
+  .custom-input::placeholder {
+    font-size: 14px; /* Taille du placeholder */
+  
+}
 body {
 	margin-top: 20px;
 	background: #969494;

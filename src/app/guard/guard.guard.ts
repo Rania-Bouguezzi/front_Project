@@ -9,7 +9,7 @@ export const guardGuard: CanActivateFn = (route, state): Observable<boolean> | P
   return new Observable<boolean>((observer) => {
     authService.getTokenData().subscribe(
       (response) => {
-        console.log(response);
+    //    console.log(response);
      
      
         if (response.role === 'Agent') {
