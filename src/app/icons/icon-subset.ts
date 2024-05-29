@@ -98,7 +98,8 @@ import {
   cilMoney,
   cilCheckAlt,
   cilTag,
-  cilBullhorn
+  cilBullhorn,
+  cilInstitution
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -201,7 +202,9 @@ export const iconSubset = {
   cilMoney,
   cilCheckAlt,
   cilTag,
-  cilBullhorn
+  cilBullhorn,
+  cilInstitution
+
   
 };
 
@@ -305,6 +308,8 @@ export enum IconSubset {
   cilMoney='cilMoney',
   cilCheckAlt='cilCheckAlt',
   cilTag='cilTag',
-  cilBullhorn='cilBullhorn'
+  cilBullhorn='cilBullhorn',
+  cilInstitution='cilInstitution'
+  
 
 }

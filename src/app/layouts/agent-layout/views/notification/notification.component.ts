@@ -77,7 +77,8 @@ validate:boolean=false;
     this.notif = data; 
     this.agentId = this.notif.agentEmetteurId;   
     const notifUpdate = {
-      validate: true
+      validate: true,
+    response: 'Accepted'
     }
 this.notifService.updateNotif(this.notif.id,notifUpdate ).subscribe(
   () => {
@@ -95,7 +96,7 @@ console.log(this.notif.validate);
         this.availability='Not Available'}
     else {  this.placesDispoTransfer = ( this.transfer.nbrePlacesDisponibles - this.notif.nbPlaces) ;
       this.availability='Available'}   
-      const messageNotif = ' accepts your transfer request from ' + this.notif.from + ' to ' + this.notif.to + ' which departing on ' +formatDate(this.notif.date_time, 'MMM dd, yyyy, h:mm:ss a', 'en-US');
+      const messageNotif = ' accepts your transfer request '+ this.notif.nbPlaces + ' places from ' + this.notif.from + ' to ' + this.notif.to + ' which departing on ' +formatDate(this.notif.date_time, 'MMM dd, yyyy, h:mm:ss a', 'en-US');
   
    
       const notifData = {
@@ -112,6 +113,8 @@ console.log(this.notif.validate);
        notifAccept:true,
        notifRefus:false,
        transferId:this.notif.transferId,
+       response:'Accepted'
+
       
  
      };
@@ -163,10 +166,11 @@ console.log(this.notif.validate);
        this.notif = data; 
        this.agentId = this.notif.agentEmetteurId;   
         console.log(this.notif.agent.id);
-       const messageNotif = ' refuses your transfer request from ' + this.notif.from + ' to ' + this.notif.to + ' which departing on ' +formatDate(this.notif.date_time, 'MMM dd, yyyy, h:mm:ss a', 'en-US');
+       const messageNotif = ' refuses your transfer request '+ this.notif.nbPlaces + ' places from ' + this.notif.from + ' to ' + this.notif.to + ' which departing on ' +formatDate(this.notif.date_time, 'MMM dd, yyyy, h:mm:ss a', 'en-US');
        
-       const notifUpdate ={validate:true}
-       this.notifService.updateNotif(this.notif.id,notifUpdate )
+       const notifUpdate ={validate:true, response: 'Refused'}
+       this.notifService.updateNotif(this.notif.id,notifUpdate ).subscribe(
+        () => {});
         const notifData = {
          agentId: this.agentId,
          message: messageNotif,
@@ -181,7 +185,8 @@ console.log(this.notif.validate);
          notifAccept:false,
          notifRefus:true,
          transferId:this.notif.transferId,
-       
+         response:'Refused'
+   
    
        };
      

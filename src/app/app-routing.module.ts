@@ -2,15 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DefaultLayoutComponent } from './containers';
-import{FrontLayoutComponent} from './layouts/front-layout/front-layout.component'
 import {Page404Component} from './pages/page404/page404.component'
 import {Page500Component} from './pages/page500/page500.component'
 import {RegisterComponent} from './pages/register/register.component'
 import {LoginComponent} from './pages/login/login.component'
-import {CustomerLayoutComponent} from './layouts/customer-layout/customer-layout.component'
 import {guardGuard} from './guard/guard.guard'
 import {superAgentGuard} from './guard/super-agent.guard'
-
+import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component'
+import {DriverLayoutComponent} from './layouts/driver-layout/driver-layout.component'
+import {adminGuard} from './guard/admin.guard'
+import {driverGuard} from './guard/driver.guard'
 const routes: Routes = [
   // {
   //   path: '',
@@ -18,8 +19,70 @@ const routes: Routes = [
   //   pathMatch: 'full'
   // },
   { path: '', redirectTo: 'login', pathMatch: 'full' }, 
-  {path:'front', component:FrontLayoutComponent},
-  {path:'profile', component:CustomerLayoutComponent},
+  {path:'admin', component:DefaultLayoutComponent , canActivate:[adminGuard],
+  children: [
+    {
+      path: 'agent/:id',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency-details/views/agent/agent.module').then((m) => m.AgentModule)
+    },
+    {
+      path: 'super-agent/:id',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency-details/views/super-agent/super-agent.module').then((m) => m.SuperAgentModule)
+    },
+    {
+      path: 'bus/:id',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency-details/views/bus/bus.module').then((m) => m.BusModule)
+    },
+    {
+      path: 'driver/:id',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency-details/views/driver/driver.module').then((m) => m.DriverModule)
+    },
+    {
+      path: 'transfer/:id',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency-details/views/transfer/transfer.module').then((m) => m.TransferModule)
+    },
+    {
+      path: 'mission/:id',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency-details/views/mission/mission.module').then((m) => m.MissionModule)
+    },
+    {
+      path: 'agents',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/users/agents/agents.module').then((m) => m.AgentsModule)
+    },
+    {
+      path: 'supers_agents',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/users/super-agent/super-agent.module').then((m) => m.SuperAgentModule)
+    },
+    {
+      path: 'agency',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency/agency.module').then((m) => m.AgencyModule)
+    },
+    {
+      path: 'agencyDetails/:id',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency-details/agency-details.module').then((m) => m.AgencyDetailsModule)
+    },
+    {
+      path: 'users',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/users/users.module').then((m) => m.UsersModule)
+    },
+
+  ]
+
+  },
+  {path:'driver', component:DriverLayoutComponent, canActivate:[driverGuard],
+  },
+
 
   {
     path: 'agent-layout', canActivate:[guardGuard],

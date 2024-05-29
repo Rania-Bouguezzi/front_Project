@@ -23,10 +23,12 @@ export class DefaultHeaderComponent extends HeaderComponent {
   lastname : string ='';
   email : string ='';
   picture : string ='';
+  roleToken: string ='';
   status : string ='';
   showAlert:boolean=false;
   agencyId:string='';
   count:number=0;
+ 
   constructor(private classToggler: ClassToggleService , private tokenService :LoginService, private router:Router,
   private notifService : NotificationService, private authService : LoginService
   ) {
@@ -42,6 +44,11 @@ export class DefaultHeaderComponent extends HeaderComponent {
  ngOnInit(): void {
   this.tokenService.getTokenData().subscribe(
     (tokenData) => {
+      if(tokenData.role =='SuperAdmin'){
+        this.roleToken= tokenData.role;
+        this.picture = tokenData.picture;
+      }
+      else{
   //    console.log('Données du token:', tokenData);
       this.firstname = tokenData.firstname;
       this.lastname = tokenData.lastname;
@@ -49,7 +56,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
       this.picture = tokenData.picture;
       this.status = tokenData.status;
       this.agencyId = tokenData.agency.id;
-      console.log(this.agencyId);
+      this.roleToken= tokenData.role;
+      console.log(this.roleToken);
       this.notifService.getNotifByAgency(this.agencyId).subscribe(
         (data: any[]) => {
           this.count = data.length;
@@ -58,7 +66,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
         (error) => {
           console.error('Erreur lors de la récupération des notifications :', error);
         }
-      ); 
+      ); }
 
       // Utilisez les données du token comme nécessaire pour spécifier le profil de l'utilisateur
     },

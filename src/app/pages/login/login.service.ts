@@ -51,18 +51,15 @@ export class LoginService {
     
     if (token) {
       const decodedToken: any = jwtDecode(token);
-    //  console.log(decodedToken); // Affiche le contenu du token décodé
-    
-    //  Exemple d'accès aux données de l'utilisateur
        this.userId = decodedToken.id;
      
-    this.decodedToken=decodedToken
-   
-  
-   
+    this.decodedToken=decodedToken;
     }
-//console.log(this.userId);
-    return this.http.get<any>(`http://localhost:3000/auth/${this.userId}`);
+    if(this.decodedToken.role ==='SuperAdmin'){
+      console.log(this.userId);
+    return this.http.get<any>(`http://localhost:3000/auth/admin/${this.userId}`);}
+else{
+    return this.http.get<any>(`http://localhost:3000/auth/${this.userId}`);}
 
 
   }

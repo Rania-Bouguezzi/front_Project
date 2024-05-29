@@ -28,7 +28,7 @@
                <br>
                   <div class="float-end" *ngIf="notif.notifAccept===false && notif.notifRefus===false "  >
                      <button type="button" style="color:white" class="btn btn-success btn-sm" (click)="accept(notif.id)" [disabled]=" this.notif.validate">Accept</button> &nbsp;
-   <button type="button" style="color:white" class="btn btn-danger btn-sm" (click)="supp(notif.id)" [disabled]=" this.notif.validate">Delete</button> </div>
+   <button type="button" style="color:white" class="btn btn-danger btn-sm" (click)="supp(notif.id)" [disabled]=" this.notif.validate">Refus</button> </div>
                 </div>
                </div>
              

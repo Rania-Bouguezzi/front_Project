@@ -13,6 +13,7 @@
        
       <tr>
             <th scope="col" >Marque</th>
+            <th scope="col" >Matricule</th>
             <th scope="col" >Puissance</th>
             <th scope="col">Places</th>
             <th scope="col" >Date Creation</th>
@@ -26,6 +27,7 @@
           <tr *ngFor="let bus of buses">
             
             <td>{{bus.marque}}</td>
+            <td>{{bus.matricule}}</td>
             <td>{{bus.puissance}}</td>
             <td>{{bus.nbrePlaces}}</td>
             <td>{{bus.dateCreation | date:'MMM d, y'  }}</td>

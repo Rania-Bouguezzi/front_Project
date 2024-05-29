@@ -366,7 +366,8 @@ detailsMission(id:string){
           notifAccept:false,
           notifRefus:false,
           transferId:this.transferAgencyId,
-          validate:false
+          validate:false,
+          place:this.placeNumber
 
         };
       

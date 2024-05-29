@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { LoginService } from '../pages/login/login.service';
 import { inject } from '@angular/core';
 
-export const guardGuard: CanActivateFn = (route, state): Observable<boolean> | Promise<boolean> | boolean => {
+export const guardGuard: CanActivateFn = (): Observable<boolean> | Promise<boolean> | boolean => {
   const authService = inject(LoginService);
 
   return new Observable<boolean>((observer) => {

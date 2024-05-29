@@ -141,7 +141,6 @@ loadMission(): void {
   this.missionService.getAllMissions(this.agencyId).subscribe(
     (data: any[]) => {
       this.missions = data.sort((a, b) => new Date(b.date_time_start).getTime() - new Date(a.date_time_start).getTime());
-
       this.dtTrigger.next(null);
       
     },

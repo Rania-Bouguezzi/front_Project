@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { navItems } from './_nav';
+import { navAdmin, navItems } from './_nav';
 import { NavigationEnd, Router } from '@angular/router';
 import { LoginService } from 'src/app/pages/login/login.service';
 
@@ -14,9 +14,14 @@ export class DefaultLayoutComponent {
    logo :string ="";
    name :string ="";
    email :string ="";
+   role : string="";
+   logoAdmin: string="";
+   nameAdmin: string="";
+   emailAdmin:string="";
 
   currentUrl : string = ''
   public navItems = navItems;
+  public navAdmin = navAdmin;
 
   //récupéer l'url courant
   constructor( private  router : Router, private authService : LoginService ) { 
@@ -30,9 +35,18 @@ export class DefaultLayoutComponent {
 ngOnInit(): void {
   this.authService.getTokenData().subscribe(
     (response) => {
+      if(response.role == 'SuperAdmin'){
+        this.role = response.role;
+        this.logoAdmin=response.picture;
+        this.nameAdmin=response.firstname;
+        this.emailAdmin=response.email;
+      }
+      else {
       this.logo= response.agency.logo;
       this.name= response.agency.name;
       this.email= response.agency.email;
+      this.role = response.role;
+      }
     })
 
 }

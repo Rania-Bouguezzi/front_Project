@@ -62,6 +62,9 @@ getTransferByAgency(idAgency:string){
 }
 
 
+getNotifTransfert(idAgency:string, idTransfer:string){
+  return this.http.get<any[]>(`http://localhost:3000/notifications/${idAgency}/transfer/${idTransfer}`)
+}
 
 
 

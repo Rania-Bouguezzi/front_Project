@@ -1,0 +1,168 @@
+<body  class="container" > 
+   
+    <div class="align-items-center justify-content-center border-bottom">
+        
+        <div>
+            <h4 class="text-uppercase fw-weight-bold mb-0 text-center">
+                <c-avatar src={{agencyLogo}}></c-avatar> {{agencyName}}
+            </h4>
+            <p class="text-gray fst-italic mb-0 text-center">{{email}}</p>
+        </div>
+    </div>
+                    <!-- CHECKBOX LIST -->
+                            <div class="row">
+                              <div class="col">
+                                <button class="btn btn-outline position-relative" (click)="goBack()" > <svg xmlns="http://www.w3.org/2000/svg" style="color : blueviolet"   width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                                  </svg></button>   
+                        <div class="card-body">
+                            <div class="form-check mb-3">
+                              
+                                <label class="form-check-label" for="flexChec2"><span class="fst-italic pl-1">    <c-avatar src={{agencyLogo}}></c-avatar></span> {{agencyName}}</label>
+                            </div>
+                            <div class="form-check mb-3">
+                              
+                                <label class="form-check-label" for="flexChec2"><span class="fst-italic pl-1"> 
+                                    <img src=" https://img.icons8.com/?size=100&id=AUwsQr3iLOnC&format=png&color=000000" width="30" /> 
+                                   
+                                </span>{{email}}</label>
+                            </div>
+                           
+                            <div class="form-check mb-3">
+                                <label class="form-check-label" for="flexCheck1"><span class="fst-italic pl-1"> <img src="https://img.icons8.com/?size=100&id=108644&format=png&color=000000" width="40" />  </span>  {{phone}}</label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <label class="form-check-label" for="flexCheck4"><span class="fst-italic pl-1">  <img src="https://img.icons8.com/?size=100&id=42909&format=png&color=000000" width="30" /> </span>   <a href="http://{{website}}" target="_blank" style="text-decoration: none; color: #5e5d5d;">{{website}}</a> </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <label class="form-check-label" for="flexCheck3"><span class="fst-italic pl-1">   <img src="https://img.icons8.com/?size=100&id=UYWZUIq4DBaA&format=png&color=000000" width="30" /> </span> {{address}}</label>
+                            </div>
+                           
+                          
+                        </div>
+                    
+                    </div>
+<div class="col">
+		<ul class="list-group text-white">
+		  <li class="list-group-item d-flex justify-content-between align-content-center" (click)="goSuperAgent()"  >
+
+		  	<div class="d-flex flex-row">
+		  		<img src="https://img.icons8.com/?size=100&id=81139&format=png&color=000000" width="40" />
+		  		<div class="ml-2">
+		  			<h6 class="mb-0">Super Agent </h6>
+		  			<div class="about">
+		  				<span>22 Files</span>
+		  				<span>Jan 21, 2020</span>
+		  			</div>
+		  		</div>
+		  	</div>
+		  	
+
+		  </li>
+
+		  <li class="list-group-item d-flex justify-content-between align-content-center" (click)="goAgent()" >
+
+		  	<div class="d-flex flex-row">
+		  		<img src="https://img.icons8.com/?size=100&id=G44HkjZjDMBJ&format=png&color=000000" width="40" />
+		  		<div class="ml-2">
+		  			<h6 class="mb-0">Agents Group</h6>
+		  			<div class="about">
+		  				<span>62 Files</span>
+		  				<span>Jan 22, 2020</span>
+		  			</div>
+		  		</div>
+		  	</div>
+		  	
+
+		  </li>
+          <li class="list-group-item d-flex justify-content-between align-content-center" (click)="goDriver()">
+
+            <div class="d-flex flex-row">
+                <img src="https://img.icons8.com/?size=100&id=15127&format=png&color=000000" width="40" />
+                <div class="ml-2">
+                    <h6 class="mb-0">Driver</h6>
+                    <div class="about">
+                        <span>802 Files</span>
+                        <span>Jan 29, 2020</span>
+                    </div>
+                </div>
+            </div>
+          
+
+        </li>
+
+		  <li class="list-group-item d-flex justify-content-between align-content-center" (click)="goBus()">
+
+		  	<div class="d-flex flex-row">
+		  		<img src="https://img.icons8.com/?size=100&id=15137&format=png&color=000000" width="40" />
+		  		<div class="ml-2">
+		  			<h6 class="mb-0">Bus</h6>
+		  			<div class="about">
+		  				<span>82 Files</span>
+		  				<span>Jan 29, 2020</span>
+		  			</div>
+		  		</div>
+		  	</div>
+		  
+
+		  </li>
+
+		  <li class="list-group-item d-flex justify-content-between align-content-center" (click)="goTransfer()">
+
+		  	<div class="d-flex flex-row">
+		  		<img src="https://img.icons8.com/?size=100&id=30568&format=png&color=000000" width="40" />
+		  		<div class="ml-2">
+		  			<h6 class="mb-0">Transfer</h6>
+		  			<div class="about">
+		  				<span>182 Files</span>
+		  				<span>Jan 29, 2020</span>
+		  			</div>
+		  		</div>
+		  	</div>
+		
+
+		  </li>
+          <li class="list-group-item d-flex justify-content-between align-content-center" (click)="goMission()">
+
+            <div class="d-flex flex-row">
+                <img src="https://img.icons8.com/?size=100&id=17622&format=png&color=000000" width="40" />
+                <div class="ml-2">
+                    <h6 class="mb-0">Mission</h6>
+                    <div class="about">
+                        <span>802 Files</span>
+                        <span>Jan 29, 2020</span>
+                    </div>
+                </div>
+            </div>
+          
+
+        </li>
+
+		
+    
+		</ul>
+
+</div>
+                        
+
+                        </div>
+   
+     
+        
+ 
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+  </body>    

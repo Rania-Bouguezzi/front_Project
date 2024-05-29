@@ -287,9 +287,51 @@
                    <tr><th scope="row">  Price of Place :</th>  <td> {{pricePlace}}</td> </tr>
                    <tr><th scope="row">  Note :</th>  <td> {{note}}</td> </tr>
                    <tr><th scope="row">  Extra :</th>  <td> {{extra}}</td> </tr>
+                   <tr ><th scope="row"> Reservation list : </th> <td> <button type="submit"  class="btn btn-outline " (click)="showDetails()"  style="color: white;"> <span class="badge bg-info"> view Reservation</span> </button>
+                  </td> 
+                 
+                </tr>
+                <div *ngIf="showReservationDetails">
+                  <table>
+                    <tbody>
+                      <tr *ngFor="let info of notifications">
+                        <td>
+                        <c-avatar src={{info.agencyEmettriceLogo}}></c-avatar>{{ info.agencyEmettriceName }} hope to reserve {{info.nbPlaces}} places for this transfer 
+                       <span *ngIf="info.response == 'Waiting'" class="badge bg-warning">{{info.response}}</span> 
+                       <span *ngIf="info.response == 'Accepted'" class="badge bg-success">{{info.response}}</span> 
+                       <span *ngIf="info.response == 'Refused'" class="badge bg-danger">{{info.response}}</span> 
+                      </td>&nbsp; &nbsp;                  
+                        <td class="float-end" *ngIf="info.response== 'Waiting'"  >
+                        <button type="button" style="color:white" (click)="accept(info.id)" class="btn btn-success btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                          <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
+                        </svg></button> &nbsp;
+      <button type="button" style="color:white" (click)="supp(info.id)" class="btn btn-danger btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+      </svg></button> 
+              <span *ngIf="info.response == 'Accepted'" class="badge bg-success">{{info.response}}</span>
+              <span *ngIf="info.response == 'Refused'" class="badge bg-danger">{{info.response}}</span>
+             
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="alert alert-success" *ngIf="notifAccept == true  " >
+                    <strong>Success !</strong> Your Response has been sent successfully.
+                    <button  type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  <div class="alert alert-danger" *ngIf="notifRefus == true   " >
+                    <strong>Success !</strong> Your Response has been sent successfully.
+                    <button  type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  <div *ngIf="noReservation==true"> <div   class="alert alert-dark" role="alert">
+                    Any Reservation Here !
+                  </div></div>
+                </div>
+             
+                
                    <tr><th scope="row">  Availability :</th>  <td> <span *ngIf="etat==='Available'" class="badge bg-success" >{{etat}}</span> 
                       <span *ngIf="etat === 'Not Available'" class="badge bg-warning">{{ etat }}</span></td> </tr>
-                      
+                   
                    </tbody>
              </table>
              <div> <small> Created By  : </small>  <br> <c-avatar  src={{avatar}}></c-avatar> {{firstName}} {{lastName}}  <br> <div style="text-align: right;">  On {{dateCreation | date}} at {{dateCreation | date : 'HH:mm'}} </div></div>
@@ -315,3 +357,5 @@
 
 
 </body>
+
+

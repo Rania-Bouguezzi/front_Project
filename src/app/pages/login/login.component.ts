@@ -78,7 +78,13 @@ onSubmit(){
                   this.router.navigateByUrl('/agent-layout/dashboard');
                 } else if (response.role === 'SuperAgent')  {
                   this.router.navigateByUrl('/super-agent-layout/dashboard');
-                }  sessionStorage.setItem('access_token', response.access_token);
+                }else if (response.role === 'Driver')  {
+                  this.router.navigateByUrl('/driver');
+                }else if (response.role === 'SuperAdmin')  {
+                  this.router.navigateByUrl('/admin');
+                }    
+                
+                sessionStorage.setItem('access_token', response.access_token);
               
               } else {
                 console.error('Access token or role not found in response');

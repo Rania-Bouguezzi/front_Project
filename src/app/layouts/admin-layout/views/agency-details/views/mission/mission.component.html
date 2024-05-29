@@ -1,0 +1,54 @@
+<body class="container">
+
+    <button class="btn btn-outline position-relative" (click)="goBack()" > <svg xmlns="http://www.w3.org/2000/svg" style="color : blueviolet"   width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+      </svg></button>
+      <div class="align-items-center justify-content-center border-bottom">
+         <div>
+             <h4 class="text-uppercase weight-bold text-center">
+                 <c-avatar src={{agencyLogo}}></c-avatar> {{agencyName}} 
+             </h4>
+         </div>
+     </div>
+   
+     <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+         <thead class="table-light" ctablecolor="light">
+           
+           <tr>
+            
+             <th scope="col" >Name</th>
+             <th scope="col">From</th>
+             <th scope="col">To</th>
+             <th scope="col">Date Start</th>
+             <th scope="col">Date End</th>
+             <th scope="col">Numbre of Passengers</th>
+             <th scope="col">Price</th>
+             <th scope="col">Avaibility</th>
+          
+           </tr>
+         </thead>
+         <tbody>
+           <tr *ngFor="let mission of missions">
+             <td>{{mission.name}}</td>
+             <td>{{mission.from}}</td>
+             <td>{{mission.to}}</td>
+             <td>{{mission.date_time_start | date:'MMM d, y' }}</td>
+             <td>{{ mission.date_time_end | date:'MMM d, y' }}
+             </td>
+             <td style="text-align: center;" ><span>{{mission.nbrPassengers}}</span></td>
+             <td>{{mission.totalPrice}}</td>
+             <td> <span *ngIf="mission.etatMission == 'Available'" class="badge bg-success" >{{mission.etatMission}}</span>
+               <span *ngIf="mission.etatMission == 'Not Available'" class="badge bg-warning">{{mission.etatMission}}</span>
+             </td>
+             <!-- <td>
+                 <span *ngIf="mission.status == 'Actif'" class="badge bg-success">{{mission.status}}</span>
+                 <span *ngIf="mission.status == 'Inactif'" class="badge bg-secondary">{{mission.status}}</span>
+                 <span *ngIf="mission.status == 'Blocked'" class="badge bg-dark">{{mission.status}}</span>
+                 <span *ngIf="mission.status == 'Expired'" class="badge bg-danger">{{mission.status}}</span>
+             </td> -->
+            
+             </tr>
+           
+         </tbody>
+       </table>
+ </body>

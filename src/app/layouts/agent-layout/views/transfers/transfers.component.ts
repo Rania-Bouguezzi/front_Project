@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TransfersService } from './transfers.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/pages/login/login.service';
 import { Subject } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { AgentLayoutService } from '../../agent-layout.service';
+import { NotificationService } from '../notification/notification.service';
 
 @Component({
   selector: 'app-transfers',
@@ -18,7 +19,7 @@ import { AgentLayoutService } from '../../agent-layout.service';
 })
 export class TransfersComponent implements OnInit {
 
-   transfer:any[]=[];
+   transfer:any;
    id : string ='';
   emptymessage:boolean=false;
   message:string="";
@@ -47,7 +48,19 @@ export class TransfersComponent implements OnInit {
   isExpired:boolean=false;
   shareTime:string='';
   isShared:boolean=false;
+  notifications:any[]=[];
   currentDateString : any;
+  notif:any;
+agentId:string='';
+placesDispoTransfer:number=0;
+availability:string='';
+validate:boolean=false;
+notifAccept:boolean=false;
+notifRefus:boolean=false;
+agencyId:string='';
+agencyName:string='';
+agencyLogo:string='';
+agentEmetteurId:string='';
  dateTime : any = new Date().toISOString().slice(0, 16);
  validateDates(formGroup: FormGroup) {
   const dateDepart = formGroup.get('date_time_Depart')?.value;
@@ -93,12 +106,13 @@ export class TransfersComponent implements OnInit {
 
 
 
-  constructor(private shareService : TransfersService, private router : Router, private agentLayoutService: AgentLayoutService, private authService : LoginService){
+  constructor(private shareService : TransfersService, private router : Router, private agentLayoutService: AgentLayoutService, private authService : LoginService,
+    private notifService : NotificationService)
+  {
 
     this.shareService.getAll().subscribe(
       (data: any[]) => {
         this.transfers = data;
-         console.log(data);
          const currentDate = new Date();
          this.transfers.forEach(transfer => {
           const arrival = new Date(transfer.date_time_Arrive); // Assurez-vous que la propriété date_time_Arrive existe dans votre objet de transfert
@@ -149,7 +163,11 @@ loadTransfers(): void {
   this.authService.getTokenData().subscribe(
     (response) => {
       this.idAgency= response.agency.id;
-     console.log(this.idAgency)
+      this.agencyId= response.agency.id;
+      this.agencyName = response.agency.name;
+      this.agencyLogo = response.agency.logo;
+      this.agentEmetteurId = response.id;
+   
    
    
   
@@ -285,7 +303,6 @@ this.message='Formulaire Invalid !'
 
 Details(id: string): void {
   this.TransferId = id;    //id bus récupéré depuis la table affichée
-  console.log(this.TransferId);
   this.shareService.getById(this.TransferId).subscribe(data => {
     this.TransferData = data;
     this.from=data.from;
@@ -302,6 +319,7 @@ Details(id: string): void {
     this.firstName=data.agent.firstname;
     this.lastName=data.agent.lastname;
     this.dateCreation=data.dateCreation;
+    this.id = data.id;
     const currentDate = new Date();
     const arrival = new Date(this.arrive);
    if (arrival < currentDate)
@@ -395,30 +413,184 @@ shareTransfer(id: string): void {
               this.message='Transfer Updated!'
         
             },)
-  
-  
-  
-  
           const shareTime = new Date().toISOString();
-    
-      
-  
+
               this.router.navigate(['/agent-layout/profile']);
             },
             (error) => {
               console.error('Erreur lors de la récupération du token de l\'agence :', error);
             }
-          );
-        
-       
-     
-    }}
-      });
+          ); }}});}
+showReservationDetails : boolean=false;
+dataTransfer:string='';
+noReservation:boolean=false;
+index:number=0;
+showDetails(){
+
+  this.showReservationDetails = !this.showReservationDetails;
+  this.shareService.getNotifTransfert(this.idAgency, this.TransferId).subscribe(
+    (data: any[]) => {
+   
+this.notifications =data;
+this.noReservation=false;
+if(data.length===0)
+  {this.noReservation=true;}
+    },
+
+  
+  );
+
+}
+
+
+
+
+
+accept(id:string){
+  this.notifService.getNotifById(id).subscribe(
+   (data: any[]) => {
+     this.notif = data; 
+     this.agentId = this.notif.agentEmetteurId;   
+     const notifUpdate = {
+       validate: true,
+     response: 'Accepted'
+     }
+ this.notifService.updateNotif(this.notif.id,notifUpdate ).subscribe(
+   () => {
+   });
+ console.log(this.notif)
+ console.log(this.notif.validate);
+      this.notifService.getTransferById(this.notif.transferId).subscribe(
+       (data: any[]) => {
+         this.transfer = data; 
  
-}
+       
+ 
+            if  (  ( this.transfer.nbrePlacesDisponibles - this.notif.nbPlaces) ==0)
+       { this.placesDispoTransfer =  0
+         this.availability='Not Available'}
+     else {  this.placesDispoTransfer = ( this.transfer.nbrePlacesDisponibles - this.notif.nbPlaces) ;
+       this.availability='Available'}   
+       const messageNotif = ' accepts your transfer request '+ this.notif.nbPlaces + ' places from ' + this.notif.from + ' to ' + this.notif.to + ' which departing on ' +formatDate(this.notif.date_time, 'MMM dd, yyyy, h:mm:ss a', 'en-US');
+   
+    
+       const notifData = {
+        agentId: this.agentId,
+        message: messageNotif,
+        agentEmetteurId:this.agentEmetteurId,
+        agencyEmettriceId: this.agencyId,
+        agencyEmettriceName : this.agencyName,
+        agencyEmettriceLogo: this.agencyLogo,
+        from:this.notif.from,
+        to:this.notif.to,
+        nbPlaces:this.notif.nbPlaces,
+        date_time:this.notif.date_time,
+        notifAccept:true,
+        notifRefus:false,
+        transferId:this.notif.transferId,
+        response:'Accepted'
+ 
+       
+  
+      };
+  
+        try {
+          const response = this.notifService.addNotif(notifData);
+         
+      this.notifAccept=true;
+  
+  
+        console.log(this.placesDispoTransfer );
+        console.log(this.availability );
+      const transferUpdate = {
+        nbrePlacesDisponibles:this.placesDispoTransfer,
+        etatTransfer:this.availability
+      };
+  
+      this.notifService.updateTransfer(this.notif.transferId, transferUpdate).subscribe(
+        () => {
+         
+        
+         
+    
+        });
+  
+      
+          console.log('Notif created:', response);
+  
+     
+        } catch (error) {
+          console.log('Error creating Notif:', error);        
+        }
+       },)
+      
+     });
+     
+    
+   }
+ 
+ 
+   supp(id:string){
+     this.notifService.getNotifById(id).subscribe(
+      (data: any[]) => {
+        this.notif = data; 
+        this.agentId = this.notif.agentEmetteurId;   
+         console.log(this.notif.agent.id);
+        const messageNotif = ' refuses your transfer request '+ this.notif.nbPlaces + ' places from ' + this.notif.from + ' to ' + this.notif.to + ' which departing on ' +formatDate(this.notif.date_time, 'MMM dd, yyyy, h:mm:ss a', 'en-US');
+        
+        const notifUpdate ={validate:true, response: 'Refused'}
+        this.notifService.updateNotif(this.notif.id,notifUpdate ).subscribe(
+         () => {});
+         const notifData = {
+          agentId: this.agentId,
+          message: messageNotif,
+          agentEmetteurId:this.agentEmetteurId,
+          agencyEmettriceId: this.agencyId,
+          agencyEmettriceName : this.agencyName,
+          agencyEmettriceLogo: this.agencyLogo,
+          from:this.notif.from,
+          to:this.notif.to,
+          nbPlaces:this.notif.nbPlaces,
+          date_time:this.notif.date_time,
+          notifAccept:false,
+          notifRefus:true,
+          transferId:this.notif.transferId,
+          response:'Refused'
+    
+    
+        };
+      
+          try {
+            const response = this.notifService.addNotif(notifData);
+    
+        this.notifRefus=true;
+            console.log('Notif created:', response);
+       
+          } catch (error) {
+            console.log('Error creating Notif:', error);        
+          }
+      
+         
+       
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des transfers :', error);
+      }
+    ); 
+    
+     
+
+      }
+    
 
 
+
+
+
+
+
 }
+
 
 
 

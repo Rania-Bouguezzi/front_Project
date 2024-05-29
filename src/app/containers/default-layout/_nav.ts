@@ -70,3 +70,37 @@ export const navItems: INavData[] = [
 
         
 ];
+
+export const navAdmin :INavData[] = [
+
+  {title: true,
+  name:''},
+  {
+    name: 'Dashboard',
+   url: 'dashboard',
+    iconComponent: { name: 'cil-speedometer' },
+   
+  },
+  {
+    name: 'Agency',
+   url: 'agency',
+    iconComponent: { name: 'cilInstitution' },
+   
+  },
+  {
+    name: 'Super Agent',
+  url: 'supers_agents',
+  iconComponent: { name: 'cilWalk' },
+  },
+  {
+    name: 'Agent',
+    url: 'agents',
+    iconComponent: { name: 'cilWalk' },
+  },  
+  {
+    name: 'All Users',
+    url: 'users',
+    iconComponent: { name: 'cilUser' },
+  },  
+
+]  

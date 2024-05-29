@@ -8,16 +8,45 @@
 
 <ng-scrollbar pointerEventsMethod="scrollbar">
 
-  <div class="d-flex align-items-center mb-3">
-    <c-avatar size="xl" src={{logo}}></c-avatar>
+  <!-- <div class="d-flex align-items-center mb-3">
+    <c-avatar size="xl"  *ngIf="role=='SuperAdmin'" src={{logoAdmin}} : src={{logo}} ></c-avatar>
     <div class="ms-2">
       <p class="mb-0">{{name}}</p>
       <p class="mb-0" style="font-size: 10px;">{{email}}</p>
+    </div></div> -->
+  <!-- <c-sidebar-nav
+    *ngIf="role=='SuperAdmin'" [navItems]="navAdmin" :  [navItems]="navItems"
+    dropdownMode="close"
+  /> -->
+  <div class="d-flex align-items-center mb-3" *ngIf="role=='SuperAdmin' ; else normalUser">
+    <c-avatar size="xl" src={{logoAdmin}}  ></c-avatar>
+    <div class="ms-2">
+      <p class="mb-0">{{nameAdmin}}</p>
+      <p class="mb-0" style="font-size: 10px;">{{emailAdmin}}</p>
     </div></div>
+
+    <ng-template #normalUser>
+      <div class="d-flex align-items-center mb-3" >
+        <c-avatar size="xl" src={{logo}}  ></c-avatar>
+        <div class="ms-2">
+          <p class="mb-0">{{name}}</p>
+          <p class="mb-0" style="font-size: 10px;">{{email}}</p>
+        </div></div>
+    
+    </ng-template>
+  <c-sidebar-nav
+  *ngIf="role === 'SuperAdmin'; else normalUserNav"
+  [navItems]="navAdmin"
+  dropdownMode="close"
+></c-sidebar-nav>
+
+<ng-template #normalUserNav>
   <c-sidebar-nav
     [navItems]="navItems"
     dropdownMode="close"
-  />
+  ></c-sidebar-nav>
+</ng-template>
+
 </ng-scrollbar>
   <c-sidebar-toggler
     *ngIf="!sidebar.narrow"

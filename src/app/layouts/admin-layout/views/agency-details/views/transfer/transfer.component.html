@@ -1,0 +1,54 @@
+<body class="container">
+    <button class="btn btn-outline position-relative" (click)="goBack()" > <svg xmlns="http://www.w3.org/2000/svg" style="color : blueviolet"   width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+      </svg></button>
+      <div class="align-items-center justify-content-center border-bottom">
+         <div>
+             <h4 class="text-uppercase weight-bold text-center">
+                 <c-avatar src={{agencyLogo}}></c-avatar> {{agencyName}} 
+             </h4>
+         </div>
+     </div>
+         <div class="container">
+          <div><c-card-header  class="card-header">
+            <strong class="fs-4">List Of Transfers</strong>
+          </c-card-header></div>
+             
+          <br>
+         <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" class="table table-striped table-sm">
+        <thead class="table-light " ctablecolor="light">
+          
+          <tr>
+           
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Date Depart</th>
+            <th scope="col">Date Arrive</th>
+            <th scope="col">Places Disponibles</th>
+            <th scope="col">Price of Place</th>
+            <th scope="col">Etat</th>
+            <th scope="col">Extra</th>
+            <th scope="col">Note</th>
+   
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transfer of transfers">
+            <td>{{transfer.from}}</td>
+            <td>{{transfer.to}}</td>
+            <td>{{transfer.date_time_Depart | date:'M/d/yy, h:mm a'}}</td>
+            <td>{{transfer.date_time_Arrive | date:'M/d/yy, h:mm a'  }}
+            </td>
+            <td style="text-align: center;">{{transfer.nbrePlacesDisponibles}}</td>
+            <td style="text-align: center;">{{transfer.priceTransferForPerson}}</td>
+            <td> <span *ngIf="transfer.etatTransfer == 'Available'" class="badge bg-success" >{{transfer.etatTransfer}}</span>
+              <span *ngIf="transfer.etatTransfer == 'Not Available'" class="badge bg-warning">{{transfer.etatTransfer}}</span>
+            </td>
+            <td  style="text-align: center;">{{transfer.extra}}</td>
+            <td><p>{{transfer.note}}</p></td>
+        
+     
+            </tr>
+          
+        </tbody>
+      </table></div></body>
