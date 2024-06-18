@@ -1,1 +1,162 @@
-<p>users works!</p>
+<body class="container">
+      <div class="align-items-center justify-content-center border-bottom">
+        <div>
+       
+        </div>
+    </div>
+    <div class="container">
+        <div>
+            <div class="d-flex justify-content-between align-items-center">
+              <c-card-header class="card-header">
+                <strong class="fs-4">List Of Users</strong>
+              </c-card-header>
+              <select class="form-select w-auto" (change)="onRoleChange($event)">
+                <option value="AllUsers">AllUsers</option>
+                <option value="SuperAgent">Super Agent</option>
+                <option value="Agent">Agent</option>
+                <option value="Driver">Driver</option>
+              </select>
+
+              <select class="form-select w-auto"  (change)="onAgencyChange($event)">
+                <option value="AllAgencies">All Agency</option>
+                <option *ngFor="let agency of agencies; index as i" value="{{agency.name}}">{{agency.name}} </option>
+             
+              </select>
+            </div>
+          </div>
+          
+    <br>
+    <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+        <thead class="table-light" ctablecolor="light">
+          
+          <tr>
+    
+            <th  scope="col" style="text-align: center;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+              </svg></th>
+            <th scope="col" >User</th>
+            <th scope="col" >Email</th>
+            <th scope="col" >Phone</th>
+            <th scope="col" >Adress</th>
+            <th scope="col">Agency</th>
+            <th scope="col">Details</th>
+     
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of filteredUsers; index as i">
+            <td class="text-center">
+                <c-avatar src="{{user.picture}}" *ngIf="user.status == 'Actif'" status="success"  ></c-avatar>
+                <c-avatar src="{{user.picture}}" *ngIf="user.status == 'Expired'" status="warning"  ></c-avatar>
+                <c-avatar src="{{user.picture}}" *ngIf="user.status == 'Inactif'" status="secondary"  ></c-avatar>
+                <c-avatar src="{{user.picture}}" *ngIf="user.status == 'Blocked'" status="danger"  ></c-avatar>
+         
+            </td>
+        
+            <td>
+              <div>{{ user.firstname }} {{user.lastname}} </div>
+              <div class="small text-medium-emphasis text-nowrap">
+                <span>
+                   Registered: {{ user.dateCreation | date:'MMM d, y' }}
+                </span>
+              </div>
+            </td>
+    
+            <td>
+          {{user.email}}
+            </td>
+            <td>
+              <div class="d-flex justify-content-between">
+                <div class="float-start">
+                    {{user.phone}}
+                </div>
+          
+              </div>
+       
+           
+           
+            </td>
+     
+          <td>    
+            <small class="text-medium-emphasis">
+              {{user.address}}
+            </small></td>
+            <td>
+                <c-avatar src={{user.agency.logo}}></c-avatar>  {{user.agency.name}}</td>
+            <td>
+           
+                  <button type="button" class="btn btn-outline-secondary" (click)="details(user.id)"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                      <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"/>
+                      <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
+                    </svg>
+                  </button>
+                      
+           
+                               
+                                     
+                
+                            </td>
+
+          </tr>
+        </tbody>
+      </table>
+          
+    
+    
+    
+     
+      </div>
+      
+    
+</body>    
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{firstname}}&nbsp; {{lastname}} ! <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+          </svg></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+          <div class="card w-100">
+            <div class="card-body">
+       
+              <p class="card-text">
+               <table class="table">
+                  <tbody>
+                
+                     <tr><th scope="row"> Name :</th>   <td> <c-avatar    src={{avatar}}></c-avatar> {{firstname}} &nbsp; {{lastname}}</td> </tr>
+                     <tr><th scope="row">  Email :</th>  <td> {{email}}</td> </tr>
+                     <tr><th scope="row">  Role :</th>  <td> {{role}}</td> </tr>
+                     <tr><th scope="row">  Phone :</th>  <td> {{phone}}</td> </tr>
+                     <tr><th scope="row">  Adress :</th>  <td> {{address}}</td> </tr>
+                     <tr><th scope="row">  {{role}} In  :</th>  <td> <c-avatar src={{logo}}></c-avatar> {{agencyName}}</td> </tr>
+
+                     <tr><th scope="row">  Status :  </th>  <td>            <span *ngIf="status == 'Actif'" class="badge bg-success">{{status}}</span>
+                      <span *ngIf="status == 'Inactif'" class="badge bg-secondary">{{status}}</span>
+                      <span *ngIf="status == 'Blocked'" class="badge bg-dark">{{status}}</span>
+                      <span *ngIf="status == 'Expired'" class="badge bg-danger">{{status}}</span></td> </tr>
+                   
+                   
+                   
+                     </tbody>
+               </table>
+               <div>  <div style="text-align: right;"> Created On {{dateCreation | date}} at {{dateCreation | date : 'HH:mm'}} </div></div>
+            </div>
+          </div>
+         
+  
+        </div>
+        <div class="modal-footer">
+            <button type="submit"   class="btn btn-danger" style="color: white;">Blocked</button>
+       
+   
+        </div>
+      </div>
+    </div>
+  </div>

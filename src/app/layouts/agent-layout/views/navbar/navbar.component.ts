@@ -26,6 +26,7 @@ export class NavbarComponent {
   firstname:string=''
   notifs :any[]=[];
   dateCreation:string='';
+  notificationClickCount: number = 0;
   public isPopoverOpen: boolean = false;
 
   constructor( private tokenService : LoginService ,private  router : Router, private notifService : NotificationService) { 
@@ -109,4 +110,14 @@ export class NavbarComponent {
    go(){
     this.router.navigate([ '/agent-layout/notification' ]);
    }
+
+
+   handleNotificationClick(): void {
+    this.notificationClickCount++;
+    if (this.notificationClickCount === 2) {
+      // Redirection vers le lien souhaité
+      this.router.navigate(['/agent-layout/notification']);
+      this.notificationClickCount = 0; // Réinitialiser le compteur
+    }
+  }
 }

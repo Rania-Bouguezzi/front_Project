@@ -59,4 +59,9 @@ onSearch(event: any): void {
 Details(id: string) {
   this.router.navigate([`admin/agencyDetails/${id}`]);
 }
+
+
+go(){
+  this.router.navigate(['admin/agency/add']);
+}
 }

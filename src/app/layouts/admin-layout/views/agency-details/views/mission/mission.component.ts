@@ -20,6 +20,7 @@ export class MissionComponent {
   idAgency:string='';
   agencyName:string='';
 agencyLogo:string='';
+transfers:any[]=[];
     constructor(private agencyService : AgencyDetailsService, private route : ActivatedRoute, private router : Router){}
     ngOnInit(): void {
       this.dtoptions = {pagingType: 'full_numbers'};
@@ -36,6 +37,8 @@ agencyLogo:string='';
   this.agencyService.getMissionrByAgency(id).subscribe(
     (data) => {
       this.missions = data;
+     // this.transfers= data.transfers;
+     
       this.dtTrigger.next(null);
     })}
   
@@ -48,5 +51,17 @@ agencyLogo:string='';
   this.agencyName=data.name;
   this.agencyLogo=data.logo;
     })
+  }
+missionId:string='';
+mission:any;
+  getTransfer(id:string){
+this.missionId=id;
+this.agencyService.getMissionById(id).subscribe(
+  (data) => {
+    this.mission = data;
+   // this.transfers= data.transfers;
+   
+    this.dtTrigger.next(null);
+  })
   }
 }

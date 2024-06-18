@@ -57,10 +57,11 @@ getAgencyDetails(id : string){
 this.agencyService.getAgencyById(id).subscribe(data => {
   this.agency = data;
  this.name = data.name;
- this.email = data.email;
+ this.email = data.emailAgency;
  this.website = data.website;
- this.address = data.address;
+ this.address = data.addressAgency;
  this.logo =data.logo;
+ this.phone= data.phoneAgency;
 })
 }
 

@@ -42,33 +42,38 @@ export class TransfersService {
   
   updateTransfer(id:string, transfer:any):Observable<any>{
 
-    return this.http.patch<any>(`http://localhost:3000/transfers/${id}`, transfer, { headers: {'Content-Type': 'application/json'} })
+    return this.http.patch<any>(`http://localhost:3000/transfers/${id}`, transfer, { headers: {'Content-Type': 'application/json'} });
     }
   
   
     getById(id:string):Observable<any>{
-      return this.http.get<any>(`http://localhost:3000/transfers/${id}`)
+      return this.http.get<any>(`http://localhost:3000/transfers/${id}`);
         }
   deleteTransfer(id:string):Observable<any>{
-    return this.http.delete<any>(`http://localhost:3000/transfers/${id}`)
+    return this.http.delete<any>(`http://localhost:3000/transfers/${id}`);
 
   }
 getVille(){
-  return this.http.get<any[]>("http://localhost:3000/ville")
+  return this.http.get<any[]>("http://localhost:3000/ville");
 }
 
 getTransferByAgency(idAgency:string){
-  return this.http.get<any[]>(`http://localhost:3000/transfers/agency/${idAgency}`)
+  return this.http.get<any[]>(`http://localhost:3000/transfers/agency/${idAgency}`);
 }
 
 
 getNotifTransfert(idAgency:string, idTransfer:string){
-  return this.http.get<any[]>(`http://localhost:3000/notifications/${idAgency}/transfer/${idTransfer}`)
+  return this.http.get<any[]>(`http://localhost:3000/notifications/${idAgency}/transfer/${idTransfer}`);
+}
+
+getMission(idTransfer:string){
+  return this.http.get<any[]>(`http://localhost:3000/transfers/mission/${idTransfer}`); 
 }
 
 
-
-
+updateMission(idTransfer:string, mission:any):Observable<any>{
+  return this.http.patch<any>(`http://localhost:3000/transfers/mission/${idTransfer}`, mission, { headers: {'Content-Type': 'application/json'} });
+  }
 
 getToken(){
   return this.authService.getTokenData();

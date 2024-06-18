@@ -64,6 +64,22 @@ export class AgentsComponent {
 
   
   });
+  myFormUpdate = new FormGroup({
+    username: new FormControl('', Validators.required),
+    
+    email: new FormControl('', [Validators.required, Validators.email]),
+    firstname: new FormControl('', Validators.required),
+    lastname: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    verifyPassword: new FormControl('', Validators.required),
+    birthDate: new FormControl('', Validators.required),
+    address: new FormControl('', Validators.required),
+    picture: new FormControl('', Validators.required),
+    phone: new FormControl('', Validators.required),
+    genre: new FormControl('', Validators.required),
+
+  
+  });
   constructor(private shareService : AgentsService, private authService:LoginService, private router : Router){}
   
   
@@ -197,6 +213,62 @@ async onSubmit() {
 Dashboard(){
   this.router.navigate(['/super-agent-layout/dashboard']);
 }
+
+
+
+updateAgent(): void {
+  if (this.myFormUpdate.invalid) {
+    return;
+  }
+  const updatedAgentData = this.myFormUpdate.value;
+  this.shareService.update( this.idAgent, updatedAgentData).subscribe(
+    () => {
+      console.log('Agent mis à jour avec succès !');
+    },
+    error => {
+      console.error('Erreur lors de la mise à jour de l agence', error);
+     
+    }
+  );
+ }  
+
+
+
+idAgent:any
+agentData:any;
+openUpdateModal(id: string): void {
+  this.idAgent=id; 
+  this.shareService.getById(id).subscribe(data => {
+    console.log(id);
+    this.agentData = data;
+    this.myFormUpdate.patchValue({
+      username: data.username,
+      email: data.email,
+   firstname: data.firstname,
+   lastname: data.lastname,
+   password: data.password,
+   birthDate: data.birthDate,
+   genre: data.genre,
+   address:data.address,
+   picture: data.picture,
+   phone: data.phone,
+
+    });
+    console.log('hi',this.myFormUpdate.value.phone) 
+    // Open the update modal here
+    const modal = document.getElementById('ModalUpdate');
+    if (modal) {
+      
+      modal.classList.add('show');
+      modal.style.display = 'block';
+    }
+  }, error => {
+    console.error('Error retrieving agency data:', error);
+  });
+
+ 
+}
+ 
 
 
 }

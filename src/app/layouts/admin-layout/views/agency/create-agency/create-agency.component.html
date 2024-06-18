@@ -1,0 +1,144 @@
+<div class="rounded bg-white">
+    <button class="btn btn-outline position-relative" (click)="goBack()" > <svg xmlns="http://www.w3.org/2000/svg" style="color : blueviolet"   width="30" height="30" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+      </svg></button>   
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"  src="https://img.icons8.com/?size=100&id=WbDZLnTwofWm&format=png&color=000000"><span class="font-weight-bold">Add New Agency </span><span class="text-black-50"></span><span> </span></div>
+        </div>
+        <div class="col-md-8 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Create A New Agency !</h4>
+                </div>
+                <form class="row g-3 needs-validation" [formGroup]="myFormAgency" (click)="function()" (ngSubmit)="onSubmit()"  novalidate >  
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" formControlName="name" placeholder="enter name" required>
+                        <div class="invalid-feedback">
+                            Name is required.
+                          </div>    
+                    </div> 
+                    <div class="col-md-6"><label class="labels">Email</label><input type="text" class="form-control" formControlName="emailAgency" placeholder="enter email" required>
+                        <div class="invalid-feedback">
+                            Email is required.
+                           </div> 
+                           <!-- <div *ngIf="myFormAgency.controls['emailAgency'].errors?.['email']" class="alert alert-danger" role="alert">
+                            This is not an email !
+                           </div> -->
+                    </div> 
+                    
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Logo</label><input type="file" class="form-control" formControlName="logo" placeholder="enter logo" required>
+                        <div class="invalid-feedback">
+                            Logo is required.
+                           </div> 
+                    </div> 
+                    <div class="col-md-6"><label class="labels">Phone</label><input type="text" class="form-control" formControlName="phoneAgency" placeholder="enter phone number" required>
+                        <div class="invalid-feedback">
+                            Phone is required.
+                           </div> 
+                    </div> 
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Address</label><input type="text" class="form-control" formControlName="addressAgency" placeholder="enter address" required>
+                        <div class="invalid-feedback">
+                            Address is required.
+                          </div>    
+                    </div> 
+                
+                    <div class="col-md-6"><label class="labels">Website</label><input type="text" class="form-control" formControlName="website" placeholder="enter website link" required>
+                        <div class="invalid-feedback">
+                            Website is required.
+                          </div>    
+                    </div> 
+                </div>
+                <div class="justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Integrate A Super Admin !</h4>
+                </div>
+                <form [formGroup]="SPAForm">
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Firstname</label><input type="text" class="form-control" formControlName="firstname" placeholder="enter firstname" required>
+                        <div class="invalid-feedback">
+                            Firstname is required.
+                          </div>    
+                    </div> 
+                    <div class="col-md-6"><label class="labels">Lastname</label><input type="text" class="form-control" formControlName="lastname" placeholder="enter lastname" required>
+                        <div class="invalid-feedback">
+                            Lastname is required.
+                           </div> 
+                    </div> 
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Email</label><input type="text" class="form-control" formControlName="email" placeholder="enter email" required>
+                        <div class="invalid-feedback">
+                            Email is required.
+                          </div> 
+                          <div *ngIf="SPAForm.controls['email'].errors?.['email']" class="alert alert-danger" role="alert">
+                            This is not an email !
+                           </div>   
+                    </div> 
+                    <div class="col-md-6"><label class="labels">Password</label><input type="password" class="form-control" formControlName="password" placeholder="enter password" required>
+                        <div class="invalid-feedback">
+                            Password is required.
+                           </div> 
+                    </div> 
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Picture</label><input type="file" class="form-control" formControlName="picture" placeholder="choose picture" required>
+                        <div class="invalid-feedback">
+                            Picture is required.
+                          </div>    
+                    </div> 
+                    <div class="col-md-6"><label class="labels">BirthDate</label>  <input type="date" class="form-control" placeholder="BirthDate" formControlName="birthDate" required>
+                        <div class="invalid-feedback">
+                            BirthDate is required.
+                           </div> 
+                    </div> 
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Phone</label><input type="text" class="form-control" formControlName="phone" placeholder="enter phone number" required>
+                        <div class="invalid-feedback">
+                            Phone Number is required.
+                          </div>    
+                    </div> 
+                    <div class="col-md-6"><label class="labels">Address</label>  <input type="text" class="form-control" placeholder="enter address" formControlName="address" required>
+                        <div class="invalid-feedback">
+                            Address is required.
+                           </div> 
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><label class="labels">Genre</label>
+                        <mat-radio-group aria-label="Select an option" formControlName="genre" required>
+                            <mat-radio-button value="Féminin" class="labels">Female</mat-radio-button>
+                            <mat-radio-button value="Masculin" class="labels">Male </mat-radio-button>
+                          </mat-radio-group>
+                          <div class="invalid-feedback">
+                            Genre is required.
+                           </div> 
+                    </div> 
+                </div>
+
+            </form>
+
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Agency</button></div>
+            </form>
+            <div *ngIf="success==true" >
+            <div  class="alert alert-success" role="alert">
+               Agency Added With Success !!
+              </div> </div>
+            </div> 
+
+        </div>
+        <!-- <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
+                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+            </div>
+        </div> -->
+    </div>
+</div>

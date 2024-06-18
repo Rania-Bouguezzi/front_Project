@@ -44,7 +44,7 @@ ngOnInit(): void {
       else {
       this.logo= response.agency.logo;
       this.name= response.agency.name;
-      this.email= response.agency.email;
+      this.email= response.agency.emailAgency;
       this.role = response.role;
       }
     })

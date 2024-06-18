@@ -33,7 +33,10 @@ export class AgentsService {
   }
 
   
-  update(){}
+  update(id:string, agent:any):Observable<any>{
+
+    return this.http.patch<any>(`http://localhost:3000/agent/${id}`, agent, { headers: {'Content-Type': 'application/json'} })
+    }
   
   getById(id:string):Observable<any>{
     return this.http.get<any>(`http://localhost:3000/agent/${id}`)

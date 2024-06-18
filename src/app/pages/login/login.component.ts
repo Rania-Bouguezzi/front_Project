@@ -81,7 +81,7 @@ onSubmit(){
                 }else if (response.role === 'Driver')  {
                   this.router.navigateByUrl('/driver');
                 }else if (response.role === 'SuperAdmin')  {
-                  this.router.navigateByUrl('/admin');
+                  this.router.navigateByUrl('/admin/agency');
                 }    
                 
                 sessionStorage.setItem('access_token', response.access_token);

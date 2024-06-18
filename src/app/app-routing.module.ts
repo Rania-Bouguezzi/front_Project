@@ -52,19 +52,14 @@ const routes: Routes = [
         import('./layouts/admin-layout/views/agency-details/views/mission/mission.module').then((m) => m.MissionModule)
     },
     {
-      path: 'agents',
-      loadChildren: () =>
-        import('./layouts/admin-layout/views/users/agents/agents.module').then((m) => m.AgentsModule)
-    },
-    {
-      path: 'supers_agents',
-      loadChildren: () =>
-        import('./layouts/admin-layout/views/users/super-agent/super-agent.module').then((m) => m.SuperAgentModule)
-    },
-    {
       path: 'agency',
       loadChildren: () =>
         import('./layouts/admin-layout/views/agency/agency.module').then((m) => m.AgencyModule)
+    },
+    {
+      path: 'agency/add',
+      loadChildren: () =>
+        import('./layouts/admin-layout/views/agency/create-agency/create-agency.module').then((m)=>m.CreateAgencyModule)
     },
     {
       path: 'agencyDetails/:id',

@@ -21,8 +21,8 @@
              <th scope="col">To</th>
              <th scope="col">Date Start</th>
              <th scope="col">Date End</th>
-             <th scope="col">Numbre of Passengers</th>
-             <th scope="col">Price</th>
+             <th scope="col">Transfers</th>
+             <th scope="col">Etat</th>
              <th scope="col">Avaibility</th>
           
            </tr>
@@ -35,8 +35,11 @@
              <td>{{mission.date_time_start | date:'MMM d, y' }}</td>
              <td>{{ mission.date_time_end | date:'MMM d, y' }}
              </td>
-             <td style="text-align: center;" ><span>{{mission.nbrPassengers}}</span></td>
-             <td>{{mission.totalPrice}}</td>
+             <td> <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span class="badge bg-secondary"> view </span></button>
+            </td>
+             <td> <span *ngIf="mission.isShared==true" class="badge bg-info" >Shared</span>
+              <span  *ngIf="mission.isShared==false" class="badge bg-warning" >Not Shared</span>
+            </td>
              <td> <span *ngIf="mission.etatMission == 'Available'" class="badge bg-success" >{{mission.etatMission}}</span>
                <span *ngIf="mission.etatMission == 'Not Available'" class="badge bg-warning">{{mission.etatMission}}</span>
              </td>
@@ -46,9 +49,63 @@
                  <span *ngIf="mission.status == 'Blocked'" class="badge bg-dark">{{mission.status}}</span>
                  <span *ngIf="mission.status == 'Expired'" class="badge bg-danger">{{mission.status}}</span>
              </td> -->
-            
+            <!-- <td>
+              <div *ngIf="mission.transfers && mission.transfers.length">
+                <h4>Transfers:</h4>
+                <ul>
+                  <li *ngFor="let transfer of mission.transfers">
+                    <p>De: {{ transfer.from }} à {{ transfer.to }}</p>
+                    <p>Date de départ: {{ transfer.date_time_Depart }}</p>
+                    <p>Date d'arrivée: {{ transfer.date_time_Arrive }}</p>
+                    <p>Places disponibles: {{ transfer.nbrePlacesDisponibles }}</p>
+                    <p>Places occupées: {{ transfer.nbrePlacesOccupees }}</p>
+                    <p>Prix par personne: {{ transfer.priceTransferForPerson }}</p>
+                    <p>Status: {{ transfer.status }}</p>
+                  </li>
+                </ul>
+              </div>
+            </td> -->
              </tr>
            
          </tbody>
        </table>
+
+
+
  </body>
+
+ <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">List Of Transfer</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      
+
+<!-- 
+        <div >
+          <h4>Transfers:</h4>
+          <ul>
+            <li *ngFor="let transfer of mission.transfers">
+              <p>De: {{ transfer.from }} à {{ transfer.to }}</p>
+              <p>Date de départ: {{ transfer.date_time_Depart }}</p>
+              <p>Date d'arrivée: {{ transfer.date_time_Arrive }}</p>
+              <p>Places disponibles: {{ transfer.nbrePlacesDisponibles }}</p>
+              <p>Places occupées: {{ transfer.nbrePlacesOccupees }}</p>
+              <p>Prix par personne: {{ transfer.priceTransferForPerson }}</p>
+              <p>Status: {{ transfer.status }}</p>
+            </li>
+          </ul>
+        </div> -->
+
+
+
+
+      </div>
+  
+    </div>
+  </div>
+</div>

@@ -64,11 +64,11 @@
                                  <!-- <button (click)="deleteTransfer(transfer.id)">Supprimer</button> -->
                                  <p>
                                     My Mission is from <B> {{mission.from}} </B> to <B> {{mission.to}} </B>, departing on <B> {{mission.date_time_start |  date}}  </B> at <B>{{ mission.date_time_start | date:'HH:mm' }}</B> and arriving on <B> {{mission.date_time_end |  date}} </B>  at <B>{{ mission.date_time_end | date:'HH:mm' }}</B>. 
-                                    There are <B>{{mission.nbrPassengers}}</B> available seats, priced at <B> ${{mission.totalPrice}} </B> per person  .
+                                    There are <B>{{mission.nbrPassengers}}</B> available seats .
                                     <table class="table">
                                        <tbody>
                                           <tr *ngFor="let transfer of mission.transfers">
-                                             <td> from : <B>{{transfer.from}} </B> to :  <B>{{transfer.to}} </B>  </td>
+                                             <td> from : <B>{{transfer.from}} </B> to :  <B>{{transfer.to}} </B> &nbsp;&nbsp; ({{transfer.nbrePlacesDisponibles}} available places) </td>
                                              <td> <span *ngIf="transfer.etatTransfer==='Available'" class="badge bg-success" >{{transfer.etatTransfer}}</span> 
                                                 <span *ngIf="transfer.etatTransfer === 'Not Available'" class="badge bg-warning">{{ transfer.etatTransfer }}</span></td>  
                                           <td>       <button   class="btn btn-outline position-relative" style="color: rgb(88, 89, 90);" data-bs-toggle="modal" (click)="detailsTransfer(transfer.id)" data-bs-target="#exampleModal"> <small style="font-size: 12px;"> Details </small> </button></td>
@@ -196,7 +196,7 @@
                      <tr><th scope="row">  Extra :</th>  <td> {{extra}}</td> </tr>
                      <tr><th scope="row">  Availability :</th>  <td> <span *ngIf="etat==='Available'" class="badge bg-success" >{{etat}}</span> 
                         <span *ngIf="etat === 'Not Available'" class="badge bg-warning">{{ etat }}</span></td> </tr>
-                        <tr *ngIf="showInputnbPlace===true"><th scope="row">  Number Of Places :</th>  <td> <input type="text" class="form-control" [(ngModel)]="placeNumber"  [ngClass]="{'input-red': moreNb}"  (input)="calculateTotalPrice()" >
+                        <tr *ngIf="showInputnbPlace===true"><th scope="row">  Number Of Places :</th>  <td> <input type="number" min="1"  class="form-control" [(ngModel)]="placeNumber"  [ngClass]="{'input-red': moreNb}"  (input)="calculateTotalPrice()" >
                            <div *ngIf="moreNb" class="error-message">{{ message }}</div>
                         </td> </tr>
                         <tr *ngIf="showPrice===true" ><th scope="row">  Total Price :</th>  <td  [ngClass]="{'input-red': moreNb}" >{{TotalPrice}}$</td> </tr>
@@ -212,7 +212,7 @@
        </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
-         <button type="button" class="btn" (click)="onReserveClick()"  style="background-color: #ff3364; color: white;" [disabled]="moreNb || isExpired || sendMessageBool || agencyId===transfer_agency_id || TransferEtat">Reserve</button>
+         <button type="button" class="btn" (click)="onReserveClick()"  style="background-color: #ff3364; color: white;" [disabled]="moreNb || isExpired || sendMessageBool || agencyId===transfer_agency_id || TransferEtat || priceNul ">Reserve</button>
        </div>
    
      </div>

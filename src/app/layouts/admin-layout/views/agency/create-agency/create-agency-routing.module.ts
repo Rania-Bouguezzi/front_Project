@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {SuperAgentComponent} from './super-agent.component'
+import {CreateAgencyComponent} from './create-agency.component'
 
 const routes: Routes = [
-  {path:'',
-    component:SuperAgentComponent
-  }
+  {path:'', component: CreateAgencyComponent}
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SuperAgentRoutingModule { }
+export class CreateAgencyRoutingModule { }

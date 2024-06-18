@@ -39,6 +39,11 @@ export class NeedsTransferComponent {
     text: new FormControl('', Validators.required),
   });
 
+
+  myFormContact = new FormGroup({
+    text: new FormControl('', Validators.required),
+  });
+
 constructor(private tokenService : LoginService, private tokenLogout:  DefaultHeaderService, private router:Router,
   private  shareService : NeedsTransferService, private authService : LoginService
 ){}
@@ -194,7 +199,7 @@ onSearch(event: any): void {
 
 
 deleteTransfer(id: string): void {
-  const confirmation = window.confirm('You want to delete this Transfer ?');
+  const confirmation = window.confirm('You want to delete this Publication ?');
   if (confirmation) {
 
     this.shareService.delete(id).subscribe(() => {

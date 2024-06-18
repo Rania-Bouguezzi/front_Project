@@ -133,22 +133,6 @@
         </option>
     </select>
   </div>
-
-  <div class="col">
-    <label cLabel for="validationCustom01">Transfers :</label>
-    <ng-container *ngIf="filteredTransfers && filteredTransfers.length > 0; else emptyTransfers">
-    <select cSelect id="validationCustom04" formControlName="transfers" multiple>
-        <option *ngFor="let transfer of transfers " [value]="transfer.id">
-        
-         <small>  From: {{ transfer.from }} - To: {{ transfer.to }} - ({{transfer.nbrePlacesOccupees}} places occupied)</small>
-            
-        </option>
-    </select> </ng-container>  <ng-template #emptyTransfers>
-      <option disabled selected> <p style="color : red">{{ messageAnyTransfer }}</p> </option>
-  </ng-template>
-  </div>
-</div>
-<div class="row">
   <div class="col">    <label cLabel for="validationCustom01">Driver :</label>
     <select cSelect id="validationCustom04" formControlName="driverId"  >
     
@@ -156,11 +140,23 @@
             {{ driver.firstname }}  {{ driver.lastname }} 
         </option>
     </select></div>
-  <div class="col">
 
-    <label cLabel for="validationCustom01">Price :</label>
-    <input cFormControl id="validationCustom01" formControlName="totalPrice"  type="number" />
-  </div>
+</div>
+<div class="row">
+
+    <div class="col">
+      <label cLabel for="validationCustom01">Transfers :</label>
+      <ng-container *ngIf="filteredTransfers && filteredTransfers.length > 0; else emptyTransfers">
+      <select cSelect id="validationCustom04" formControlName="transfers" multiple>
+          <option *ngFor="let transfer of transfers " [value]="transfer.id">
+          
+           <small>  From: {{ transfer.from }} - To: {{ transfer.to }} - ({{transfer.nbrePlacesOccupees}} places occupied)</small>
+              
+          </option>
+      </select> </ng-container>  <ng-template #emptyTransfers>
+        <option disabled selected> <p style="color : red">{{ messageAnyTransfer }}</p> </option>
+    </ng-template>
+    </div>
 </div>
 <div class="row">
   <div class="col">     <label cLabel for="validationCustom01">Date Start :</label>
@@ -168,13 +164,13 @@
   <div class="col"><label cLabel for="validationCustom01">Date End :</label>
     <input cFormControl id="validationCustom01" formControlName="date_time_end"  type="datetime-local" /></div>
 </div>
-<div class="row">
+<!-- <div class="row">
   <div class="col">
-    <label cLabel for="validationCustom01">Number of Passenger :</label>
+    <label cLabel for="validationCustom01">Number of Passenger Available :</label>
     <input cFormControl id="validationCustom01" formControlName="nbrPassengers"  type="number" />
   </div>
 
-</div>
+</div> -->
 
 
      
@@ -248,7 +244,17 @@
             </div>
           
             <div class="col">
-              <label cLabel for="validationCustom01">Transfers :</label>
+              <div class="col">    <label cLabel for="validationCustom01">Driver :</label>
+                <select cSelect id="validationCustom04" formControlName="driverId"  >
+                
+                    <option *ngFor="let driver of drivers" [value]="driver.id" >
+                        {{ driver.firstname }}  {{ driver.lastname }} 
+                    </option>
+                </select></div>
+             
+          </div>
+          <div class="row">
+            <label cLabel for="validationCustom01">Transfers :</label>
               <ng-container *ngIf="filteredTransfers && filteredTransfers.length > 0; else emptyTransfers">
               <select cSelect id="validationCustom04" formControlName="transfers" multiple>
                   <option *ngFor="let transfer of transfers " [value]="transfer.id">
@@ -260,20 +266,11 @@
                 <option disabled selected> <p style="color : red">{{ messageAnyTransfer }}</p> </option>
             </ng-template>
             </div>
-          </div>
-          <div class="row">
-            <div class="col">    <label cLabel for="validationCustom01">Driver :</label>
-              <select cSelect id="validationCustom04" formControlName="driverId"  >
-              
-                  <option *ngFor="let driver of drivers" [value]="driver.id" >
-                      {{ driver.firstname }}  {{ driver.lastname }} 
-                  </option>
-              </select></div>
-            <div class="col">
+            <!-- <div class="col">
           
               <label cLabel for="validationCustom01">Price :</label>
               <input cFormControl id="validationCustom01" formControlName="totalPrice"  type="number" />
-            </div>
+            </div> -->
           </div>
           <div class="row">
             <div class="col">     <label cLabel for="validationCustom01">Date Start :</label>
@@ -281,12 +278,12 @@
             <div class="col"><label cLabel for="validationCustom01">Date End :</label>
               <input cFormControl id="validationCustom01" formControlName="date_time_end"  type="datetime-local" /></div>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col">
               <label cLabel for="validationCustom01">Number of Passenger :</label>
               <input cFormControl id="validationCustom01" formControlName="nbrPassengers"  type="number" />
             </div>
-</div>          
+</div>           -->
          
       
         

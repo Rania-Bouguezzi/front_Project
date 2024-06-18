@@ -27,8 +27,8 @@ export class MissionsComponent implements OnInit {
     to: new FormControl('', Validators.required),
     date_time_start: new FormControl(this.dateTime, Validators.required),
     date_time_end: new FormControl(this.dateTime, Validators.required),
-    nbrPassengers: new FormControl('', Validators.required),
-    totalPrice: new FormControl('', Validators.required),
+    nbrPassengers: new FormControl(0, Validators.required),
+  //  totalPrice: new FormControl('', Validators.required),
     dateMission: new FormControl(this.dateTime, Validators.required),
     transfers: new FormControl([], Validators.required),
     busId: new FormControl('', Validators.required),
@@ -44,8 +44,8 @@ export class MissionsComponent implements OnInit {
     to: new FormControl('', Validators.required),
     date_time_start: new FormControl('', Validators.required),
     date_time_end: new FormControl('', Validators.required),
-    nbrPassengers: new FormControl('', Validators.required),
-    totalPrice: new FormControl('', Validators.required),
+   // nbrPassengers: new FormControl('', Validators.required),
+   // totalPrice: new FormControl('', Validators.required),
     dateMission: new FormControl('', Validators.required),
     transfers: new FormControl([], Validators.required),
     busId: new FormControl('', Validators.required),
@@ -85,6 +85,7 @@ buses:any[]=[];
   filteredTransfers: any[] = [];
   dtoptions: DataTables.Settings = {};
   dtTrigger:Subject<any>=new Subject<any>();
+  SUMPlacesDispo:number =0;
 
 constructor(private missionService: MissionsService,  private router : Router, private transferService : TransfersService,
   private authService : LoginService, private busesService : BusesService, private driversService : DriversService,
@@ -252,6 +253,7 @@ onCitySelected(selectedCity: string) {
     for (const idTransfer of  this.transferUsed) {
       const dataTransfert = await this.transferService.getById(idTransfer).toPromise();
         this.nbrePlacesOccupees = dataTransfert.nbrePlacesOccupees;
+        this.SUMPlacesDispo = this.SUMPlacesDispo + (this.nbrPlaces - this.nbrePlacesOccupees);
         const updateTransfer = {
           nbrePlacesDisponibles: (this.nbrPlaces - this.nbrePlacesOccupees),
           status : 'Blocked'}
@@ -260,7 +262,8 @@ onCitySelected(selectedCity: string) {
     () => { 
       console.log('Transfer mis à jour avec succès !', );
     },)
-      }
+      } console.log(this.SUMPlacesDispo);
+      this.myFormMission.value.nbrPassengers=this.SUMPlacesDispo;
     const response = this.missionService.addMissions(formData);
     console.log('mission created:', response);
     this.message = "Misson created!";
@@ -358,8 +361,8 @@ openUpdate(id: string): void {
       to: this.missionData.to,
       date_time_start: this.missionData.date_time_start,
       date_time_end: this.missionData.date_time_end,
-      nbrPassengers: this.missionData.nbrPassengers,
-      totalPrice: this.missionData.totalPrice,
+   //   nbrPassengers: this.missionData.nbrPassengers,
+   //   totalPrice: this.missionData.totalPrice,
       dateMission: this.missionData.dateMission,
       transfers: this.missionData.transfers,
       driverId: this.missionData.drivers,
@@ -402,7 +405,7 @@ shareMission(id:string): void{
     (data: any) => {
       this.mission = data;
      
-    { const confirmation = window.confirm('Vous voulez partager cette Mission ?');
+    { const confirmation = window.confirm('Do you want to share this Mission ?');
     if (confirmation) {
       this.missionService.getById(id).subscribe(
         (data: any) => {

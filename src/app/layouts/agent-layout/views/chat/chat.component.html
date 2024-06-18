@@ -1,66 +1,65 @@
-<div class="container">
-    <div class="row clearfix">
-        <div class="col-lg-12">
-            <div class="card chat-app">
-                <div id="plist" class="people-list">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Search...">
-                    </div>
-                    <ul class="list-unstyled chat-list mt-2 mb-0">
-                        <li class="clearfix">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-                            <div class="about">
-                                <div class="name">Dean Henry</div>
-                                <div class="status"> <i class="fa fa-circle offline"></i> offline since Oct 28 </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="chat">
-                    <div class="chat-header clearfix">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                                </a>
-                                <div class="chat-about">
-                                    <h6 class="m-b-0">Aiden Chavez</h6>
-                                    <small>Last seen: 2 hours ago</small>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 hidden-sm text-right">
-                                <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-info"><i class="fa fa-cogs"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat-history "   *ngFor="let msg of messages">
-                        <ul class="m-b-0">
-                            <li class="clearfix">
-                              
-                                <div class="message other-message float-right">{{msg.message}} </div>
-                            </li>
-                           
-                        </ul>
-                    </div>
-                    <div class="chat-message clearfix">
-                        <div class="input-group mb-0">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-send"></i></span>
-                            </div>
-                            <form (submit)="submit()">
-                                <input class="form-control" placeholder="Write a message" [(ngModel)]="message" name="message" />
-                                <button type="submit">Send</button>
-                              </form>                                  
-                        </div>
-                    </div>
-                </div>
+<body>
+
+<div class="row">
+    <div class="col-md-4"><div id="plist" class="people-list">
+        <div class="input-group">
+            <div class="input-icons">
+               <i class="fa fa-search icon"></i> 
+            <input type="text" class="form-control input-field custom-input " placeholder="search..." [(ngModel)]="searchTerm" (keyup)="onSearch($event)" >
             </div>
+          </div>
+        <ul class="list-unstyled chat-list mt-2 mb-0"  *ngFor="let user of agents" >
+            <li class="clearfix" (click)="idAgency(user.id)">
+                <img src={{user.agency.logo}} alt="avatar">
+                <div class="about">
+                    <div class="name">{{ user.agency.name }} </div>
+                    <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
+                </div>
+            </li></ul>
+          
+          </div></div>
+
+    <div class="col-md-8">  
+      
+      <div class="chat">
+       
+        <div class="list-group list-group-flush border-bottom scrollable-container">
+            
+          <div class="list-group-item list-group-item-action py-3 lh-tight" *ngFor="let msg of messages">
+            <div class="d-flex w-100 align-items-center justify-content-between" >
+              <strong class="mb-1 small">
+                <c-avatar [src]="msg.logo"></c-avatar> {{ msg.agencyName }} ({{ msg.username }})
+              </strong>
+            </div>
+            <div class="col-10 mb-1 small">{{ msg.message }}</div>
+          </div>
         </div>
-    </div>
-    </div>
+        <div class="chat-message clearfix">
+          <div >
+          
+            <form (submit)="submit()">
+            
+              
+              <div class="input-group mb-3">
+              
+                <textarea  class="form-control" class="form-control" placeholder="Write here your message..." [(ngModel)]="message" name="message"></textarea>
+                <button type="submit" class="btn btn-outline-secondary position-relative"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-check-fill" viewBox="0 0 16 16">
+                    <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+                    <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686"/>
+                  </svg></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div></div>
+
+
+
+</body>
+
+
+
+
+
+  

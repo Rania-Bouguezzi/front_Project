@@ -173,7 +173,7 @@ loadTransfers(): void {
   
   this.shareService.getTransferByAgency(this.idAgency).subscribe(
     (data: any[]) => {
-      this.transfers = data.sort((a, b) => new Date(b.dateCreation).getTime() - new Date(a.dateCreation).getTime());
+      this.transfers = data.sort((a, b) => new Date(b.date_time_Depart).getDate() - new Date(a.date_time_Depart).getDate());
       this.dtTrigger.next(null);
     },
     (error) => {
@@ -470,7 +470,11 @@ accept(id:string){
        { this.placesDispoTransfer =  0
          this.availability='Not Available'}
      else {  this.placesDispoTransfer = ( this.transfer.nbrePlacesDisponibles - this.notif.nbPlaces) ;
-       this.availability='Available'}   
+       this.availability='Available'} 
+    //    const notifUpdate = {
+    //     nbrPassengers : 
+    //   }
+    // this.shareService.updateMission(this.TransferId,)  
        const messageNotif = ' accepts your transfer request '+ this.notif.nbPlaces + ' places from ' + this.notif.from + ' to ' + this.notif.to + ' which departing on ' +formatDate(this.notif.date_time, 'MMM dd, yyyy, h:mm:ss a', 'en-US');
    
     
@@ -493,6 +497,7 @@ accept(id:string){
        
   
       };
+     
   
         try {
           const response = this.notifService.addNotif(notifData);

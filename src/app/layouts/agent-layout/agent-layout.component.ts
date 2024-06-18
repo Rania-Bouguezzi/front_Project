@@ -4,7 +4,6 @@ import { AvatarModule } from '@coreui/angular';
 import { TransfersService } from './views/transfers/transfers.service';
 import { CommonModule, formatDate } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DefaultHeaderService } from 'src/app/containers/default-layout/default-header/default-header.service';
 import { Router } from '@angular/router';
 import { NeedsTransferService } from './views/needs-transfer/needs-transfer.service';
 import {NotificationService} from './views/notification/notification.service';
@@ -337,10 +336,13 @@ detailsMission(id:string){
     }
   )
   )
+  return this.loadMissions();
 }
 
 
-
+ INvalidateInput(event: any): void {
+   
+  }
 
 
 
@@ -396,12 +398,14 @@ detailsMission(id:string){
     onModalHidden(): void {
       this.sendMessageBool = false; 
     }
-    
+  
+  priceNul : boolean=false;  
     calculateTotalPrice(): void {
       if (this.placeNumber > this.nbplaces) {
         this.moreNb = true;
         this.message="number of places should be smaller than available places !";
         this.TotalPrice = 0; 
+     
         return;
       } 
       if (this.placeNumber) {
@@ -411,6 +415,8 @@ detailsMission(id:string){
       } else {
           this.TotalPrice = 0; 
       }
+      if(this.TotalPrice==0)
+        {this.priceNul=true}else{this.priceNul=false}
 
 
 }

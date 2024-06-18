@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SuperAgentRoutingModule } from './super-agent-routing.module';
+import { CreateAgencyRoutingModule } from './create-agency-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    SuperAgentRoutingModule
+    CreateAgencyRoutingModule
   ]
 })
-export class SuperAgentModule { }
+export class CreateAgencyModule { }

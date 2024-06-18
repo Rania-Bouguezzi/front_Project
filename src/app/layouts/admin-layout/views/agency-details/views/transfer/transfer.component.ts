@@ -21,6 +21,9 @@ export class TransferComponent {
   agencyName:string='';
 agencyLogo:string='';
     constructor(private agencyService : AgencyDetailsService, private route : ActivatedRoute, private router : Router){}
+    
+    TransferId:string='';
+
     ngOnInit(): void {
       this.dtoptions = {pagingType: 'full_numbers'};
       this.route.params.subscribe(params => {
@@ -30,7 +33,22 @@ agencyLogo:string='';
       this.getAgency(id); });
        
     }
-  
+    getTransfer(id:string){
+      this.TransferId=id;
+      this.agencyService.getNotifTransfert(this.idAgency,  this.TransferId).subscribe(
+        (data: any[]) => {     
+    this.notifications =data;
+    this.noReservation=false;
+    console.log(this.notifications)
+    if(data.length===0)
+      {this.noReservation=true;
+       
+      }
+        },
+    
+      
+      );
+    }
   
     getTransfers(id : string){
   this.agencyService.getTransferByAgency(id).subscribe(
@@ -49,4 +67,25 @@ agencyLogo:string='';
   this.agencyLogo=data.logo;
     })
   }
+
+notifications:any[]=[];
+noReservation:boolean=false;
+  showReservationTransfer(){
+    console.log(this.TransferId)
+    this.agencyService.getNotifTransfert(this.idAgency,  this.TransferId).subscribe(
+      (data: any[]) => {
+     
+  this.notifications =data;
+  this.noReservation=false;
+  console.log(this.notifications)
+  if(data.length===0)
+    {this.noReservation=true;}
+      },
+  
+    
+    );
+  
+  }
+
+
 }

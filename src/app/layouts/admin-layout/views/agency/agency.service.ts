@@ -19,4 +19,16 @@ export class AgencyService {
     return this.http.get<any>(`http://localhost:3000/agencies/${id}`)
   }
 
+  async createAgency(data : any): Promise<any> {
+    try {
+   
+  
+      return this.http.post<any>('http://localhost:3000/agencies/createAgencyWithSuperAgent', data, { headers: { 'Content-Type': 'application/json' } }).toPromise();
+   
+    } catch (error) {
+      console.error('Error adding Agent:', error);
+      throw error;
+    }
+  }
+
 }

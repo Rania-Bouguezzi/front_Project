@@ -20,6 +20,7 @@
        
       <tr>
             <th scope="col" >Marque</th>
+            <th scope="col" >Matricule</th>
             <th scope="col" >Puissance</th>
             <th scope="col">Places</th>
             <th scope="col" >Date Creation</th>
@@ -33,6 +34,7 @@
           <tr *ngFor="let bus of buses">
             
             <td>{{bus.marque}}</td>
+            <td>{{bus.matricule}}</td>
             <td>{{bus.puissance}}</td>
             <td>{{bus.nbrePlaces}}</td>
             <td>{{bus.dateCreation | date:'MMM d, y'  }}</td>
@@ -85,38 +87,31 @@
         </div>
         <div class="modal-body " >
             <form [formGroup]="myForm" (ngSubmit)="onSubmit()" >
-     
-        <c-col [md]="6">
-          <label cLabel for="validationCustom01">Marque :</label>
-          <input cFormControl id="validationCustom01" formControlName="marque"   type="text" />
-        </c-col>
-        <c-col [md]="6">
-          <label cLabel for="validationCustom01">Matricule :</label>
-          <input cFormControl id="validationCustom01" formControlName="matricule"  type="text" />
-        </c-col>
-        <c-col [md]="6">
-            <label cLabel for="validationCustom01">Puissance :</label>
-            <input cFormControl id="validationCustom01" formControlName="puissance"  type="number" />
-          </c-col>
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Number of places :</label>
-            <input cFormControl id="validationCustom01" formControlName="nbrePlaces"  type="number" />
-          </c-col>
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Picture :</label>
-            <input cFormControl id="validationCustom01" formControlName="picture"  type="file" />
-          </c-col>
-        <c-col [md]="6">
-          <label cLabel for="validationCustom04">Status</label>
-          <select cSelect id="validationCustom04" formControlName="status" >
-            <option value="">Status...</option>
-            <option>Actif</option>
-            <option>Inactif</option>
-            <option>Expired</option>
-            <option>Blocked</option>
-          </select>
-    
-        </c-col>
+     <div class="row">
+      <div class="col">   <label cLabel for="validationCustom01">Marque :</label>
+        <input cFormControl id="validationCustom01" formControlName="marque"   type="text" /> </div>
+      <div class="col">  <label cLabel for="validationCustom01">Matricule :</label>
+        <input cFormControl id="validationCustom01" formControlName="matricule"  type="text" /> </div>
+    </div>
+    <div class="row">
+      <div class="col"> <label cLabel for="validationCustom01">Puissance :</label>
+        <input cFormControl id="validationCustom01" formControlName="puissance"  type="number" /> </div>
+      <div class="col">     <label cLabel for="validationCustom01">Number of places :</label>
+        <input cFormControl id="validationCustom01" formControlName="nbrePlaces"  type="number" /> </div>
+    </div>
+    <div class="row">
+      <div class="col">  <label cLabel for="validationCustom01">Picture :</label>
+        <input cFormControl id="validationCustom01" formControlName="picture"  type="file" /> </div>
+      <div class="col">   <label cLabel for="validationCustom04">Status</label>
+        <select cSelect id="validationCustom04" formControlName="status" >
+          <option value="">Status...</option>
+          <option>Actif</option>
+          <option>Inactif</option>
+          <option>Expired</option>
+          <option>Blocked</option>
+        </select> </div>
+    </div>
+   
       
       <br>
         <c-col >
@@ -163,34 +158,31 @@
       <div class="modal-body">
         <form [formGroup]="myFormUpdate" (ngSubmit)="updateBus()" >
      
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Marque :</label>
-            <input cFormControl id="validationCustom01" formControlName="marque"   type="text" />
-          </c-col>
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Matricule :</label>
-            <input cFormControl id="validationCustom01" formControlName="matricule"  type="text" />
-          </c-col>
-          <c-col [md]="6">
-              <label cLabel for="validationCustom01">Puissance :</label>
-              <input cFormControl id="validationCustom01" formControlName="puissance"  type="number" />
-            </c-col>
-            <c-col [md]="6">
-              <label cLabel for="validationCustom01">Number of places :</label>
-              <input cFormControl id="validationCustom01" formControlName="nbrePlaces"  type="number" />
-            </c-col>
-          <c-col [md]="6">
-            <label cLabel for="validationCustom04">Status</label>
-            <select cSelect id="validationCustom04" formControlName="status" >
-              <option value="">Status...</option>
-              <option>Actif</option>
-              <option>Inactif</option>
-              <option>Expired</option>
-              <option>Blocked</option>
-            </select>
-      
-          </c-col>
-        
+          <div class="row">
+            <div class="col">   <label cLabel for="validationCustom01">Marque :</label>
+              <input cFormControl id="validationCustom01" formControlName="marque"   type="text" /> </div>
+            <div class="col">  <label cLabel for="validationCustom01">Matricule :</label>
+              <input cFormControl id="validationCustom01" formControlName="matricule"  type="text" /> </div>
+          </div>
+          <div class="row">
+            <div class="col"> <label cLabel for="validationCustom01">Puissance :</label>
+              <input cFormControl id="validationCustom01" formControlName="puissance"  type="number" /> </div>
+            <div class="col">     <label cLabel for="validationCustom01">Number of places :</label>
+              <input cFormControl id="validationCustom01" formControlName="nbrePlaces"  type="number" /> </div>
+          </div>
+          <div class="row">
+            <div class="col">  <label cLabel for="validationCustom01">Picture :</label>
+              <input cFormControl id="validationCustom01" formControlName="picture"  type="file" /> </div>
+            <div class="col">   <label cLabel for="validationCustom04">Status</label>
+              <select cSelect id="validationCustom04" formControlName="status" >
+                <option value="">Status...</option>
+                <option>Actif</option>
+                <option>Inactif</option>
+                <option>Expired</option>
+                <option>Blocked</option>
+              </select> </div>
+          </div>
+         
         <br>
           <c-col >
             <button class="btn btn-success"  type="submit" [disabled]="myFormUpdate.invalid">
@@ -203,10 +195,7 @@
         </form>
 
       </div>
-      <div class="modal-footer">
-        <button type="submit"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+  
     </div>
   </div>
 </div>

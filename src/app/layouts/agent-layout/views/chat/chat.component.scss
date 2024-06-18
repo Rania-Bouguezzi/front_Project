@@ -1,7 +1,35 @@
-body{
-    background-color: #f4f7f6;
-    margin-top:20px;
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+.container {
+    height: 100%;
+}
+
+.input-icons {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.input-icons i {
+	position: absolute;
+}
+
+.icon {
+	padding: 10px;
+	min-width: 50px;
+	text-align: center;
+	color: #7a7d80;
+}
+
+.input-field {
+	width: 100%;
+	padding: 10px;
+	text-align: center;
+}
+
 .scrollable-container {
     max-height: 600px; 
     overflow-y: auto; 

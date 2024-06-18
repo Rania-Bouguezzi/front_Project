@@ -1,20 +1,217 @@
-<section id="content" class="container">
-    <!-- Begin .page-heading -->
-    <div class="page-heading">
-        <div class="media clearfix">
-          <div class="media-left pr30">
-            <a href="#">
-              <img class="media-object mw150" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="...">
-            </a>
-          </div>                      
-          <div class="media-body va-m">
-            <h2 class="media-heading">Michael Halls
-              <small> - Profile</small>
-            </h2>
-            <p class="lead">Lorem ipsum dolor sit amet ctetur adicing elit, sed do eiusmod tempor incididunt</p>
+
+
+
+<div class="container rounded bg-white mt-12 mb-12">
+  <div class="row">
+      <div class="col-md-3 border-right" style="background-color :#F0F2F5">
+        <div class="float-end">
+          <a href="/"><img src="https://img.icons8.com/?size=100&id=v1VGrzEcFmfH&format=png&color=000000" width="30" (click)="logout()" /></a> 
+         </div>
+          <div class="d-flex flex-column align-items-center text-center p-3"><img class="rounded-circle mt-5" width="100px" src={{picture}}><span class="font-weight-bold">{{firstname}} {{lastname}}</span><span class="text-black-50">{{email}}</span><span> </span></div>
+     
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="panel-icon">
+                <i class="fa fa-star"></i>
+              </span>
+              <span class="panel-title"> Agency</span>
+            </div>
+            <div class="panel-body pn">
+              <table class="table mbn tc-icon-1 tc-med-2 tc-bold-last">
+                <thead>
+                  <tr class="hidden">
+                   
+                    <th><c-avatar  src={{logo}}></c-avatar></th>
+                    <th>{{agencyName}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <img src="https://img.icons8.com/?size=100&id=12921&format=png&color=000000" width="20" /> 
+                    </td>
+                    <td>{{phoneAgency}} </td>
+                 
+                  </tr>
+                  <tr>
+                    <td>
+                    <img src="https://img.icons8.com/?size=100&id=13826&format=png&color=000000" width="20"/>
+                    </td>
+                    <td>{{emailAgency}}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                     <img src="https://img.icons8.com/?size=100&id=103756&format=png&color=000000" width="20"/>
+                    </td>
+                    <td>{{adressAgency}}</td>
+          
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+     
+     
         </div>
-    </div>
+
+      <div class="col-md-9 border-right">
+          <div class="p-3">
+              <!-- <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h4 class="text-right">Profile Settings</h4>
+              </div> -->
+             
+            <div class="col-md-12">
+            <div class="tab-block">
+             
+              <div class="tab-content p30" style="height: 730px;">
+                <div id="tab1" class="tab-pane active">
+                
+
+
+                <div *ngFor="let mission of missions"> 
+                  <div class="timeline-header" >
+                    <c-avatar src={{mission.agent.agency.logo}} size="xl" ></c-avatar>
+                    <span class="username"><a href="javascript:;">{{mission.agent.agency.name}}</a> <small></small></span> 
+                      <p>
+                        Your Mission is from <B> {{mission.from}} </B> to <B> {{mission.to}} </B>, departing on <B> {{mission.date_time_start |  date}}  </B> at <B>{{ mission.date_time_start | date:'HH:mm' }}</B> and arriving on <B> {{mission.date_time_end |  date}} </B>  at <B>{{ mission.date_time_end | date:'HH:mm' }}</B>. 
+                        <table class="table">
+                           <tbody>
+                              <tr *ngFor="let transfer of mission.transfers">
+                                 <td> from : <B>{{transfer.from}} </B> to :  <B>{{transfer.to}} </B>  </td>
+                                 <td> <span *ngIf="transfer.etatTransfer==='Available'" class="badge bg-success" >{{transfer.etatTransfer}}</span> 
+                                    <span *ngIf="transfer.etatTransfer === 'Not Available'" class="badge bg-warning">{{ transfer.etatTransfer }}</span></td>  
+                              </tr>
+                           </tbody>
+                           </table> 
+                    
+                    </div>
+           
+
+                          
+
+                    <div class="timeline-likes">
+                      <div class="timeline-footer">
+                         <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+                         <a href="javascript:;" class="m-r-15 text-inverse-lighter" (click)="showDivComment(mission.id)"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a> 
+                      </div> 
+                      
+                      <!-- Comments -->
+                      <div *ngIf="selectedMissionId === mission.id && showComments" class="card-footer py-3 border-0" >
+                    <div *ngIf="message==true">Any comment here !</div>
+                        <ul class="media-list">
+                            <div class="media scrollable-container" *ngFor="let feedback of feedbacks" >
+                            <a href="#" class="pull-left">
+                            <c-avatar size="small" src={{feedback.agent.picture}} ></c-avatar>
+                            </a>
+                            <div class="media-body">
+                               <span class="text-muted float-end">
+                                  <small>&nbsp;&nbsp; {{feedback.dateCreation | date}} {{feedback.dateCreation | date: 'HH:mm'}} </small>
+                               </span>
+                               <strong>{{feedback.agent.firstname}} {{feedback.agent.lastname}}</strong>
+                               <p style="font-weight: normal;"> <!-- Style en ligne pour le texte non en gras -->
+                                 {{feedback.text}}
+                               </p>
+                             </div>
+                             
+                                </div> 
+                            </ul>
+                       </div>
+                            <!--Fin Comments -->
+
+<br>
+                  
+                </div>
+    
+               </div>
+               <br>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+           
+             
+          </div>
+      </div>
+     
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <section id="content" class="container">
+ 
+    <div class="page-heading">
+      <div >
+        <div >
+          <a href="#">
+            <img  src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="...">
+          </a>
+        </div>                      
+        <div >
+          <h2 class="media-heading">Michael Halls
+            <small> - Profile</small>
+          </h2>
+          
+        </div>
+      </div>
+  </div>
 
     <div class="row">
         <div class="col-md-4">
@@ -23,14 +220,14 @@
               <span class="panel-icon">
                 <i class="fa fa-star"></i>
               </span>
-              <span class="panel-title"> User Popularity</span>
+              <span class="panel-title"> Profil</span>
             </div>
             <div class="panel-body pn">
               <table class="table mbn tc-icon-1 tc-med-2 tc-bold-last">
                 <thead>
                   <tr class="hidden">
                     <th class="mw30">#</th>
-                    <th>First Name</th>
+                    <th>{{firstname}}</th>
                     <th>Revenue</th>
                   </tr>
                 </thead>
@@ -63,26 +260,7 @@
               </table>
             </div>
           </div>
-          <div class="panel">
-            <div class="panel-heading">
-              <span class="panel-icon">
-                <i class="fa fa-trophy"></i>
-              </span>
-              <span class="panel-title"> My Skills</span>
-            </div>
-            <div class="panel-body pb5">
-              <span class="label label-warning mr5 mb10 ib lh15">Default</span>
-              <span class="label label-primary mr5 mb10 ib lh15">Primary</span>
-              <span class="label label-info mr5 mb10 ib lh15">Success</span>
-              <span class="label label-success mr5 mb10 ib lh15">Info</span>
-              <span class="label label-alert mr5 mb10 ib lh15">Warning</span>
-              <span class="label label-system mr5 mb10 ib lh15">Danger</span>
-              <span class="label label-info mr5 mb10 ib lh15">Success</span>
-              <span class="label label-success mr5 mb10 ib lh15">Ui Design</span>
-              <span class="label label-primary mr5 mb10 ib lh15">Primary</span>
-
-            </div>
-          </div>
+   
           <div class="panel">
             <div class="panel-heading">
               <span class="panel-icon">
@@ -95,10 +273,7 @@
               <h6>Experience</h6>
 
               <h4>Facebook Internship</h4>
-              <p class="text-muted"> University of Missouri, Columbia
-                <br> Student Health Center, June 2010 - 2012
-              </p>
-
+            
               <hr class="short br-lighter">
 
               <h6>Education</h6>
@@ -213,4 +388,4 @@
           </div>
         </div>
       </div>
-  </section>
+  </section> -->

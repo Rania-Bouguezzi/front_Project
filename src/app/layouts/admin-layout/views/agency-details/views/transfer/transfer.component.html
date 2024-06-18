@@ -28,7 +28,7 @@
             <th scope="col">Price of Place</th>
             <th scope="col">Etat</th>
             <th scope="col">Extra</th>
-            <th scope="col">Note</th>
+            <th scope="col">Reservation</th>
    
           </tr>
         </thead>
@@ -45,10 +45,98 @@
               <span *ngIf="transfer.etatTransfer == 'Not Available'" class="badge bg-warning">{{transfer.etatTransfer}}</span>
             </td>
             <td  style="text-align: center;">{{transfer.extra}}</td>
-            <td><p>{{transfer.note}}</p></td>
+            <td> <button class="btn btn-outline" (click)="getTransfer(transfer.id)" data-bs-toggle="modal" data-bs-target="#exampleModal"> <span class="badge bg-info">View</span></button> </td>
         
      
             </tr>
           
         </tbody>
       </table></div></body>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">List Of Reservation For The Transfer ! </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       
+        <table>
+          <tbody>
+            <tr *ngFor="let info of notifications">
+              <td>
+             
+              <c-avatar src={{info.agencyEmettriceLogo}}></c-avatar>{{ info.agencyEmettriceName }} hope to reserve {{info.nbPlaces}} places for this transfer 
+             <span *ngIf="info.response == 'Waiting'" class="badge bg-warning">{{info.response}}</span> 
+             <span *ngIf="info.response == 'Accepted'" class="badge bg-success">{{info.response}}</span> 
+             <span *ngIf="info.response == 'Refused'" class="badge bg-danger">{{info.response}}</span> 
+            
+            </td>&nbsp; &nbsp;                  
+             
+            </tr>
+            <div *ngIf="noReservation" >
+              <div    class="alert alert-dark" role="alert">
+                Any Reservation Here !
+              </div>
+             
+            </div>
+          </tbody>
+        </table>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- 
+      <table>
+        <tbody>
+          <tr *ngFor="let info of notifications">
+            <td>
+            <c-avatar src={{info.agencyEmettriceLogo}}></c-avatar>{{ info.agencyEmettriceName }} hope to reserve {{info.nbPlaces}} places for this transfer 
+           <span *ngIf="info.response == 'Waiting'" class="badge bg-warning">{{info.response}}</span> 
+           <span *ngIf="info.response == 'Accepted'" class="badge bg-success">{{info.response}}</span> 
+           <span *ngIf="info.response == 'Refused'" class="badge bg-danger">{{info.response}}</span> 
+          </td>&nbsp; &nbsp;                  
+            <td class="float-end" *ngIf="info.response== 'Waiting'"  >
+            <button type="button" style="color:white" (click)="accept(info.id)" class="btn btn-success btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+              <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
+            </svg></button> &nbsp;
+<button type="button" style="color:white" (click)="supp(info.id)" class="btn btn-danger btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+</svg></button> 
+  <span *ngIf="info.response == 'Accepted'" class="badge bg-success">{{info.response}}</span>
+  <span *ngIf="info.response == 'Refused'" class="badge bg-danger">{{info.response}}</span>
+ 
+          </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="alert alert-success" *ngIf="notifAccept == true  " >
+        <strong>Success !</strong> Your Response has been sent successfully.
+        <button  type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <div class="alert alert-danger" *ngIf="notifRefus == true   " >
+        <strong>Success !</strong> Your Response has been sent successfully.
+        <button  type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <div *ngIf="noReservation==true"> <div   class="alert alert-dark" role="alert">
+        Any Reservation Here !
+      </div></div>
+    </div>
+ 
+    
+       <tr><th scope="row">  Availability :</th>  <td> <span *ngIf="etat==='Available'" class="badge bg-success" >{{etat}}</span> 
+          <span *ngIf="etat === 'Not Available'" class="badge bg-warning">{{ etat }}</span></td> </tr>
+       
+       </tbody>
+ </table> -->
