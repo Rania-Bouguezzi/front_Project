@@ -25,8 +25,7 @@
           <th scope="col">Places Disponibles</th>
           <th scope="col">Price of Place</th>
           <th scope="col">Etat</th>
-          <th scope="col">Extra</th>
-          <th scope="col">Note</th>
+          <!-- <th scope="col">Extra</th> -->
           <!-- <th scope="col">Status</th> -->
           <th scope="col">Action</th>
         </tr>
@@ -36,15 +35,14 @@
           <td>{{transfer.from}}</td>
           <td>{{transfer.to}}</td>
           <td>{{transfer.date_time_Depart | date:'M/d/yy, h:mm a'}}</td>
-          <td>{{transfer.date_time_Arrive | date:'M/d/yy, h:mm a'  }}
-          </td>
+          <td>{{transfer.date_time_Arrive | date:'M/d/yy, h:mm a'  }}</td>
+          
           <td style="text-align: center;">{{transfer.nbrePlacesDisponibles}}</td>
           <td style="text-align: center;">{{transfer.priceTransferForPerson}}</td>
           <td> <span *ngIf="transfer.etatTransfer == 'Available'" class="badge bg-success" >{{transfer.etatTransfer}}</span>
             <span *ngIf="transfer.etatTransfer == 'Not Available'" class="badge bg-warning">{{transfer.etatTransfer}}</span>
           </td>
-          <td  style="text-align: center;">{{transfer.extra}}</td>
-          <td><p>{{transfer.note}}</p></td>
+          <!-- <td  style="text-align: center;">{{transfer.extra}}</td> -->
           <!-- <td>
               <span *ngIf="transfer.status == 'Actif'" class="badge bg-success">{{transfer.status}}</span>
               <span *ngIf="transfer.status == 'Inactif'" class="badge bg-secondary">{{transfer.status}}</span>
@@ -91,7 +89,7 @@
         
       </tbody>
     </table>
-
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -173,7 +171,7 @@
   </div>
 </div>
 
-</div>
+
 
 
 <!-- Modal To Update-->

@@ -345,13 +345,14 @@ detailsMission(id:string){
   }
 
 
-
+isNul:boolean=false;
     onReserveClick(): void {
       if (this.isFirstClick) {
 
         this.showInputnbPlace = true;
         this.showPrice = true;
         this.isFirstClick = false;
+        console.log(this.placeNumber);
       } else {
         const messageNotif = ' hope to reserve ' + this.placeNumber + ' places for the transfer from ' + this.from  +' to ' + this.to + ' which departing on ' + formatDate(this.depart, 'MMM dd, yyyy, h:mm:ss a', 'en-US'); ;
         const notifData = {
@@ -451,7 +452,7 @@ async onSubmit() {
     this.message = "Request will be publish!";
     this.emptymessage = true;
     this.myFormTransfer.reset();
-    this.router.navigate(['/agent-layout/needs-transfer']);
+    this.router.navigate(['/agent-layout/needs-transfer']);  
   } catch (error) {
     console.error('Error creating transfer:', error);
     this.message = "Request will not be publish!";

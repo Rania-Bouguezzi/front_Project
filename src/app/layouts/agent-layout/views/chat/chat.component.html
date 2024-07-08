@@ -9,7 +9,7 @@
             </div>
           </div>
         <ul class="list-unstyled chat-list mt-2 mb-0"  *ngFor="let user of agents" >
-            <li class="clearfix" (click)="idAgency(user.id)">
+            <li class="clearfix" [ngClass]="{'selected': selectedAgentId === user.id}" (click)="idAgency(user.id)">
                 <img src={{user.agency.logo}} alt="avatar">
                 <div class="about">
                     <div class="name">{{ user.agency.name }} </div>
@@ -20,7 +20,7 @@
           </div></div>
 
     <div class="col-md-8">  
-      
+      <div >  <c-avatar size="xl" class="name" src={{logoAgency}}> </c-avatar> <strong> {{agency}}</strong> </div>
       <div class="chat">
        
         <div class="list-group list-group-flush border-bottom scrollable-container">

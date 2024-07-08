@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { AgencyService } from '../agency/agency.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -14,7 +15,7 @@ import { AgencyService } from '../agency/agency.service';
   styleUrl: './users.component.scss'
 })
 export class UsersComponent implements OnInit {
-constructor(private usersService : UsersService, private agencyService : AgencyService){}
+constructor(private usersService : UsersService, private agencyService : AgencyService, private router : Router){}
 users:any[]=[];
 agencies:any[]=[];
 dtoptions: DataTables.Settings = {};
@@ -108,4 +109,46 @@ details(id: string): void {
     console.error('Error retrieving users data:', error);
   });
 }
+
+
+
+blockedUser(id:string){
+  console.log(id);
+  const confirmation = window.confirm('You want to Block this User ?');
+  if (confirmation) {
+  const updatedUserData ={status:'Blocked'};
+  this.usersService.updateUser(id, updatedUserData).subscribe(
+    () => {
+     
+     console.log('User was blocked!');
+     this.router.navigate(['/admin/users']);
+    },)
+
+
+
+}else{
+console.log('Blockage Annulé !');
+}
+}
+
+
+UnBlockedUser(id:string){
+  console.log(id);
+  const confirmation = window.confirm('You want to UnBlock this User ?');
+  if (confirmation) {
+  const updatedUserData ={status:'Actif'};
+  this.usersService.updateUser(id, updatedUserData).subscribe(
+    () => {
+     
+     console.log('User was Deblocked!');
+this.router.navigate(['/admin/users']);
+    },)
+
+
+
+}else{
+console.log('Blockage Annulé !');
+}
+}
+
 }

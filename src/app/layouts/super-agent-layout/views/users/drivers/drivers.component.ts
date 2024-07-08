@@ -182,7 +182,11 @@ export class DriversComponent {
       })
      
   }
-  
+  modifyFilePath(originalPath: string): string {
+    const fileName = originalPath.split('\\').pop() || originalPath.split('/').pop() || '';
+    const modifiedPath = `./assets/img/avatars/${fileName}`;
+    return modifiedPath;
+  }
   
   async onSubmit() {
     if (this.myFormRegister.invalid) {
@@ -192,7 +196,13 @@ export class DriversComponent {
       return;
     }
   
-    const user = this.myFormRegister.value;
+    let imagePath = this.myFormRegister.value.picture;
+    if (typeof imagePath === 'string') {
+      imagePath = this.modifyFilePath(imagePath);
+      const user = {
+        ...this.myFormRegister.value,
+        picture: imagePath
+      };
     console.log(user);
     try {
       const response = await this.shareService.addDriver(user);
@@ -206,7 +216,7 @@ export class DriversComponent {
       this.message = "Driver was not created!";
      
     }
-  }
+  }}
   
   driverAgent:any; 
   openUpdateModal(id: string): void {

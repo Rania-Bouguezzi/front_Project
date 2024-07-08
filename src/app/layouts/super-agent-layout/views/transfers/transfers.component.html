@@ -67,14 +67,14 @@
                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                   </svg>
                 </button> 
-                <button class="btn btn-outline-secondary" (click)="shareTransfer(transfer.id)"   type="submit"  [disabled]="transfer.isShared"  > 
+                <!-- <button class="btn btn-outline-secondary" (click)="shareTransfer(transfer.id)"   type="submit"  [disabled]="transfer.isShared"  > 
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                     <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/>
                   </svg>
                           
           
               </button>
-              
+               -->
                     <button class="btn btn-outline-secondary"  (click)=" deleteTransfer(transfer.id)"  type="submit"> 
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                           <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
@@ -132,7 +132,7 @@
             <div class="row align-items-start">
               <div class="col">
                 <label cLabel for="validationCustom01">Number Of Place Disponible :</label>
-                <input cFormControl id="validationCustom01" formControlName="nbrePlacesDisponibles"  type="number" />
+                <input cFormControl id="validationCustom01" formControlName="nbrePlacesOccupees"  type="number" />
               </div>
               <div class="col">
                 <label cLabel for="validationCustom01">Price For One Person:</label>
@@ -188,55 +188,52 @@
 
       <form [formGroup]="myFormTransferUpdate" (ngSubmit)="UpdateTransfer()" >
             
-        <c-col [md]="6">
+        <div class="row">
+          <div  class="col">
             <label cLabel for="validationCustom01">From:</label>
             <select cSelect id="validationCustom04" formControlName="from">
                 <option value="">Ville...</option>
                 <option *ngFor="let ville of villes" >{{ville.name}}</option>
               </select>
-          </c-col>
-        <c-col [md]="6">
+          </div>
+          <div  class="col">
             <label cLabel for="validationCustom01">To :</label>
             <select cSelect id="validationCustom04" formControlName="to">
                 <option value="">Ville...</option>
                 <option *ngFor="let ville of villes" >{{ville.name}}</option>
               </select>
-          </c-col>
-          <c-col [md]="6">
+          </div>
+        </div>
+        <div class="row">
+          <div  class="col">
             <label cLabel for="validationCustom01">Date Depart :</label>
             <input cFormControl id="validationCustom01" formControlName="date_time_Depart"  type="datetime-local" />
-          </c-col>
-          <c-col [md]="6">
+          </div>
+          <div  class="col">
             <label cLabel for="validationCustom01">Date Arrive :</label>
             <input cFormControl id="validationCustom01" formControlName="date_time_Arrive"  type="datetime-local" />
-          </c-col>
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Number Of Place Disponible :</label>
-            <input cFormControl id="validationCustom01" formControlName="nbrePlacesDisponibles"  type="number" />
-          </c-col>
-          <c-col [md]="6">
+          </div>
+        </div>
+        <div class="row">
+          <div  class="col">
+            <label cLabel for="validationCustom01">Number Of Place Occupied :</label>
+            <input cFormControl id="validationCustom01" formControlName="nbrePlacesOccupees"  type="number" />
+          </div>
+          <div  class="col">
             <label cLabel for="validationCustom01">Price For One Person:</label>
             <input cFormControl id="validationCustom01" formControlName="priceTransferForPerson"  type="number" />
-          </c-col>
-          <c-col [md]="6">
-            <label cLabel for="validationCustom01">Etat Transfer :</label>
-            <select cSelect id="validationCustom04" formControlName="etatTransfer">
-             
-              <option>Available</option>
-              <option>Not Available</option>
-            </select>
-          </c-col>
-          <c-col [md]="6">
+          </div>
+        </div>
+        <div class="row">
+          <div  class="col">
             <label cLabel for="validationCustom01">Note :</label>
-            <c-col [md]="12">
                 <textarea class="form-control"  formControlName="note" id="floatingTextarea"></textarea>
-              </c-col>
-          </c-col>
-          <c-col [md]="6">
+          </div>
+          <div  class="col">
             <label cLabel for="validationCustom01">Extra :</label>
             <input cFormControl id="validationCustom01" formControlName="extra" value="0"   type="number" />
-          </c-col>
-    
+          </div>
+        </div>
       
       <br>
       <div *ngIf="message" class="alert alert-success" role="alert">{{message}}</div>

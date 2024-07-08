@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { DefaultLayoutComponent } from './containers';
-import {Page404Component} from './pages/page404/page404.component'
-import {Page500Component} from './pages/page500/page500.component'
-import {RegisterComponent} from './pages/register/register.component'
-import {LoginComponent} from './pages/login/login.component'
-import {guardGuard} from './guard/guard.guard'
-import {superAgentGuard} from './guard/super-agent.guard'
-import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component'
-import {DriverLayoutComponent} from './layouts/driver-layout/driver-layout.component'
-import {adminGuard} from './guard/admin.guard'
-import {driverGuard} from './guard/driver.guard'
+import { adminGuard } from './guard/admin.guard';
+import { driverGuard } from './guard/driver.guard';
+import { guardGuard } from './guard/guard.guard';
+import { superAgentGuard } from './guard/super-agent.guard';
+import { DriverLayoutComponent } from './layouts/driver-layout/driver-layout.component';
+import { LoginComponent } from './pages/login/login.component';
+import { Page404Component } from './pages/page404/page404.component';
+import { Page500Component } from './pages/page500/page500.component';
+import { RegisterComponent } from './pages/register/register.component';
 const routes: Routes = [
   // {
   //   path: '',

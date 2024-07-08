@@ -160,7 +160,7 @@ loadTransfers():void{
   this.transferService.getTransferByAgency(this.agencyId).subscribe(
     (data: any[]) => {
       
-      this.transfers =data.filter(transfer => transfer.etatTransfer === 'Not Available' &&  transfer.status === 'Actif');
+      this.transfers =data.filter(transfer => transfer.etatTransfer === 'Available' &&  transfer.status === 'Actif');
       this.filteredTransfers = this.transfers;
     },
     (error) => {
@@ -278,7 +278,7 @@ onCitySelected(selectedCity: string) {
   }
 
     //return this.loadMission();
-
+   // window.location.reload();
 }
 
 
@@ -316,6 +316,7 @@ this.message='Formulaire Invalid !'
      
     }
   );
+  window.location.reload();
  }
 
 
@@ -348,6 +349,7 @@ deleteMission(id: string): void {
  
     console.log('Suppression annulée');
   }
+  window.location.reload();
 }
 
 openUpdate(id: string): void {

@@ -8,6 +8,7 @@ import {NeedsTransferService} from './needs-transfer.service';
 import { LoginService } from 'src/app/pages/login/login.service';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-needs-transfer',
@@ -32,6 +33,8 @@ export class NeedsTransferComponent {
   searchTerm: string = '';
   TransferId:string='';
   TransferData:any;
+  userEmetteur='';
+  userRecepteur='';
   myFormTransfer = new FormGroup({
     text: new FormControl('', Validators.required),
   });
@@ -40,12 +43,9 @@ export class NeedsTransferComponent {
   });
 
 
-  myFormContact = new FormGroup({
-    text: new FormControl('', Validators.required),
-  });
 
 constructor(private tokenService : LoginService, private tokenLogout:  DefaultHeaderService, private router:Router,
-  private  shareService : NeedsTransferService, private authService : LoginService
+  private  shareService : NeedsTransferService, private authService : LoginService, private http : HttpClient
 ){}
 
 
@@ -61,6 +61,7 @@ ngOnInit(): void {
       this.logo= tokenData.agency.logo;
       this.agencyName=tokenData.agency.name;
       this.idAgency=tokenData.agency.id;
+      this.userEmetteur=tokenData.id;
   
 
 
@@ -72,6 +73,7 @@ ngOnInit(): void {
   this.loadTransfers();
 
   }
+
 
 
   async onSubmit() {
@@ -89,12 +91,13 @@ ngOnInit(): void {
       this.message = "Request will be publish!";
       this.emptymessage = true;
       this.myFormTransfer.reset();
+
     } catch (error) {
       console.error('Error creating transfer:', error);
       this.message = "Request will not be publish!";
      
     }
- 
+    window.location.reload(); 
   }
 
 
@@ -137,7 +140,7 @@ this.message='Formulaire Invalid !'
     () => {
      
       this.message='Transfer Updated!'
-
+      window.location.reload(); 
     },
     error => {
       console.error('Erreur lors de la mise à jour de transfer :', error);
@@ -145,6 +148,7 @@ this.message='Formulaire Invalid !'
       console.log('erreur!');
     }
   );
+
  }
 
 
@@ -170,11 +174,31 @@ this.message='Formulaire Invalid !'
 }
 
 
+getUserRecepteur(id:string){
+  console.log(id);
+this.userRecepteur=id;
+}
+contactMessage = '';
+messageSend=false;
+count=0;
+sendMessage(): void {
+  if (this.contactMessage.trim() !== '') {
+    this.http.post('http://localhost:3000/pusher/messages', {
+      username: this.firstname + this.lastname,
+      logo: this.logo,
+      agencyName:this.agencyName,
+      userRecepteur:this.userRecepteur,
+      userEmetteur:this.userEmetteur,
+      message: this.contactMessage
+    }).subscribe(() => {
+      this.messageSend = true;
+      this.contactMessage = ''; 
+      this.count=1;
+    });
+  }
+}
 
   
-  logout(){
-
- }
 
 
 
@@ -213,6 +237,7 @@ deleteTransfer(id: string): void {
  
     console.log('Suppression annulée');
   }
+  window.location.reload(); 
 }
 
  

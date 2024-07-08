@@ -26,7 +26,7 @@ export class LoginComponent {
     picture : string =''
     showPassword: boolean = false;
     icon:any;
-  
+  messageBlocked:boolean=false;
 
   myFormLogin = new FormGroup({
 
@@ -65,30 +65,39 @@ onSubmit(){
       this.authService.Authentification(val.email, val.password)
           .subscribe(
             (response) => {
+            
               console.log('User is logged in');
-              console.log(response.role);
-              if (response && response.access_token && response.role) {
+      //        console.log(response);
+              if (response && response.access_token && response.role ) {
               this.firstname = response.payload_.firstname;
               this.lastname = response.payload_.lastname;
               this.email = response.payload_.email;
               this.picture = response.payload_.picture;
     
                 // Rediriger l'utilisateur en fonction de son rôle
-                if (response.role === 'Agent' ) {
+                if (response.role === 'Agent' && response.payload_.status==='Actif' ) {
                   this.router.navigateByUrl('/agent-layout/dashboard');
-                } else if (response.role === 'SuperAgent')  {
+                } else if (response.role === 'SuperAgent' && response.payload_.status==='Actif')  {
                   this.router.navigateByUrl('/super-agent-layout/dashboard');
-                }else if (response.role === 'Driver')  {
+                }else if (response.role === 'Driver' && response.payload_.status==='Actif')  {
                   this.router.navigateByUrl('/driver');
-                }else if (response.role === 'SuperAdmin')  {
+                }else if (response.role === 'SuperAdmin' && response.payload_.status==='Actif')  {
                   this.router.navigateByUrl('/admin/agency');
                 }    
                 
                 sessionStorage.setItem('access_token', response.access_token);
-              
-              } else {
-                console.error('Access token or role not found in response');
                
+                this.messageBlocked=false;
+              } else {
+              
+                console.error('Access token or role not found in response');
+                this.messageBlocked=true;
+           
+              }
+              if (  response.payload_.status==="Blocked"){
+                this.messageBlocked=true;
+              console.log('blocked', this.messageBlocked);
+             
               }
             },
             (error) => {
@@ -98,6 +107,7 @@ onSubmit(){
               console.error('Authentication error:', error);
      
             }
+            
           );
   }
  

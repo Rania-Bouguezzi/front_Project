@@ -150,10 +150,11 @@
             </div>
           </div>
          
-  
+          
         </div>
         <div class="modal-footer">
-            <button type="submit"   class="btn btn-danger" style="color: white;">Blocked</button>
+          <button *ngIf="status==='Blocked'"  class="btn btn-success" style="color: white; " (click)="UnBlockedUser(userId)">UnBlocked</button>
+            <button type="submit" [disabled]="status==='Blocked'"   class="btn btn-danger" style="color: white; " (click)="blockedUser(userId)">Blocked</button>
        
    
         </div>

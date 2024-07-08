@@ -133,7 +133,26 @@ agentEmetteurId:string='';
      
     );
 
- 
+   this.authService.getTokenData().subscribe(
+    (response) => {
+      this.idAgency= response.agency.id;
+      this.agencyId= response.agency.id;
+      this.agencyName = response.agency.name;
+      this.agencyLogo = response.agency.logo;
+      this.agentEmetteurId = response.id;
+   
+   
+   
+  
+  this.shareService.getTransferByAgency(this.idAgency).subscribe(
+    (data: any[]) => {
+      this.transfers = data;  // .sort((a, b) => new Date(b.date_time_Depart).getDate() - new Date(a.date_time_Depart).getDate());
+      this.dtTrigger.next(null);
+    },
+    (error) => {
+      console.error('Erreur lors de la récupération des transfers :', error);
+    }
+  ); });
   }
 
 
@@ -173,7 +192,7 @@ loadTransfers(): void {
   
   this.shareService.getTransferByAgency(this.idAgency).subscribe(
     (data: any[]) => {
-      this.transfers = data.sort((a, b) => new Date(b.date_time_Depart).getDate() - new Date(a.date_time_Depart).getDate());
+      this.transfers = data;  // .sort((a, b) => new Date(b.date_time_Depart).getDate() - new Date(a.date_time_Depart).getDate());
       this.dtTrigger.next(null);
     },
     (error) => {
@@ -217,7 +236,7 @@ console.log(transferData)
     this.message = "Transfer was not created!";
    
   }
-  return this.loadTransfers();
+  window.location.reload();
 }
 
 deleteTransfer(id: string): void {
@@ -244,7 +263,7 @@ deleteTransfer(id: string): void {
  
     console.log('Suppression annulée');
   }
-
+  window.location.reload();
 }
 
 UpdateTransfer(): void {
@@ -267,7 +286,7 @@ this.message='Formulaire Invalid !'
       console.log('erreur!');
     }
   );
- 
+  window.location.reload();
  }
 
  openUpdateModal(id: string): void {

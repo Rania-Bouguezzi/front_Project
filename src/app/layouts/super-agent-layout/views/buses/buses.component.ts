@@ -91,6 +91,13 @@ loadBuses(): void {
   ); })
 }
 
+modifyFilePath(originalPath: string): string {
+  const fileName = originalPath.split('\\').pop() || originalPath.split('/').pop() || '';
+  const modifiedPath = `./assets/bus/${fileName}`;
+  return modifiedPath;
+}
+
+
 async onSubmit() {
   if (this.myForm.invalid) {
 
@@ -99,7 +106,14 @@ async onSubmit() {
     return;
   }
 
-  const transferData = this.myForm.value;
+  let imagePath = this.myForm.value.picture;
+  if (typeof imagePath === 'string') {
+    imagePath = this.modifyFilePath(imagePath);
+    const transferData = {
+      ...this.myForm.value,
+      picture: imagePath
+    };
+
 
   try {
     const response = await this.busesService.addBus(transferData);
@@ -113,8 +127,9 @@ async onSubmit() {
     this.message = "Bus was not created!";
     this.emptymessage = false;
   }
-  console.log(transferData)
-}
+  console.log(transferData);
+  window.location.reload();
+}}
 
 updateBus(): void {
   if (this.myFormUpdate.invalid) {
@@ -136,6 +151,7 @@ this.message='Formulaire Invalid !'
      
     }
   );
+  window.location.reload();
  }
 
 
@@ -175,6 +191,7 @@ deleteBus(id: string): void {
  
     console.log('Suppression annulée');
   }
+  window.location.reload();
 }
 
 
@@ -204,13 +221,7 @@ openUpdateModal(id: string): void {
     console.error('Error retrieving bus data:', error);
   });
 }
-onFileSelected(event: any) {
-  const file = event.target.files[0];
-  this.myForm.patchValue({
-    picture: file.name
-  });
 
-}
 
 
 

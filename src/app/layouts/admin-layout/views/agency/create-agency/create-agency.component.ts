@@ -65,12 +65,36 @@ function () {
    
 }
 
+modifyFilePath(originalPath: string): string {
+  const fileName = originalPath.split('\\').pop() || originalPath.split('/').pop() || '';
+  const modifiedPath = `./assets/agencies/${fileName}`;
+  return modifiedPath;
+}
 
+modifyFilePathSpa(originalPath: string): string {
+  const fileName = originalPath.split('\\').pop() || originalPath.split('/').pop() || '';
+  const modifiedPath = `./assets/img/avatars/${fileName}`;
+  return modifiedPath;
+}
 
 async onSubmit(): Promise<void> {
   if (this.myFormAgency.valid && this.SPAForm.valid) {
-    const agencyData = this.myFormAgency.value;
-    const superAdminData = this.SPAForm.value;
+    let imagePath = this.myFormAgency.value.logo;
+    let imagePathSpa = this.SPAForm.value.picture;
+    if (typeof imagePath === 'string'  ) {
+    imagePath = this.modifyFilePath(imagePath);
+    const agencyData = {
+      ...this.myFormAgency.value,
+      logo: imagePath
+    };
+    if (typeof imagePathSpa === 'string'  ){
+      imagePathSpa = this.modifyFilePathSpa(imagePathSpa);
+      const superAdminData = {
+        ...this.SPAForm.value,
+        picture: imagePathSpa
+      };
+ 
+  
     console.log(agencyData);
     console.log(superAdminData);
 
@@ -106,7 +130,7 @@ async onSubmit(): Promise<void> {
     this.success=false;
    console.log('erreur');
   }
-}
+}}}
 goBack(){
   this.router.navigate(['admin/agency']);
 }

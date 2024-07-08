@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AvatarComponent } from '@coreui/angular';
 import Pusher from "pusher-js"
 import { LoginService } from 'src/app/pages/login/login.service';
-
+import {ChatService} from './chat.service'
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -24,8 +24,9 @@ export class ChatComponent {
   messages: { username: string, logo:string, agencyName: string, message: string }[] = [];
   roomId = '';
   searchTerm: string = '';
+  selectedAgentId: string | null = null;
 
-  constructor(private http: HttpClient,  private authService : LoginService) {
+  constructor(private http: HttpClient,  private authService : LoginService, private chatService : ChatService) {
     
     this.authService.getTokenData().subscribe(
       (response) => {
@@ -36,7 +37,7 @@ export class ChatComponent {
         this.userEmetteur = response.id;
       
       })
-      this.http.get<any[]>("http://localhost:3000/agent").subscribe((data) => {this.agents=data
+      this.chatService.getAllAgent().subscribe((data) => {this.agents=data
         this.agents = data.filter(agent => agent.agency.id !== this.agencyId);
   
   
@@ -45,7 +46,7 @@ export class ChatComponent {
  
   }
   ngOnInit(): void {
-    this.loadMessagesFromLocalStorage();
+   
     this.fetchMessages(this.userEmetteur, this.userRecepteur);
     
     Pusher.logToConsole = true;
@@ -57,8 +58,8 @@ export class ChatComponent {
     const channel = pusher.subscribe('chat');
     channel.bind('message', (data: { username: string, logo:string, agencyName:string,userRecepteur:string,userEmetteur:string, message: string }) => {
       this.messages.push(data);
-      this.saveMessagesLocally();
-      localStorage.setItem('messages', JSON.stringify(this.messages));
+  
+     
     });
     this.getAgent();
   }
@@ -67,13 +68,14 @@ export class ChatComponent {
       .subscribe(
         (data) => {
           this.messages = data;
-          this.saveMessagesLocally(); 
+        
         },
         (error) => {
           console.error('Failed to fetch messages', error);
         }
       );
   }
+  count=0;
   submit(): void {
     if (this.message.trim() !== '') {
       this.http.post('http://localhost:3000/pusher/messages', {
@@ -84,7 +86,8 @@ export class ChatComponent {
         userEmetteur:this.userEmetteur,
         message: this.message
       }).subscribe(() => {
-        this.message = ''; // Clear the input field after submitting the message
+        this.message = ''; 
+        this.count=1;
       });
     }
   }
@@ -95,25 +98,21 @@ agents:any[]=[];
 
 
     })}
-
+agency='';
+logoAgency=''
 
     idAgency(id:string){
       console.log(id);
       this.userRecepteur=id;
+      this.http.get<any[]>(`http://localhost:3000/agent/${id}`).subscribe((data :any) => {this.agency=data.agency.name;
+        this.logoAgency=data.agency.logo;
+        this.selectedAgentId = id; 
+      });
       console.log("user Recepteur is ", this.userRecepteur);
       this.fetchMessages(this.userEmetteur,this.userRecepteur);
     }
 
-    saveMessagesLocally(): void {
-      localStorage.setItem('chatMessages', JSON.stringify(this.messages));
-    }
-  
-    loadMessagesFromLocalStorage(): void {
-      const storedMessages = localStorage.getItem('chatMessages');
-      if (storedMessages) {
-        this.messages = JSON.parse(storedMessages);
-      }
-    }
+   
 
 
     filterAgencys(): void {

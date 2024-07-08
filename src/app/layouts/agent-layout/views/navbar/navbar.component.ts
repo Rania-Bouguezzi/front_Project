@@ -120,4 +120,7 @@ export class NavbarComponent {
       this.notificationClickCount = 0; // Réinitialiser le compteur
     }
   }
+  goTochat(){
+this.router.navigate(['/agent-layout/discussion']);
+  }
 }

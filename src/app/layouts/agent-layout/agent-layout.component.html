@@ -64,7 +64,7 @@
                                  <!-- <button (click)="deleteTransfer(transfer.id)">Supprimer</button> -->
                                  <p>
                                     My Mission is from <B> {{mission.from}} </B> to <B> {{mission.to}} </B>, departing on <B> {{mission.date_time_start |  date}}  </B> at <B>{{ mission.date_time_start | date:'HH:mm' }}</B> and arriving on <B> {{mission.date_time_end |  date}} </B>  at <B>{{ mission.date_time_end | date:'HH:mm' }}</B>. 
-                                    There are <B>{{mission.nbrPassengers}}</B> available seats .
+                                    
                                     <table class="table">
                                        <tbody>
                                           <tr *ngFor="let transfer of mission.transfers">
@@ -212,7 +212,7 @@
        </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Close</button>
-         <button type="button" class="btn" (click)="onReserveClick()"  style="background-color: #ff3364; color: white;" [disabled]="moreNb || isExpired || sendMessageBool || agencyId===transfer_agency_id || TransferEtat || priceNul ">Reserve</button>
+         <button type="button" class="btn" (click)="onReserveClick()"  style="background-color: #ff3364; color: white;" [disabled]="moreNb || isExpired || sendMessageBool || agencyId===transfer_agency_id || TransferEtat || priceNul  ">Reserve</button>
        </div>
    
      </div>

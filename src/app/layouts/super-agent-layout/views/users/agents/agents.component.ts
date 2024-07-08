@@ -134,6 +134,7 @@ export class AgentsComponent {
    
       console.log('Suppression annulée');
     }
+    window.location.reload();
   }
   GoToRegister(){
     return this.router.navigate(['/register']);
@@ -184,6 +185,11 @@ function () {
    
 }
 
+modifyFilePath(originalPath: string): string {
+  const fileName = originalPath.split('\\').pop() || originalPath.split('/').pop() || '';
+  const modifiedPath = `./assets/img/avatars/${fileName}`;
+  return modifiedPath;
+}
 
 async onSubmit() {
   if (this.myFormRegister.invalid) {
@@ -193,7 +199,13 @@ async onSubmit() {
     return;
   }
 
-  const user = this.myFormRegister.value;
+  let imagePath = this.myFormRegister.value.picture;
+  if (typeof imagePath === 'string') {
+    imagePath = this.modifyFilePath(imagePath);
+    const user = {
+      ...this.myFormRegister.value,
+      picture: imagePath
+    };
   
   try {
     const response = await this.shareService.addAgent(user);
@@ -207,7 +219,8 @@ async onSubmit() {
     this.message = "User was not created!";
    
   }
-}
+  window.location.reload();
+}}
 
 
 Dashboard(){
@@ -230,6 +243,7 @@ updateAgent(): void {
      
     }
   );
+  window.location.reload();
  }  
 
 
